@@ -276,8 +276,9 @@ nav .icons {
     opacity: 0;
     overflow: hidden;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 10;
+    z-index: 10000;
     transform-origin: right center;
+    pointer-events: none;
 }
 
 .icons.search-expanded .search-input-wrapper {
@@ -285,6 +286,7 @@ nav .icons {
     opacity: 1;
     transform: translateY(-50%) scale(1);
     margin-right: 10px;
+    pointer-events: all;
 }
 
 .searchInput {
@@ -327,7 +329,7 @@ nav .icons {
 /* Tablet */
 @media (max-width: 900px) {
     .icons.search-expanded .search-input-wrapper {
-        width: 300px;
+        width: 280px;
     }
 }
 
@@ -428,6 +430,7 @@ nav .icons {
         width: auto;
         transform: scale(1);
         margin-right: 0;
+        z-index: 99999;
     }
     
     .icons.search-expanded #search {
@@ -443,8 +446,9 @@ nav .icons {
 
 @media (max-width: 600px) {
     .icons.search-expanded .search-input-wrapper {
-        left: 3vw;
-        right: 3vw;
+        left: 10px;
+        right: 10px;
+        top: 12px;
     }
     
     .searchInput {
@@ -465,6 +469,17 @@ nav .icons {
         flex: 1 1 auto;
         min-width: 0;
         max-width: calc(100% - 120px);
+    }
+    
+    .icons.search-expanded .search-input-wrapper {
+        left: 8px;
+        right: 8px;
+        top: 10px;
+    }
+    
+    .searchInput {
+        padding: 8px 12px;
+        font-size: 0.8rem;
     }
     
     nav .logo img {
