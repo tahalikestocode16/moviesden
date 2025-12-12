@@ -1576,13 +1576,14 @@
             
             /* Show mobile bottom navigation */
             .account-menu {
-                position: fixed;
+                position: fixed !important;
                 bottom: 0;
                 left: 0;
                 right: 0;
                 width: 100%;
                 height: 70px;
-                padding: 0;
+                padding: 0 10px;
+                margin-top: 0;
                 border-top: 1px solid rgba(255, 42, 109, 0.3);
                 background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.2), rgba(12, 12, 28, 0.98));
                 box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.5);
@@ -1593,7 +1594,7 @@
                 justify-content: space-around;
                 overflow-x: auto;
                 overflow-y: hidden;
-                gap: 0;
+                gap: 5px;
             }
             
             .account-menu::-webkit-scrollbar {
@@ -1601,43 +1602,35 @@
             }
             
             .account-header {
-                display: none; /* Hide header in sidebar on mobile */
-            }
-            
-            .account-menu {
-                display: flex;
-                flex-direction: row;
-                gap: 5px;
-                margin-top: 0;
-                width: 100%;
-                justify-content: space-around;
-                padding: 0 10px;
-                align-items: center;
+                display: none;
             }
             
             .account-menu-item {
-                padding: 10px;
+                padding: 10px 8px !important;
                 width: auto;
                 min-width: 50px;
                 height: 50px;
                 flex: 1;
                 max-width: 80px;
-                border-left: none;
+                border-left: none !important;
                 border-bottom: 3px solid transparent;
                 border-radius: 10px 10px 0 0;
-                flex-direction: column;
+                flex-direction: column !important;
                 gap: 4px;
                 justify-content: center;
                 align-items: center;
+                display: flex !important;
+                position: relative;
             }
             
             .account-menu-item span:not(.badge) {
-                display: none; /* Hide text labels on mobile */
+                display: none !important;
             }
             
             .account-menu-item i {
-                font-size: 1.3rem;
+                font-size: 1.3rem !important;
                 margin: 0;
+                width: auto !important;
             }
             
             .account-menu-item .badge {
@@ -1685,50 +1678,15 @@
                 height: 80px;
             }
             
-            /* Mobile navigation items */
-            .account-menu-item {
-                flex: 1;
-                min-width: 60px;
-                max-width: 80px;
-                padding: 8px 4px;
-                flex-direction: column;
-                gap: 4px;
-                font-size: 0.7rem;
-                border-left: none;
-                border-bottom: 3px solid transparent;
-                text-align: center;
-            }
-            
-            .account-menu-item i {
-                font-size: 1.4rem;
-                width: auto;
-            }
-            
-            .account-menu-item span:not(.badge) {
-                display: block;
-                font-size: 0.65rem;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-            
             .account-menu-item:hover {
                 transform: translateY(-2px);
                 border-bottom-color: rgba(255, 42, 109, 0.5);
             }
             
             .account-menu-item.active {
-                border-left: none;
-                border-bottom-color: var(--pink);
-            }
-            
-            .account-menu-item .badge {
-                position: absolute;
-                top: 5px;
-                right: 5px;
-                font-size: 0.6rem;
-                padding: 2px 5px;
-                min-width: 16px;
+                border-left: none !important;
+                border-bottom-color: var(--pink) !important;
+                background: rgba(255, 42, 109, 0.2);
             }
             
             .account-tab {
