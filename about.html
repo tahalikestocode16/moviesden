@@ -86,8 +86,10 @@
       border-radius: 15px;
       margin-top: -10px;
       margin-bottom: 20px;
-      width: 100%;
-      max-width: 100%;
+      width: calc(100% - 40px);
+      max-width: calc(100vw - 40px);
+      margin-left: 20px;
+      margin-right: 20px;
       box-sizing: border-box;
       flex-wrap: nowrap;
       gap: 20px;
@@ -103,7 +105,7 @@
       z-index: 1501;
       transition: all 0.3s ease;
       flex-shrink: 0;
-      min-width: 0;
+      min-width: fit-content;
       margin-right: auto;
       color: white;
       text-decoration: none;
@@ -115,6 +117,7 @@
 
     nav .logo img {
       width: 40px;
+      height: 40px;
       margin-right: 10px;
       filter: drop-shadow(0 0 10px rgba(255, 42, 109, 0.5));
       transition: transform 0.3s ease;
@@ -1136,10 +1139,13 @@
         /* Responsive Design */
     @media (max-width: 768px) {
             nav {
-                padding: 8px 0;
+                padding: 10px 12px;
                 position: relative;
-                margin: 15px;
+                margin: 10px;
+                width: calc(100% - 20px);
+                max-width: calc(100vw - 20px);
                 border-radius: 15px;
+                gap: 10px;
             }
 
             nav .logo {
@@ -1147,13 +1153,15 @@
             }
 
             nav .logo img {
-                width: 30px;
+                width: 32px;
+                height: 32px;
+                margin-right: 8px;
       }
       
             nav .navlinks {
                 position: absolute;
-                top: 60px;
-                right: 16px;
+                top: 100%;
+                right: 0;
                 background: rgba(8, 8, 12, 0.98);
                 border-radius: 12px;
                 padding: 16px 20px;
@@ -1161,12 +1169,14 @@
                 flex-direction: column;
                 gap: 0;
                 min-width: 220px;
+                max-width: 280px;
                 max-height: 80vh;
                 overflow-y: auto;
                 box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8);
                 z-index: 99999;
                 backdrop-filter: blur(15px);
                 border: 1px solid rgba(255, 42, 109, 0.2);
+                margin-top: 10px;
             }
 
             nav .navlinks.show {
