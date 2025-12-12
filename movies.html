@@ -3781,18 +3781,81 @@ section:last-child {
     }
 }
 
-@media (max-width: 480px) {
-    .review-forms-grid {
-        gap: 15px !important;
-        padding: 0 10px;
+@media (max-width: 768px) {
+    .add-reviews-container {
+        padding: 0 15px;
+        margin-bottom: 40px !important;
     }
     
-    .review-form-card {
+    .review-forms-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+        padding: 0 !important;
+    }
+    
+    #addReviewSection,
+    #addTheatreReviewSection {
+        padding: 18px !important;
+        min-height: auto !important;
+    }
+    
+    #addReviewSection h3,
+    #addTheatreReviewSection h3 {
+        font-size: 0.95rem !important;
+    }
+    
+    #addReviewSection input,
+    #addReviewSection textarea,
+    #addTheatreReviewSection input,
+    #addTheatreReviewSection textarea {
+        font-size: 0.85rem !important;
+        padding: 9px !important;
+    }
+    
+    #addReviewSection button,
+    #addTheatreReviewSection button {
+        padding: 11px !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .add-reviews-container {
+        padding: 0 10px;
+        margin-bottom: 30px !important;
+    }
+    
+    .review-forms-grid {
+        gap: 15px !important;
+    }
+    
+    #addReviewSection,
+    #addTheatreReviewSection {
         padding: 15px !important;
     }
     
-    #addReviewsContainer {
-        margin-bottom: 30px !important;
+    #addReviewSection h3,
+    #addTheatreReviewSection h3 {
+        font-size: 0.9rem !important;
+        margin-bottom: 12px !important;
+    }
+    
+    #addReviewSection input,
+    #addReviewSection textarea,
+    #addTheatreReviewSection input,
+    #addTheatreReviewSection textarea {
+        font-size: 0.8rem !important;
+        padding: 8px !important;
+    }
+    
+    #addReviewSection label,
+    #addTheatreReviewSection label {
+        font-size: 0.8rem !important;
+    }
+    
+    #starRatingInput,
+    #theatreStarRatingInput {
+        font-size: 20px !important;
     }
 }
 
@@ -4587,8 +4650,8 @@ section:last-child {
     <h2 class="section-heading">REVIEWS</h2>
     
     <!-- Add Review Forms Side by Side (Only for logged-in users) -->
-    <div id="addReviewsContainer" style="display: none; margin-bottom: 50px;">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; max-width: 1200px; margin: 0 auto;">
+    <div id="addReviewsContainer" class="add-reviews-container" style="display: none; margin-bottom: 50px;">
+      <div class="review-forms-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; max-width: 1200px; margin: 0 auto;">
         
         <!-- Movie Review Form -->
         <div id="addReviewSection" style="background: rgba(17, 13, 24, 0.4); border-radius: 10px; padding: 20px; border: 1px solid rgba(255, 42, 109, 0.15); backdrop-filter: blur(10px);">

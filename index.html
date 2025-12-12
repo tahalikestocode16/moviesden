@@ -1716,8 +1716,8 @@ section:last-child {
 
 /* Genre Modal - Enhanced */
 .genre-modal-dialog {
-    background: rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(20px);
+    background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.15), rgba(17, 13, 24, 0.95));
+    backdrop-filter: blur(25px);
     border-radius: 24px;
     width: 92vw;
     max-width: 1400px;
@@ -1725,8 +1725,20 @@ section:last-child {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    border: 2px solid rgba(255, 42, 109, 0.3);
-    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9), 0 0 40px rgba(255, 42, 109, 0.3), inset 0 0 60px rgba(255, 42, 109, 0.05);
+    border: 2px solid rgba(255, 42, 109, 0.4);
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9), 0 0 50px rgba(255, 42, 109, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
 .genre-modal-header {
@@ -1734,9 +1746,20 @@ section:last-child {
     justify-content: space-between;
     align-items: center;
     padding: 30px 35px;
-    border-bottom: 2px solid rgba(255, 42, 109, 0.2);
-    background: linear-gradient(135deg, rgba(255, 42, 109, 0.1), rgba(138, 43, 226, 0.05));
-    backdrop-filter: blur(10px);
+    border-bottom: 2px solid rgba(255, 42, 109, 0.3);
+    background: linear-gradient(135deg, rgba(255, 42, 109, 0.15), rgba(138, 43, 226, 0.1));
+    backdrop-filter: blur(15px);
+    position: relative;
+}
+
+.genre-modal-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 42, 109, 0.5), transparent);
 }
 
 .genre-modal-header h2 {
@@ -1748,20 +1771,31 @@ section:last-child {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     letter-spacing: 0.5px;
+    text-shadow: 0 0 30px rgba(255, 42, 109, 0.3);
+    animation: titlePulse 3s ease-in-out infinite;
+}
+
+@keyframes titlePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.9; }
 }
 
 .modal-close-btn {
     font-size: 32px;
     color: #ff2a6d;
     cursor: pointer;
-    padding: 0 10px;
-    transition: all 0.3s ease;
+    padding: 8px 12px;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     line-height: 1;
+    border-radius: 8px;
+    background: rgba(255, 42, 109, 0.1);
 }
 
 .modal-close-btn:hover {
-    transform: scale(1.2) rotate(90deg);
-    color: #ff5a8d;
+    transform: scale(1.15) rotate(90deg);
+    color: #fff;
+    background: rgba(255, 42, 109, 0.3);
+    box-shadow: 0 0 20px rgba(255, 42, 109, 0.5);
 }
 
 .genre-modal-content {
@@ -1797,20 +1831,38 @@ section:last-child {
 }
 
 .genre-movie-card {
-    background: rgba(0, 0, 0, 0.25);
+    background: rgba(17, 13, 24, 0.6);
     backdrop-filter: blur(15px);
     border-radius: 16px;
     overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    border: 1px solid rgba(255, 42, 109, 0.15);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 1px solid rgba(255, 42, 109, 0.2);
     cursor: pointer;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    position: relative;
+}
+
+.genre-movie-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 42, 109, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
 }
 
 .genre-movie-card:hover {
-    transform: translateY(-10px) scale(1.05);
-    box-shadow: 0 20px 50px rgba(255, 42, 109, 0.4), 0 0 30px rgba(138, 43, 226, 0.3), inset 0 0 60px rgba(255, 42, 109, 0.1);
-    border-color: rgba(255, 42, 109, 0.5);
+    transform: translateY(-12px) scale(1.05);
+    box-shadow: 0 20px 60px rgba(255, 42, 109, 0.5), 0 0 40px rgba(138, 43, 226, 0.4), inset 0 0 80px rgba(255, 42, 109, 0.15);
+    border-color: rgba(255, 42, 109, 0.6);
+}
+
+.genre-movie-card:hover::before {
+    opacity: 1;
 }
 
 .genre-movie-card img {
@@ -2359,19 +2411,31 @@ section:last-child {
 @media (max-width: 768px) {
     .genre-modal-dialog {
         width: 95vw;
-        max-height: 90vh;
+        max-width: 95vw;
+        max-height: 88vh;
+        border-radius: 20px;
     }
     
     .genre-modal-header {
-        padding: 20px;
+        padding: 20px 18px;
     }
     
     .genre-modal-header h2 {
         font-size: 24px;
     }
     
+    .modal-close-btn {
+        font-size: 28px;
+        padding: 6px 10px;
+    }
+    
     .genre-modal-content {
-        padding: 20px;
+        padding: 20px 15px;
+    }
+    
+    .genre-movies-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 15px;
     }
     
     .genre-movies-grid {
@@ -2385,8 +2449,15 @@ section:last-child {
 }
 
 @media (max-width: 600px) {
+    .genre-modal-dialog {
+        width: 96vw;
+        max-width: 96vw;
+        max-height: 85vh;
+        border-radius: 16px;
+    }
+    
     .genre-modal-header {
-        padding: 18px;
+        padding: 16px 14px;
     }
     
     .genre-modal-header h2 {
@@ -2394,11 +2465,17 @@ section:last-child {
     }
     
     .modal-close-btn {
-        font-size: 28px;
+        font-size: 26px;
+        padding: 5px 8px;
     }
     
     .genre-modal-content {
-        padding: 15px;
+        padding: 15px 12px;
+    }
+    
+    .genre-movies-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 12px;
     }
     
     .genre-movies-grid {
@@ -2420,8 +2497,33 @@ section:last-child {
 }
 
 @media (max-width: 480px) {
+    .genre-modal-dialog {
+        width: 98vw;
+        max-width: 98vw;
+        max-height: 82vh;
+        border-radius: 14px;
+    }
+    
+    .genre-modal-header {
+        padding: 14px 12px;
+    }
+    
     .genre-modal-header h2 {
         font-size: 18px;
+    }
+    
+    .modal-close-btn {
+        font-size: 24px;
+        padding: 4px 6px;
+    }
+    
+    .genre-modal-content {
+        padding: 12px 10px;
+    }
+    
+    .genre-movies-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 10px;
     }
     
     .genre-movies-grid {
