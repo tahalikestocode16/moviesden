@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - MoviesDen</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+        @font-face {
+            font-family: soft;
+            src: url(LeagueSpartan-Bold.otf);
+        }
+
+    * {
+      margin: 0;
+      padding: 0;
+            box-sizing: border-box;
+            font-family: soft;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: #ff2a6d #1a1525;
+        }
+
+        html::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        html::-webkit-scrollbar-track {
+            background: #1a1525;
+            border-radius: 10px;
+        }
+
+        html::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ff2a6d, #8a2be2);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        html::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #ff5a8d, #a855f7);
+            box-shadow: 0 0 10px rgba(255, 42, 109, 0.5);
+    }
+
+    body {
+      background: linear-gradient(180deg, #000000 0%, #0a0a0f 50%, #000000 100%);
+      color: white;
+            overflow-x: hidden;
+      position: relative;
+            min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 20% 50%, rgba(255, 42, 109, 0.03) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(138, 43, 226, 0.03) 0%, transparent 50%);
+      animation: gradientShift 20s ease infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    @keyframes gradientShift {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-10%, -10%); }
+    }
+
+        /* Navigation */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 3vw;
+      position: relative;
+      z-index: 10;
+      backdrop-filter: none;
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 15px;
+      margin-top: -10px;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      flex-wrap: nowrap;
+      gap: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    nav .logo {
+      display: flex;
+      align-items: center;
+      font-size: 32px;
+      font-weight: 700;
+      z-index: 1501;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+      min-width: 0;
+      margin-right: auto;
+      color: white;
+      text-decoration: none;
+    }
+
+    nav .logo:hover {
+      transform: scale(1.05);
+    }
+
+    nav .logo img {
+      width: 40px;
+      margin-right: 10px;
+      filter: drop-shadow(0 0 10px rgba(255, 42, 109, 0.5));
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    nav .logo:hover img {
+      transform: rotate(360deg);
+    }
+
+    nav .logo .name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      background: linear-gradient(135deg, #ff2a6d, #8a2be2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    nav .navlinks {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+      align-items: center;
+      flex: 0 1 auto;
+      justify-content: center;
+      min-width: 0;
+      margin: 0 auto;
+      position: relative;
+      gap: 5px;
+    }
+
+    /* Sliding background element */
+    nav .navlinks .sliding-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background: #ff2a6d;
+      border: 1.5px solid #ff2a6d;
+      border-radius: 999px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    nav .navlinks a {
+      color: white;
+            text-decoration: none;
+      font-size: 16px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: transparent;
+      border: 1.5px solid transparent;
+      font-weight: 500;
+      overflow: visible;
+      z-index: 1;
+    }
+
+    nav .navlinks a::after {
+      display: none; /* Remove underline effect */
+    }
+
+    nav .navlinks a::before {
+      display: none;
+    }
+
+    nav .navlinks a:hover {
+      color: white;
+      font-weight: 600;
+      transform: translateY(-3px) scale(1.05);
+      z-index: 2;
+      border-color: transparent;
+    }
+
+    nav .navlinks a:active {
+      transform: translateY(-1px) scale(1.02);
+    }
+
+    /* Remove default active state from home button */
+    nav .navlinks a.home-btn {
+      background: transparent;
+      border-color: transparent;
+      color: white;
+      font-weight: 500;
+      box-shadow: none;
+        }
+
+    nav .icons {
+      display: flex;
+            align-items: center;
+      gap: 20px;
+            font-size: 20px;
+    }
+
+        nav .icons a {
+      color: white;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+        nav .icons a:hover {
+      scale: 1.2;
+    }
+
+        #bar {
+            display: none;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* Hero Section with Background Image */
+        .hero-section {
+      text-align: center;
+            padding: 150px 20px 100px;
+            margin-bottom: 80px;
+      position: relative;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+      overflow: hidden;
+            background-image: url('images/batman.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+    }
+
+        .hero-section::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.7) 100%);
+      z-index: 0;
+        }
+
+
+        .hero-content {
+      position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 0 30px;
+    }
+
+        .hero-section h1 {
+            font-size: 56px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #ff2a6d, #8a2be2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+            margin-bottom: 25px;
+            animation: fadeInUp 0.8s ease forwards, titleGlow 3s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(255, 42, 109, 0.3);
+      position: relative;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+    }
+
+        .hero-section p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 700px;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+      opacity: 0;
+            line-height: 1.8;
+    }
+    
+    @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+    }
+            from {
+      opacity: 0;
+                transform: translateY(30px);
+    }
+        }
+
+        /* Stats Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 30px;
+            position: relative;
+            z-index: 2;
+    }
+    
+        .stat-card {
+            background: rgba(26, 21, 37, 0.8);
+            backdrop-filter: blur(15px);
+      border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 2px solid rgba(255, 42, 109, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+            overflow: hidden;
+    }
+    
+        .stat-card::before {
+      content: '';
+      position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 42, 109, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+    }
+    
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(255, 42, 109, 0.6);
+            box-shadow: 0 15px 40px rgba(255, 42, 109, 0.3);
+        }
+
+        .stat-number {
+            font-size: 56px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff2a6d, #8a2be2, #ff2a6d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            margin-bottom: 15px;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        .stat-label {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+    }
+
+        /* Parallax Section */
+        .parallax-section {
+            position: relative;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 30px;
+      overflow: hidden;
+    }
+
+        .parallax-bg {
+      position: absolute;
+            top: -20%;
+            left: 0;
+      width: 100%;
+            height: 140%;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            opacity: 0.3;
+            z-index: 0;
+            transform: translateZ(0);
+    }
+
+        .parallax-bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+      width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.85) 100%);
+        }
+
+        .section-content {
+      position: relative;
+      z-index: 2;
+            max-width: 1200px;
+            width: 100%;
+    }
+
+        /* Section Title */
+        .section-title {
+            display: flex;
+            align-items: center;
+            font-size: 32px;
+            font-weight: 700;
+      margin-bottom: 40px;
+            background: linear-gradient(135deg, #fff, #ff2a6d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+            gap: 12px;
+            margin-top: 60px;
+            padding: 0 30px;
+        }
+
+        .section-title .line {
+            flex-grow: 1;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255, 42, 109, 0.6), transparent);
+      position: relative;
+            overflow: hidden;
+    }
+    
+        .section-title .line::after {
+      content: '';
+      position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            animation: shimmer 3s infinite;
+    }
+    
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: rgba(26, 21, 37, 0.8);
+      backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 2px solid rgba(255, 42, 109, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+        .content-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 42, 109, 0.15), transparent);
+            transition: left 0.6s ease;
+    }
+    
+        .content-card:hover::before {
+      left: 100%;
+    }
+    
+        .content-card::after {
+            content: '';
+      position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff2a6d, #8a2be2, #ff2a6d);
+            background-size: 300% 300%;
+      border-radius: 25px;
+            opacity: 0;
+      z-index: -1;
+            transition: opacity 0.4s ease;
+            animation: borderGlow 3s ease infinite;
+    }
+
+        @keyframes borderGlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+    }
+
+        .content-card:hover::after {
+            opacity: 0.3;
+    }
+
+        .content-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 42, 109, 0.6);
+            box-shadow: 0 15px 40px rgba(255, 42, 109, 0.3);
+      }
+
+        .card-header {
+        display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+      }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+        display: flex;
+        align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(255, 42, 109, 0.2), rgba(138, 43, 226, 0.2));
+        border-radius: 15px;
+            border: 2px solid rgba(255, 42, 109, 0.3);
+        font-size: 28px;
+            color: #ff2a6d;
+            filter: drop-shadow(0 0 15px rgba(255, 42, 109, 0.6));
+            animation: iconFloat 3s ease-in-out infinite;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+      }
+
+        .content-card:hover .card-icon {
+            transform: scale(1.15) rotate(10deg);
+            filter: drop-shadow(0 0 25px rgba(255, 42, 109, 0.8));
+            background: linear-gradient(135deg, rgba(255, 42, 109, 0.3), rgba(138, 43, 226, 0.3));
+            border-color: rgba(255, 42, 109, 0.6);
+      }
+
+        .card-title {
+        font-size: 24px;
+            font-weight: 700;
+            color: #ff2a6d;
+      }
+      
+        .card-content {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+            font-size: 17px;
+    }
+
+        .features-grid {
+      display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+    }
+
+        .feature-item {
+            background: rgba(15, 15, 25, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            border: 2px solid rgba(255, 42, 109, 0.15);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+        .feature-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 42, 109, 0.1), transparent);
+            transition: left 0.6s ease;
+    }
+
+        .feature-item:hover::before {
+      left: 100%;
+    }
+
+        .feature-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff2a6d, #8a2be2, #ff2a6d);
+            background-size: 200% 100%;
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .feature-item:hover::after {
+            transform: scaleX(1);
+            animation: shimmerLine 2s ease infinite;
+        }
+
+        @keyframes shimmerLine {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .feature-item:hover {
+            transform: translateY(-10px) scale(1.03);
+            border-color: rgba(255, 42, 109, 0.6);
+            box-shadow: 0 15px 40px rgba(255, 42, 109, 0.4);
+            background: rgba(20, 18, 30, 0.95);
+    }
+
+        .feature-title {
+            font-size: 18px;
+      font-weight: 700;
+      color: #ff2a6d;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+    }
+
+        .feature-title i {
+            font-size: 20px;
+            color: #ff2a6d;
+    }
+
+        .feature-desc {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+    }
+
+        /* Footer */
+    .footer {
+      position: relative;
+      padding: 90px 40px 50px;
+      background: linear-gradient(180deg, #000000 0%, #0a0a0f 30%, #0b0b0f 60%, #000000 100%);
+      color: white;
+      overflow: hidden;
+      border-top: 2px solid rgba(255, 42, 109, 0.3);
+      margin-top: 100px;
+    }
+    
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #ff2a6d 20%, #8a2be2 50%, #ff2a6d 80%, transparent);
+      box-shadow: 0 0 20px rgba(255, 42, 109, 0.5);
+    }
+    
+    .footer::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 20% 50%, rgba(255, 42, 109, 0.03) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(138, 43, 226, 0.03) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+        /* Smaller jelly balls (same as before) */
+    .jelly {
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: #ff2a6d;
+      box-shadow: 0 0 20px #ff2a6d;
+      z-index: 3;
+      transition: transform 0.1s ease;
+    }
+
+        /* Trail */
+    .trail {
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      background: #ff2a6d;
+      border-radius: 50%;
+      opacity: 0.25;
+      transform: translate(-50%, -50%);
+      filter: blur(6px);
+      pointer-events: none;
+      z-index: 1;
+      transition: opacity 0.5s ease-out;
+    }
+
+        /* Phones: static, no movement */
+    @media (max-width: 700px) {
+      .jelly {
+        width: 55px;
+        height: 55px;
+        bottom: 20px !important;
+        left: 20px !important;
+        animation: none !important;
+        transform: none !important;
+      }
+      #bubble2 {
+        right: 20px !important;
+        left: auto !important;
+      }
+    }
+
+    .footer-content {
+      position: relative;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 50px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-section h3 {
+      color: #ff2a6d;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, #ff2a6d, #8a2be2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .footer-section h4 {
+      color: #ff2a6d;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    .footer-section h4::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, #ff2a6d, transparent);
+    }
+
+    .footer-section p {
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+      margin-top: 10px;
+    }
+
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-section ul li {
+      margin: 10px 0;
+    }
+
+    .footer-section ul li a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      position: relative;
+      padding-left: 0;
+    }
+    
+    .footer-section ul li a::before {
+      content: '→';
+      position: absolute;
+      left: -20px;
+      opacity: 0;
+      color: #ff2a6d;
+      transition: all 0.3s ease;
+      transform: translateX(-5px);
+    }
+    
+    .footer-section ul li a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #ff2a6d, #8a2be2);
+      transition: width 0.3s ease;
+    }
+
+    .footer-section ul li a:hover {
+      color: #ff2a6d;
+      transform: translateX(8px);
+      padding-left: 20px;
+    }
+    
+    .footer-section ul li a:hover::before {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    
+    .footer-section ul li a:hover::after {
+      width: 100%;
+    }
+    
+    .footer-section .social-icons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 10px;
+    }
+    
+    .footer-section .social-icons li {
+      position: relative;
+            margin: 0;
+    }
+    
+    .footer-section .social-icons li a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(255, 42, 109, 0.3);
+      font-size: 1.8rem;
+      padding: 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: visible;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+        }
+        
+        .footer-section .social-icons li a i {
+            z-index: 2;
+            position: relative;
+    }
+    
+        /* Ripple effect on hover */
+    .footer-section .social-icons li a::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 42, 109, 0.2);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease, height 0.6s ease;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+        /* Tooltip for social icons */
+    .footer-section .social-icons li a::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: -52px;
+      left: 50%;
+            transform: translateX(-50%) translateY(-5px);
+      background: rgba(0, 0, 0, 0.98);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 1000;
+      border: 1px solid rgba(255, 42, 109, 0.5);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      min-width: max-content;
+      letter-spacing: 0.3px;
+      text-align: center;
+    }
+    
+    .footer-section .social-icons li a:hover {
+      background: rgba(255, 42, 109, 0.15);
+      border-color: #ff2a6d;
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(255, 42, 109, 0.4);
+      padding-left: 0;
+    }
+    
+    .footer-section .social-icons li a:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    
+    .footer-section .social-icons li a:hover::before {
+      width: 90px;
+      height: 90px;
+    }
+    
+        /* Individual icon colors on hover */
+    .footer-section .social-icons li:nth-child(1) a:hover {
+      border-color: #FF0000;
+      box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4);
+    }
+    
+    .footer-section .social-icons li:nth-child(2) a:hover {
+      border-color: #E4405F;
+      box-shadow: 0 8px 20px rgba(228, 64, 95, 0.4);
+    }
+    
+    .footer-section .social-icons li:nth-child(3) a:hover {
+      border-color: #000000;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .footer-section .social-icons li:nth-child(3) a:hover {
+      border-color: #1877F2;
+      box-shadow: 0 8px 20px rgba(24, 119, 242, 0.4);
+    }
+    
+    .footer-section .social-icons li:nth-child(4) a:hover {
+      border-color: #5865F2;
+      box-shadow: 0 8px 20px rgba(88, 101, 242, 0.4);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      opacity: 0.7;
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      z-index: 5;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+        /* Quick Links Cards Section */
+        .quick-links-section {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 30px;
+        }
+
+        .quick-links-title {
+            display: flex;
+            align-items: center;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #fff, #ff2a6d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            gap: 12px;
+            padding: 0 30px;
+        }
+
+        .quick-links-title .line {
+            flex-grow: 1;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255, 42, 109, 0.6), transparent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-links-title .line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        .quick-links-grid {
+            display: flex;
+            gap: 20px;
+            padding: 0 30px;
+            justify-content: center;
+            flex-wrap: nowrap;
+        }
+
+        @media (max-width: 1200px) {
+            .quick-links-grid {
+                overflow-x: auto;
+                scroll-behavior: smooth;
+                scrollbar-width: thin;
+                scrollbar-color: #ff2a6d #1a1525;
+                -webkit-overflow-scrolling: touch;
+                justify-content: flex-start;
+            }
+
+            .quick-links-grid::-webkit-scrollbar {
+                height: 8px;
+            }
+
+            .quick-links-grid::-webkit-scrollbar-track {
+                background: #1a1525;
+                border-radius: 10px;
+            }
+
+            .quick-links-grid::-webkit-scrollbar-thumb {
+                background: linear-gradient(90deg, #ff2a6d, #8a2be2);
+                border-radius: 10px;
+            }
+
+            .quick-links-grid::-webkit-scrollbar-thumb:hover {
+                background: linear-gradient(90deg, #ff5a8d, #a855f7);
+            }
+
+            .quick-link-card {
+                flex: 0 0 220px;
+                max-width: 220px;
+            }
+        }
+
+        .quick-link-card {
+            background: rgba(26, 21, 37, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 2px solid rgba(255, 42, 109, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: white;
+            display: block;
+            min-height: 250px;
+            width: 100%;
+            max-width: 220px;
+            flex: 1 1 220px;
+            background-size: cover;
+            background-position: center;
+        }
+
+
+        .quick-link-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff2a6d, #8a2be2, #ff2a6d);
+            background-size: 300% 300%;
+            border-radius: 20px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.4s ease;
+            animation: borderGlow 3s ease infinite;
+        }
+
+        .quick-link-card:hover::before {
+            opacity: 0.4;
+        }
+
+        .quick-link-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 42, 109, 0.6);
+            box-shadow: 0 15px 40px rgba(255, 42, 109, 0.3);
+        }
+
+        .quick-link-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(255, 42, 109, 0.3), rgba(138, 43, 226, 0.3));
+            border-radius: 15px;
+            border: 2px solid rgba(255, 42, 109, 0.4);
+            font-size: 24px;
+            color: #ff2a6d;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .quick-link-card:hover .quick-link-icon {
+            transform: scale(1.15) rotate(10deg);
+            background: linear-gradient(135deg, rgba(255, 42, 109, 0.4), rgba(138, 43, 226, 0.4));
+            border-color: rgba(255, 42, 109, 0.7);
+            box-shadow: 0 0 20px rgba(255, 42, 109, 0.5);
+        }
+
+        .quick-link-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ff2a6d;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .quick-link-card p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.5;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Responsive Design */
+    @media (max-width: 768px) {
+            nav {
+                padding: 8px 0;
+                position: relative;
+                margin: 15px;
+                border-radius: 15px;
+            }
+
+            nav .logo {
+                font-size: 24px;
+            }
+
+            nav .logo img {
+                width: 30px;
+      }
+      
+            nav .navlinks {
+                position: absolute;
+                top: 60px;
+                right: 16px;
+                background: rgba(8, 8, 12, 0.98);
+                border-radius: 12px;
+                padding: 16px 20px;
+                display: none;
+                flex-direction: column;
+                gap: 0;
+                min-width: 220px;
+                max-height: 80vh;
+                overflow-y: auto;
+                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8);
+                z-index: 99999;
+                backdrop-filter: blur(15px);
+                border: 1px solid rgba(255, 42, 109, 0.2);
+            }
+
+            nav .navlinks.show {
+                display: flex;
+            }
+
+            nav .navlinks a {
+                font-size: 15px;
+                width: 100%;
+                text-align: left;
+                padding: 12px 8px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            nav .navlinks a:last-child {
+                border-bottom: none;
+            }
+
+            #bar {
+                display: inline-block;
+      }
+      
+            .hero-section {
+                padding: 120px 20px 80px;
+                min-height: 60vh;
+            }
+
+            .hero-section h1 {
+                font-size: 36px;
+            }
+
+            .hero-section p {
+                font-size: 16px;
+      }
+
+            .section-title {
+                font-size: 24px;
+                padding: 0 20px;
+            }
+
+            .content-card {
+                padding: 25px;
+            }
+
+            .card-title {
+                font-size: 20px;
+            }
+
+            .features-grid {
+        grid-template-columns: 1fr;
+            }
+
+            .stats-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .parallax-bg {
+                background-attachment: scroll;
+            }
+
+            .quick-links-grid {
+                gap: 20px;
+                padding: 0 20px;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .quick-link-card {
+                min-width: 280px;
+                max-width: 280px;
+                scroll-snap-align: start;
+            }
+
+            .quick-links-section {
+                padding: 0 20px;
+            }
+
+            .quick-links-title {
+                padding: 0 20px;
+                font-size: 28px;
+      }
+    }
+  </style>
+  </head>
+<body>
+    <!-- Navigation -->
+    <nav>
+      <div class="logo">
+            <img class="icon" src="images/tvicon.png" alt="MovieDen Logo" />
+        <h3 class="name">MoviesDen</h3>
+      </div>
+        <div class="navlinks" id="navlinks">
+        <a href="index.html">Home</a>
+        <a href="movies.html">Movies</a>
+        <a href="imax.html">IMAX</a>
+        <a href="watch.html">Trailers</a>
+      </div>
+      <div class="icons">
+        <a id="accountLink" href="ubaid.html" class="account-link">
+          <i class="fas fa-user" id="accountIcon"></i>
+        </a>
+            <a id="bar" href="#">☰</a>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content" style="position: relative; z-index: 1;">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1>About MoviesDen</h1>
+                <p>Your ultimate destination for streaming the latest and greatest movies and series. Explore Hollywood blockbusters, indie gems, anime classics, and exclusive content that you won't find anywhere else.</p>
+            </div>
+    </div>
+
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number">10M+</div>
+                <div class="stat-label">Active Users</div>
+      </div>
+            <div class="stat-card">
+                <div class="stat-number">50K+</div>
+                <div class="stat-label">Movies & Series</div>
+      </div>
+            <div class="stat-card">
+                <div class="stat-number">150+</div>
+                <div class="stat-label">Countries</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Support</div>
+    </div>
+  </div>
+
+        <!-- About Us Section -->
+        <div class="parallax-section">
+            <div class="parallax-bg" style="background-image: url('images/interstellar.jpg');"></div>
+            <div class="section-content">
+                <div class="section-title">
+                    <span>Our Mission</span>
+                    <div class="line"></div>
+      </div>
+
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-film"></i>
+            </div>
+                        <div class="card-title">Bringing Cinema to Everyone</div>
+            </div>
+                    <div class="card-content">
+                        <p>At MoviesDen, our mission is to provide seamless, high-quality entertainment that brings people together through the magic of cinema. We believe that great stories should be accessible to everyone, everywhere, at any time.</p>
+                        <p style="margin-top: 20px;">We're committed to curating the finest collection of films and series, from timeless classics to the latest blockbusters, ensuring that every viewer finds something that resonates with them.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!-- Why Choose Us Section -->
+        <div class="parallax-section">
+            <div class="parallax-bg" style="background-image: url('images/oppenheimer.png');"></div>
+            <div class="section-content">
+                <div class="section-title">
+                    <span>Why Choose Us</span>
+                    <div class="line"></div>
+            </div>
+
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-star"></i>
+            </div>
+                        <div class="card-title">What Makes Us Special</div>
+            </div>
+                    <div class="card-content">
+                        <div class="features-grid">
+                            <div class="feature-item">
+                                <div class="feature-title">
+                                    <i class="fas fa-video"></i>
+                                    Unlimited Content
+          </div>
+                                <div class="feature-desc">Stream the latest blockbusters, timeless classics, and exclusive content anytime, anywhere.</div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-title">
+                                    <i class="fas fa-bolt"></i>
+                                    Seamless Experience
+                                </div>
+                                <div class="feature-desc">Easy booking, personalized recommendations, and smooth playback optimized for all devices.</div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-title">
+                                    <i class="fas fa-shield-alt"></i>
+                                    Trusted & Secure
+                                </div>
+                                <div class="feature-desc">Enjoy safe, reliable, and high-quality entertainment. We value your privacy and protect your data.</div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-title">
+                                    <i class="fas fa-bullseye"></i>
+                                    Personalized Recommendations
+                                </div>
+                                <div class="feature-desc">AI-powered suggestions tailored to your preferences, helping you discover your next favorite movie.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+      </div>
+
+        <!-- Our Infrastructure Section -->
+        <div class="parallax-section">
+            <div class="parallax-bg" style="background-image: url('images/space.jpg');"></div>
+            <div class="section-content">
+                <div class="section-title">
+                    <span>Our Infrastructure</span>
+                    <div class="line"></div>
+            </div>
+
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-rocket"></i>
+            </div>
+                        <div class="card-title">Cutting-Edge Technology</div>
+            </div>
+                    <div class="card-content">
+                        <div class="features-grid">
+                            <div class="feature-item">
+                                <div class="feature-title">
+                                    <i class="fas fa-globe"></i>
+                                    High-Speed Streaming
+          </div>
+                                <div class="feature-desc">Our advanced servers deliver lightning-fast access for uninterrupted movie playback with 4K quality support.</div>
+        </div>
+                            <div class="feature-item">
+                                <div class="feature-title">
+                                    <i class="fas fa-server"></i>
+                                    Global Coverage
+                                </div>
+                                <div class="feature-desc">Enjoy seamless streaming anywhere, anytime, with servers optimized worldwide for the best performance.</div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-title">
+                                    <i class="fas fa-lock"></i>
+                                    Reliable & Secure
+                                </div>
+                                <div class="feature-desc">State-of-the-art infrastructure ensures your data and streaming experience are safe and protected 24/7.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+      </div>
+    </div>
+
+        <!-- Our Team Section -->
+        <div class="parallax-section">
+            <div class="parallax-bg" style="background-image: url('images/dune.jpg');"></div>
+            <div class="section-content">
+                <div class="section-title">
+                    <span>Our Team</span>
+                    <div class="line"></div>
+  </div>
+
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="card-title">Passionate Professionals</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="features-grid">
+                            <div class="feature-item">
+                                <div class="feature-title">
+                                    <i class="fas fa-theater-masks"></i>
+                                    Movie Enthusiasts
+                                </div>
+                                <div class="feature-desc">A dedicated team passionate about delivering the best cinema experience. We curate content with love and care.</div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-title">
+                                    <i class="fas fa-headset"></i>
+                                    Tech & Support Experts
+                                </div>
+                                <div class="feature-desc">Skilled professionals ensuring smooth streaming and secure transactions. Our support team is available 24/7.</div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-title">
+                                    <i class="fas fa-lightbulb"></i>
+                                    Creative Visionaries
+                                </div>
+                                <div class="feature-desc">Innovators constantly curating new content and improving your movie journey with cutting-edge features.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Links Section -->
+    <div class="quick-links-section">
+        <div class="quick-links-title">
+            <span>Explore More</span>
+            <div class="line"></div>
+        </div>
+        <div class="quick-links-grid">
+            <a href="contact (1) (1).html" class="quick-link-card">
+                <div class="quick-link-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h3>Contact Us</h3>
+                <p>Get in touch with our team for support, inquiries, or feedback.</p>
+            </a>
+            <a href="privacy (1).html" class="quick-link-card">
+                <div class="quick-link-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Privacy Policy</h3>
+                <p>Learn how we protect and handle your personal information.</p>
+        </a>
+            <a href="awards,faq.html" class="quick-link-card">
+                <div class="quick-link-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h3>Awards & FAQ</h3>
+                <p>View our achievements and find answers to common questions.</p>
+        </a>
+            <a href="gallery.html" class="quick-link-card">
+                <div class="quick-link-icon">
+                    <i class="fas fa-images"></i>
+                </div>
+          <h3>Gallery</h3>
+                <p>Browse our collection of movie art, posters, and exclusive content.</p>
+        </a>
+            <a href="upcoming.html" class="quick-link-card">
+                <div class="quick-link-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h3>Upcoming</h3>
+                <p>Discover what's coming soon to MoviesDen.</p>
+        </a>
+      </div>
+    </div>
+
+    <!-- Footer -->
+  <footer class="footer" id="footer">
+    <!-- Two small balls -->
+    <div id="bubble1" class="jelly"></div>
+    <div id="bubble2" class="jelly"></div>
+
+    <div class="footer-content">
+      <div class="footer-section">
+                <h3>MoviesDen</h3>
+        <p>Your go-to anime & movie streaming platform.</p>
+      </div>
+
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="movies.html">Movies</a></li>
+          <li><a href="imax.html">IMAX</a></li>
+          <li><a href="watch.html">Trailers</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact (1) (1).html">Contact Us</a></li>
+          <li><a href="privacy (1).html">Privacy Policy</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="upcoming.html">Upcoming</a></li>
+          <li><a href="awards,faq.html">Awards & FAQ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Follow Us</h4>
+        <ul class="social-icons">
+          <li><a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube" data-tooltip="YouTube"><i class="fab fa-youtube"></i></a></li>
+          <li><a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram" data-tooltip="Instagram"><i class="fab fa-instagram"></i></a></li>
+          <li><a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook" data-tooltip="Facebook"><i class="fab fa-facebook"></i></a></li>
+          <li><a href="https://discord.com" target="_blank" rel="noopener" aria-label="Discord" data-tooltip="Discord"><i class="fab fa-discord"></i></a></li>
+        </ul>
+      </div>
+    </div>
+
+        <p class="footer-bottom">© 2025 MoviesDen — All rights reserved.</p>
+  </footer>
+
+  <script>
+        // Mobile Navigation Toggle
+        const bar = document.getElementById('bar');
+        const navlinks = document.getElementById('navlinks');
+
+        if (bar && navlinks) {
+            bar.addEventListener('click', () => {
+                navlinks.classList.toggle('show');
+      });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!bar.contains(e.target) && !navlinks.contains(e.target)) {
+                    navlinks.classList.remove('show');
+        }
+      });
+    }
+
+    // Parallax Scrolling Effect
+    let ticking = false;
+    
+    function updateParallax() {
+      const scrolled = window.pageYOffset;
+            const parallaxSections = document.querySelectorAll('.parallax-bg');
+        
+            parallaxSections.forEach((bg) => {
+                const speed = 0.5;
+                const yPos = -(scrolled * speed);
+                bg.style.transform = `translate3d(0, ${yPos}px, 0)`;
+      });
+      
+      ticking = false;
+    }
+    
+        function requestTick() {
+      if (!ticking) {
+        window.requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+        }
+
+        window.addEventListener('scroll', requestTick);
+
+    // Footer Jelly Balls Animation
+    const footer = document.getElementById("footer");
+      const CAN_MOVE = window.innerWidth > 700;
+
+      function createTrail(x, y) {
+        const t = document.createElement("div");
+        t.className = "trail";
+        t.style.left = x + "px";
+        t.style.top = y + "px";
+        footer.appendChild(t);
+
+        setTimeout(() => (t.style.opacity = "0"), 20);
+        setTimeout(() => t.remove(), 500);
+      }
+
+      const balls = [
+        {
+          el: document.getElementById("bubble1"),
+          x: 60,
+          y: 80,
+          vx: 2.1,
+          vy: 1.9,
+        },
+        {
+          el: document.getElementById("bubble2"),
+          x: 180,
+          y: 40,
+          vx: -2.3,
+          vy: 1.7,
+        },
+      ];
+
+        if (CAN_MOVE) {
+        function animate() {
+          const fw = footer.clientWidth;
+          const fh = footer.clientHeight;
+
+          balls.forEach(b => {
+            const size = b.el.clientWidth;
+
+            b.x += b.vx;
+            b.y += b.vy;
+
+            // Bounce X
+            if (b.x <= 0 || b.x + size >= fw) {
+              b.vx *= -1;
+              b.el.style.transform = "scaleX(1.18)";
+              setTimeout(() => (b.el.style.transform = "scale(1)"), 120);
+            }
+
+            // Bounce Y
+            if (b.y <= 0 || b.y + size >= fh) {
+              b.vy *= -1;
+              b.el.style.transform = "scaleY(1.18)";
+              setTimeout(() => (b.el.style.transform = "scale(1)"), 120);
+            }
+
+            // Move
+            b.el.style.left = b.x + "px";
+            b.el.style.top = b.y + "px";
+
+            // Trail
+              createTrail(b.x + size / 2, b.y + size / 2);
+          });
+
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+      }
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe content cards
+        document.querySelectorAll('.content-card, .stat-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+    // Sliding navbar background effect
+    function initSlidingNavbar() {
+        const navlinks = document.querySelector('.navlinks') || document.getElementById('navlinks');
+        if (navlinks) {
+            const navItems = navlinks.querySelectorAll('a');
+            let slidingBg = navlinks.querySelector('.sliding-bg');
+            
+            // Create sliding background element if it doesn't exist
+            if (!slidingBg) {
+                slidingBg = document.createElement('div');
+                slidingBg.className = 'sliding-bg';
+                navlinks.appendChild(slidingBg);
+            }
+            
+            navItems.forEach((item, index) => {
+                item.addEventListener('mouseenter', function() {
+                    const itemRect = this.getBoundingClientRect();
+                    const navRect = navlinks.getBoundingClientRect();
+                    const left = itemRect.left - navRect.left;
+                    const width = itemRect.width;
+                    
+                    slidingBg.style.left = left + 'px';
+                    slidingBg.style.width = width + 'px';
+                    slidingBg.style.opacity = '1';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    // Don't hide immediately, let it stay for smooth transition
+                    setTimeout(() => {
+                        if (!navlinks.matches(':hover')) {
+                            slidingBg.style.opacity = '0';
+                        }
+                    }, 100);
+                });
+            });
+            
+            // Hide when leaving navlinks container
+            navlinks.addEventListener('mouseleave', function() {
+                slidingBg.style.opacity = '0';
+            });
+        }
+    }
+
+    // Initialize sliding navbar when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSlidingNavbar);
+    } else {
+        // DOM is already loaded
+        initSlidingNavbar();
+    }
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Out - Movies Den</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+ @font-face {
+  font-family: soft;
+  src: url("LeagueSpartan-Bold.otf");
+ }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #020212;
+    color: #ffffff;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    width: 100%;
+    max-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Animated background particles */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(255, 42, 109, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(138, 43, 226, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(255, 42, 109, 0.05) 0%, transparent 50%);
+    z-index: 0;
+    pointer-events: none;
+    animation: backgroundPulse 8s ease-in-out infinite;
+}
+
+@keyframes backgroundPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+/* Sign Out Card */
+.signout-container {
+    max-width: 550px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.signout-card {
+    background: radial-gradient(circle at top left, #25122d 0%, #0d0b14 55%, #07060a 100%);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 60px 50px;
+    border: 1px solid rgba(255, 42, 109, 0.3);
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.8),
+        0 0 0 1px rgba(255, 42, 109, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.signout-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(255, 42, 109, 0.1) 50%,
+        transparent 70%
+    );
+    animation: shimmer 3s infinite;
+    pointer-events: none;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+.signout-icon {
+    font-size: 5rem;
+    margin-bottom: 25px;
+    color: #ff2a6d;
+    filter: drop-shadow(0 8px 16px rgba(255, 42, 109, 0.5));
+    animation: iconFloat 3s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes iconFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-10px) scale(1.05); }
+}
+
+.signout-card h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #ff2a6d;
+    letter-spacing: 0.02em;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 0 30px rgba(255, 42, 109, 0.3);
+}
+
+.signout-card p {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 1.15rem;
+    margin-bottom: 40px;
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+}
+
+.btn-container {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+}
+
+.btn {
+    padding: 16px 36px;
+    border: none;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.5px;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-primary {
+    background: #ff2a6d;
+    color: #fff;
+    box-shadow: 
+        0 4px 15px rgba(255, 42, 109, 0.4),
+        0 0 20px rgba(255, 42, 109, 0.2);
+    border: 1px solid rgba(255, 42, 109, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 
+        0 8px 25px rgba(255, 42, 109, 0.6),
+        0 0 30px rgba(255, 42, 109, 0.4);
+    background: #ff5a8d;
+}
+
+.btn-primary:active {
+    transform: translateY(-1px) scale(1.02);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #ff2a6d;
+    border: 2px solid rgba(255, 42, 109, 0.5);
+    box-shadow: 0 0 15px rgba(255, 42, 109, 0.2);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 42, 109, 0.1);
+    border-color: rgba(255, 42, 109, 0.8);
+    box-shadow: 0 0 25px rgba(255, 42, 109, 0.4);
+    transform: translateY(-2px);
+    color: #fff;
+}
+
+.btn-secondary:active {
+    transform: translateY(0);
+}
+
+.close-btn {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 42, 109, 0.15);
+    border: 1px solid rgba(255, 42, 109, 0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #fff;
+    font-size: 24px;
+    text-decoration: none;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.close-btn:hover {
+    background: rgba(255, 42, 109, 0.3);
+    border-color: #ff2a6d;
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 6px 20px rgba(255, 42, 109, 0.5);
+}
+
+.close-btn:active {
+    transform: rotate(90deg) scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+    
+    .signout-card {
+        padding: 40px 30px;
+        border-radius: 20px;
+    }
+    
+    .signout-card h1 {
+        font-size: 2.2rem;
+    }
+    
+    .signout-icon {
+        font-size: 4.5rem;
+    }
+    
+    .signout-card p {
+        font-size: 1rem;
+        margin-bottom: 30px;
+    }
+    
+    .btn {
+        padding: 14px 28px;
+        font-size: 0.9rem;
+    }
+    
+    .btn-container {
+        flex-direction: column;
+    }
+    
+    .close-btn {
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .signout-card {
+        padding: 35px 25px;
+    }
+    
+    .signout-card h1 {
+        font-size: 1.8rem;
+    }
+    
+    .signout-icon {
+        font-size: 4rem;
+    }
+}
+</style>
+</head>
+<body>
+    <a href="index.html" class="close-btn" title="Close">
+        <span>×</span>
+    </a>
+    <div class="signout-container">
+        <div class="signout-card">
+            <div class="signout-icon">
+                <i class="fas fa-hand-paper"></i>
+            </div>
+            <h1>Signed Out</h1>
+            <p>You have been successfully signed out of your account. We hope to see you again soon!</p>
+            <div class="btn-container">
+                <a href="ubaid.html" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Sign In Again
+                </a>
+                <a href="index.html" class="btn btn-secondary">
+                    <i class="fas fa-home"></i>
+                    Go Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Clear login status and cart data
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('currentUser');
+        
+        // Clear all cart data
+        localStorage.setItem('cartItems', JSON.stringify([]));
+        const allKeys = Object.keys(localStorage);
+        allKeys.forEach(key => {
+            if (key.startsWith('cart_')) {
+                localStorage.removeItem(key);
+            }
+        });
+        localStorage.removeItem('shoppingCart');
+        localStorage.removeItem('userCart');
+    </script>
+</body>
+</html>

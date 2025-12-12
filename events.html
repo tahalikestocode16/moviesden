@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events & Merchandise - Movies Den</title>
+<link rel="stylesheet" href="style.css">
+<style>
+@font-face {
+  font-family: soft;
+  src: url("LeagueSpartan-Bold.otf");
+}
+
+:root {
+    --pink: #ff2a6d;
+    --bg: #020212;
+    --text: #ffffff;
+    --card: #0c0c1c;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: soft, 'Arial', sans-serif;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: rgba(10, 10, 18, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 42, 109, 0.2);
+}
+
+nav .logo {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    transition: transform 0.3s;
+}
+
+nav .logo:hover {
+    transform: scale(1.05);
+}
+
+nav .logo .logo-square {
+    width: 16px;
+    height: 16px;
+    background: var(--pink);
+    display: inline-block;
+}
+
+nav .nav-center {
+    display: flex;
+    gap: 30px;
+}
+
+nav .nav-center a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s;
+    position: relative;
+}
+
+nav .nav-center a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--pink);
+    transition: width 0.3s;
+}
+
+nav .nav-center a:hover {
+    color: var(--pink);
+}
+
+nav .nav-center a:hover::after {
+    width: 100%;
+}
+
+nav .nav-right {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+nav .nav-right a {
+    color: #fff;
+    font-size: 18px;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+nav .nav-right a:hover {
+    transform: scale(1.2);
+    color: var(--pink);
+}
+
+nav .hamburger {
+    font-size: 24px;
+    cursor: pointer;
+    color: #fff;
+    display: none;
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background-image: url('images/Spirited Away.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 60px;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(2, 2, 18, 0.7) 0%, rgba(2, 2, 18, 0.95) 100%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    background: linear-gradient(135deg, #fff, var(--pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Container */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px 60px;
+}
+
+/* Section Title */
+.section-title {
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 35px;
+    margin-top: 60px;
+    gap: 15px;
+}
+
+.section-title span {
+    background: linear-gradient(135deg, #fff, var(--pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.section-title .line {
+    flex-grow: 1;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255, 42, 109, 0.6), transparent);
+}
+
+/* Events Grid */
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.event-card {
+    background: rgba(18, 18, 32, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 42, 109, 0.2);
+    cursor: pointer;
+}
+
+.event-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(255, 42, 109, 0.5);
+    box-shadow: 0 20px 50px rgba(255, 42, 109, 0.3);
+}
+
+.event-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.event-card:hover img {
+    transform: scale(1.1);
+}
+
+.card-content {
+    padding: 20px;
+}
+
+.card-content .category {
+    font-size: 0.75rem;
+    color: var(--pink);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.card-content h3 {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1.3;
+}
+
+.card-content p {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(255, 42, 109, 0.1);
+}
+
+.card-footer .date {
+    font-size: 0.85rem;
+    color: var(--pink);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.card-footer .location {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 5px;
+}
+
+.book-btn {
+    background: linear-gradient(135deg, var(--pink), #8a2be2);
+    border: none;
+    padding: 10px 24px;
+    border-radius: 25px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.book-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 42, 109, 0.5);
+}
+
+/* Reviews Section with Movie Stars */
+.reviews-section {
+    background: rgba(18, 18, 32, 0.5);
+    padding: 60px 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 42, 109, 0.2);
+    margin-bottom: 60px;
+}
+
+.reviews-section h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 40px;
+    text-align: center;
+    background: linear-gradient(135deg, #fff, var(--pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.review-card {
+    background: rgba(10, 10, 18, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 25px;
+    border: 1px solid rgba(255, 42, 109, 0.2);
+    transition: all 0.3s;
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 42, 109, 0.5);
+    box-shadow: 0 15px 40px rgba(255, 42, 109, 0.2);
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.review-header img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--pink);
+}
+
+.review-header-info h4 {
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: 5px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.review-header-info .star-rating {
+    color: #ffd700;
+    font-size: 1rem;
+    letter-spacing: 2px;
+}
+
+.review-text {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+.review-movie {
+    font-size: 0.85rem;
+    color: var(--pink);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Footer */
+.footer {
+  position: relative;
+  padding: 90px 40px 50px;
+  background: linear-gradient(180deg, #000000 0%, #0a0a0f 30%, #0b0b0f 60%, #000000 100%);
+  color: white;
+  overflow: hidden;
+  border-top: 2px solid rgba(255, 42, 109, 0.3);
+  margin-top: 100px;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #ff2a6d 20%, #8a2be2 50%, #ff2a6d 80%, transparent);
+  box-shadow: 0 0 20px rgba(255, 42, 109, 0.5);
+}
+
+.footer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(255, 42, 109, 0.03) 0%, transparent 50%),
+              radial-gradient(circle at 80% 80%, rgba(138, 43, 226, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.footer-content {
+  position: relative;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 50px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-section h3 {
+  color: #ff2a6d;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  background: linear-gradient(135deg, #ff2a6d, #8a2be2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.footer-section h4 {
+  color: #ff2a6d;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.footer-section h4::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, #ff2a6d, transparent);
+}
+
+.footer-section p {
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  margin-top: 10px;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin: 10px 0;
+}
+
+.footer-section ul li a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  padding-left: 0;
+}
+
+.footer-section ul li a::before {
+  content: '→';
+  position: absolute;
+  left: -20px;
+  opacity: 0;
+  color: #ff2a6d;
+  transition: all 0.3s ease;
+  transform: translateX(-5px);
+}
+
+.footer-section ul li a::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #ff2a6d, #8a2be2);
+  transition: width 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+  color: #ff2a6d;
+  transform: translateX(8px);
+  padding-left: 20px;
+}
+
+.footer-section ul li a:hover::before {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.footer-section ul li a:hover::after {
+  width: 100%;
+}
+
+.footer-section .social-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.footer-section .social-icons li {
+  position: relative;
+  margin: 0;
+}
+
+.footer-section .social-icons li a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 42, 109, 0.3);
+  font-size: 1.8rem;
+  padding: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: visible;
+}
+
+.footer-section .social-icons li a::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 42, 109, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.footer-section .social-icons li a::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: -52px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-5px);
+  background: rgba(0, 0, 0, 0.98);
+  color: white;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 1000;
+  border: 1px solid rgba(255, 42, 109, 0.5);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  min-width: max-content;
+  letter-spacing: 0.3px;
+  text-align: center;
+}
+
+.footer-section .social-icons li a:hover {
+  background: rgba(255, 42, 109, 0.15);
+  border-color: #ff2a6d;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(255, 42, 109, 0.4);
+  padding-left: 0;
+}
+
+.footer-section .social-icons li a:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.footer-section .social-icons li a:hover::before {
+  width: 90px;
+  height: 90px;
+}
+
+.footer-section .social-icons li:nth-child(1) a:hover {
+  border-color: #FF0000;
+  box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4);
+}
+
+.footer-section .social-icons li:nth-child(2) a:hover {
+  border-color: #E4405F;
+  box-shadow: 0 8px 20px rgba(228, 64, 95, 0.4);
+}
+
+.footer-section .social-icons li:nth-child(3) a:hover {
+  border-color: #000000;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.footer-section .social-icons li:nth-child(3) a:hover {
+  border-color: #1877F2;
+  box-shadow: 0 8px 20px rgba(24, 119, 242, 0.4);
+}
+
+.footer-section .social-icons li:nth-child(4) a:hover {
+  border-color: #5865F2;
+  box-shadow: 0 8px 20px rgba(88, 101, 242, 0.4);
+}
+
+.footer-bottom {
+  text-align: center;
+  opacity: 0.7;
+  margin-top: 60px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 5;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    nav {
+        padding: 12px 20px;
+    }
+    
+    nav .hamburger {
+        display: block;
+    }
+    
+    nav .nav-center {
+        display: none;
+    }
+    
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    .container {
+        padding: 0 20px 40px;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+        margin-top: 40px;
+    }
+    
+    .events-grid, .reviews-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .footer {
+      padding: 60px 20px 40px;
+    }
+    
+    .footer-content {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        height: 300px;
+    }
+    
+    .hero-content h1 {
+        font-size: 1.5rem;
+    }
+    
+    .section-title {
+        font-size: 1.3rem;
+    }
+    
+    .footer-content {
+      grid-template-columns: 1fr;
+      gap: 25px;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+    <div class="hamburger">☰</div>
+    <a href="index.html" class="logo">
+        <span>SCR</span><span class="logo-square"></span><span>N</span>
+    </a>
+    <div class="nav-center">
+        <a href="index.html">Home</a>
+        <a href="movie (1).html">Movies</a>
+        <a href="imax.html">IMAX</a>
+        <a href="watch.html">Trailers</a>
+        <a href="events.html">Events</a>
+    </div>
+    <div class="nav-right">
+        <a href="#">𝕏</a>
+        <a href="#">f</a>
+        <a href="#">🅾</a>
+        <a href="#">▶</a>
+        <a href="#">🔍</a>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="hero">
+    <div class="hero-content">
+        <h1>EVENTS & MERCHANDISE</h1>
+        <p>Discover exclusive screenings, concerts, and limited edition merchandise</p>
+    </div>
+</div>
+
+<!-- Container -->
+<div class="container">
+    <!-- Events Section -->
+    <div class="section-title">
+        <span>UPCOMING EVENTS</span>
+        <div class="line"></div>
+    </div>
+
+    <div class="events-grid">
+        <div class="event-card">
+            <img src="images/dune.jpg" alt="Dune Special Screening">
+            <div class="card-content">
+                <span class="category">Special Screening</span>
+                <h3>Dune: Part Two - IMAX Experience</h3>
+                <p>Join us for an exclusive IMAX screening of Dune: Part Two with special Q&A session.</p>
+            </div>
+            <div class="card-footer">
+                <div>
+                    <div class="date">March 15, 2025</div>
+                    <div class="location">📍 Grand Cinema</div>
+                </div>
+                <button class="book-btn">Book Now</button>
+            </div>
+        </div>
+
+        <div class="event-card">
+            <img src="images/batman.png" alt="Comic Con">
+            <div class="card-content">
+                <span class="category">Convention</span>
+                <h3>Comic Con 2025</h3>
+                <p>The biggest pop culture convention featuring exclusive panels, celebrity meet & greets.</p>
+            </div>
+            <div class="card-footer">
+                <div>
+                    <div class="date">July 18-21, 2025</div>
+                    <div class="location">📍 San Diego Convention Center</div>
+                </div>
+                <button class="book-btn">Book Now</button>
+            </div>
+        </div>
+
+        <div class="event-card">
+            <img src="images/interstellar.jpg" alt="Film Festival">
+            <div class="card-content">
+                <span class="category">Film Festival</span>
+                <h3>Sci-Fi Film Festival</h3>
+                <p>Experience the best in science fiction cinema with premieres and director panels.</p>
+            </div>
+            <div class="card-footer">
+                <div>
+                    <div class="date">June 20-23, 2025</div>
+                    <div class="location">📍 Festival Hall</div>
+                </div>
+                <button class="book-btn">Book Now</button>
+            </div>
+        </div>
+
+        <div class="event-card">
+            <img src="images/jjk.jpg" alt="Anime Expo">
+            <div class="card-content">
+                <span class="category">Anime Event</span>
+                <h3>Anime Expo 2025</h3>
+                <p>Celebrate Japanese animation with exclusive premieres, cosplay, and artist alley.</p>
+            </div>
+            <div class="card-footer">
+                <div>
+                    <div class="date">July 4-7, 2025</div>
+                    <div class="location">📍 LA Convention Center</div>
+                </div>
+                <button class="book-btn">Book Now</button>
+            </div>
+        </div>
+
+        <div class="event-card">
+            <img src="images/Spirited Away.jpg" alt="Ghibli Festival">
+            <div class="card-content">
+                <span class="category">Festival</span>
+                <h3>Studio Ghibli Festival</h3>
+                <p>Immersive experience celebrating the magic of Studio Ghibli films and music.</p>
+            </div>
+            <div class="card-footer">
+                <div>
+                    <div class="date">August 15-18, 2025</div>
+                    <div class="location">📍 Cultural Center</div>
+                </div>
+                <button class="book-btn">Book Now</button>
+            </div>
+        </div>
+
+        <div class="event-card">
+            <img src="images/squid.jpg" alt="K-Drama Con">
+            <div class="card-content">
+                <span class="category">Convention</span>
+                <h3>K-Drama Convention</h3>
+                <p>Meet your favorite actors, watch exclusive previews, and shop official merchandise.</p>
+            </div>
+            <div class="card-footer">
+                <div>
+                    <div class="date">September 5-8, 2025</div>
+                    <div class="location">📍 Event Center</div>
+                </div>
+                <button class="book-btn">Book Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="reviews-section">
+        <h2>MOVIE STAR REVIEWS</h2>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="images/batman.png" alt="Christopher Nolan">
+                    <div class="review-header-info">
+                        <h4>Christopher Nolan</h4>
+                        <div class="star-rating">★★★★★</div>
+                    </div>
+                </div>
+                <div class="review-text">
+                    "An absolutely mesmerizing cinematic experience that pushes the boundaries of storytelling. The visual spectacle combined with deep narrative layers creates an unforgettable journey."
+                </div>
+                <div class="review-movie">Reviewing: Interstellar</div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="images/dune.jpg" alt="Denis Villeneuve">
+                    <div class="review-header-info">
+                        <h4>Denis Villeneuve</h4>
+                        <div class="star-rating">★★★★★</div>
+                    </div>
+                </div>
+                <div class="review-text">
+                    "This film represents everything I love about cinema. The attention to detail, world-building, and character development is simply outstanding. A true masterpiece."
+                </div>
+                <div class="review-movie">Reviewing: Dune: Part Two</div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="images/Spirited Away.jpg" alt="Hayao Miyazaki">
+                    <div class="review-header-info">
+                        <h4>Hayao Miyazaki</h4>
+                        <div class="star-rating">★★★★★</div>
+                    </div>
+                </div>
+                <div class="review-text">
+                    "The animation and storytelling in this work is extraordinary. It captures the essence of wonder and imagination that makes cinema such a powerful medium."
+                </div>
+                <div class="review-movie">Reviewing: Spirited Away</div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="images/jjk.jpg" alt="Bong Joon-ho">
+                    <div class="review-header-info">
+                        <h4>Bong Joon-ho</h4>
+                        <div class="star-rating">★★★★★</div>
+                    </div>
+                </div>
+                <div class="review-text">
+                    "An incredible blend of genres that keeps you on the edge of your seat. The direction and cinematography are flawless, creating an immersive experience."
+                </div>
+                <div class="review-movie">Reviewing: Parasite</div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="images/interstellar.jpg" alt="Quentin Tarantino">
+                    <div class="review-header-info">
+                        <h4>Quentin Tarantino</h4>
+                        <div class="star-rating">★★★★★</div>
+                    </div>
+                </div>
+                <div class="review-text">
+                    "Pure cinematic excellence. Every frame is crafted with precision, every dialogue is sharp and memorable. This is what great filmmaking looks like."
+                </div>
+                <div class="review-movie">Reviewing: Pulp Fiction</div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="images/squid.jpg" alt="Guillermo del Toro">
+                    <div class="review-header-info">
+                        <h4>Guillermo del Toro</h4>
+                        <div class="star-rating">★★★★★</div>
+                    </div>
+                </div>
+                <div class="review-text">
+                    "A visually stunning masterpiece that blends fantasy and reality seamlessly. The artistry and attention to detail are beyond compare. Truly inspiring work."
+                </div>
+                <div class="review-movie">Reviewing: Pan's Labyrinth</div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="images/dune.jpg" alt="Martin Scorsese">
+                    <div class="review-header-info">
+                        <h4>Martin Scorsese</h4>
+                        <div class="star-rating">★★★★★</div>
+                    </div>
+                </div>
+                <div class="review-text">
+                    "A masterful piece of cinema that demonstrates the power of visual storytelling. The depth and complexity of the narrative is extraordinary."
+                </div>
+                <div class="review-movie">Reviewing: The Departed</div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="images/batman.png" alt="Wes Anderson">
+                    <div class="review-header-info">
+                        <h4>Wes Anderson</h4>
+                        <div class="star-rating">★★★★★</div>
+                    </div>
+                </div>
+                <div class="review-text">
+                    "The attention to visual composition and unique storytelling style makes this film a true work of art. Every detail is meticulously crafted."
+                </div>
+                <div class="review-movie">Reviewing: The Grand Budapest Hotel</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer" id="footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>MovieDen</h3>
+      <p>Your go-to anime & movie streaming platform.</p>
+    </div>
+
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="movie (1).html">Movies</a></li>
+        <li><a href="imax.html">IMAX</a></li>
+        <li><a href="watch.html">Trailers</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="series.html">About Us</a></li>
+        <li><a href="contact (1) (1).html">Contact Us</a></li>
+        <li><a href="privacy (1).html">Privacy Policy</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h4>Follow Us</h4>
+      <ul class="social-icons">
+        <li><a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube" data-tooltip="YouTube"><i class="fab fa-youtube"></i></a></li>
+        <li><a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram" data-tooltip="Instagram"><i class="fab fa-instagram"></i></a></li>
+        <li><a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook" data-tooltip="Facebook"><i class="fab fa-facebook"></i></a></li>
+        <li><a href="https://discord.com" target="_blank" rel="noopener" aria-label="Discord" data-tooltip="Discord"><i class="fab fa-discord"></i></a></li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="footer-bottom">© 2025 MovieDen — All rights reserved.</p>
+</footer>
+
+<script>
+// Mobile menu toggle
+const hamburger = document.querySelector('.hamburger');
+const navCenter = document.querySelector('.nav-center');
+
+if (hamburger) {
+    hamburger.addEventListener('click', () => {
+        if (navCenter.style.display === 'flex') {
+            navCenter.style.display = 'none';
+        } else {
+            navCenter.style.display = 'flex';
+            navCenter.style.flexDirection = 'column';
+            navCenter.style.position = 'absolute';
+            navCenter.style.top = '60px';
+            navCenter.style.left = '0';
+            navCenter.style.right = '0';
+            navCenter.style.background = 'rgba(10, 10, 18, 0.98)';
+            navCenter.style.padding = '20px';
+            navCenter.style.gap = '15px';
+            navCenter.style.borderBottom = '1px solid rgba(255, 42, 109, 0.2)';
+        }
+    });
+}
+</script>
+
+</body>
+</html>
+

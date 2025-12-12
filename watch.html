@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Watch Trailer - MovieDen</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: soft;
+    src: url(LeagueSpartan-Bold.otf);
+}
+
+body {
+    background: #000;
+    overflow: hidden;
+    font-family: 'soft', Arial, sans-serif;
+}
+
+/* FULLSCREEN VIDEO */
+.video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: -1;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.video-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.4) 0%,
+        transparent 25%,
+        transparent 75%,
+        rgba(0, 0, 0, 0.5) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+}
+
+iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
+    min-width: 100%;
+    min-height: 100%;
+    border: none;
+    object-fit: cover;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 1920px) {
+    iframe {
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+    }
+}
+
+@media (min-width: 2560px) {
+    iframe {
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+    }
+}
+
+/* CONTENT OVERLAY */
+.content {
+    position: fixed;
+    z-index: 100;
+    bottom: 3vh;
+    left: 3vw;
+    color: white;
+    width: clamp(280px, 40%, 550px);
+    padding: clamp(20px, 2.5vw, 30px);
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(25px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 42, 109, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.title {
+    font-size: clamp(1.8rem, 4vw, 3.5rem);
+    font-weight: 900;
+    margin-bottom: clamp(15px, 2vw, 30px);
+    opacity: 1;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(135deg, #ffffff 0%, #ff2a6d 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+    text-shadow: 0 0 30px rgba(255, 42, 109, 0.3);
+    word-wrap: break-word;
+}
+
+.title.fade-out {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+/* BUTTONS */
+.controls {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+button {
+    padding: clamp(10px, 1.2vw, 14px) clamp(18px, 2.5vw, 28px);
+    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    font-weight: 600;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, #ff2a6d, #ff5a8d);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(255, 42, 109, 0.4);
+    font-family: 'soft', Arial, sans-serif;
+    white-space: nowrap;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 42, 109, 0.6);
+    background: linear-gradient(135deg, #ff5a8d, #ff2a6d);
+}
+
+button:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+button:active {
+    transform: translateY(-1px) scale(1.02);
+}
+
+/* Trailer counter */
+.trailer-info {
+    margin-top: clamp(15px, 2vw, 20px);
+    font-size: clamp(0.75rem, 1.1vw, 0.9rem);
+    color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.trailer-count {
+    background: rgba(255, 42, 109, 0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 42, 109, 0.3);
+}
+
+/* Keyboard shortcuts hint */
+.keyboard-hint {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 15px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 42, 109, 0.3);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.keyboard-hint .key {
+    display: inline-block;
+    background: rgba(255, 42, 109, 0.2);
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 42, 109, 0.4);
+    font-family: monospace;
+    margin: 0 4px;
+}
+
+/* Loading animation */
+.loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 200;
+    color: white;
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 42, 109, 0.3);
+    border-top-color: #ff2a6d;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ==========================
+   MOBILE / SMALL SCREENS
+   ========================== */
+@media (max-width: 1200px) {
+    .content {
+        width: clamp(280px, 45%, 500px);
+        left: 2vw;
+        bottom: 2.5vh;
+    }
+}
+
+@media (max-width: 900px) {
+    .content {
+        left: 2vw;
+        width: clamp(280px, 50%, 90%);
+        bottom: 2vh;
+        padding: clamp(18px, 3vw, 25px);
+    }
+    
+    .keyboard-hint {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .content {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 500px;
+        bottom: 2vh;
+    }
+    
+    .controls {
+        justify-content: center;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 650px) {
+    .content {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 92%;
+        bottom: 2vh;
+        padding: 18px;
+    }
+    
+    .controls {
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .trailer-info {
+        justify-content: center;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .content {
+        width: 95%;
+        padding: 15px;
+        bottom: 1.5vh;
+    }
+    
+    .controls {
+        gap: 8px;
+        flex-direction: column;
+    }
+    
+    button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 360px) {
+    .content {
+        width: 98%;
+        padding: 12px;
+        bottom: 1vh;
+    }
+}
+
+/* Home Button */
+.home-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 200;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #ff2a6d, #ff5a8d);
+    border: 1px solid rgba(255, 42, 109, 0.4);
+    border-radius: 8px;
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(255, 42, 109, 0.4);
+}
+
+.home-btn:hover {
+    background: linear-gradient(135deg, #ff5a8d, #ff2a6d);
+    border-color: #ff2a6d;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 42, 109, 0.6);
+}
+
+@media (max-width: 768px) {
+    .home-btn {
+        top: 15px;
+        right: 15px;
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- Home Button -->
+<a href="index.html" class="home-btn">Home</a>
+
+<!-- Video Container -->
+<div class="video-container">
+    <iframe id="ytPlayer"
+        src=""
+        allow="autoplay; encrypted-media"
+        allowfullscreen>
+    </iframe>
+</div>
+
+<!-- Loading State -->
+<div id="loading" class="loading" style="display: none;">
+    <div class="loader"></div>
+    <div>Loading trailer...</div>
+</div>
+
+<!-- Content Overlay -->
+<div class="content">
+    <div id="trailerTitle" class="title">Loading...</div>
+    <div class="controls">
+        <button onclick="prevTrailer()">◀ Previous</button>
+        <button onclick="nextTrailer()">Next ▶</button>
+    </div>
+    <div class="trailer-info">
+        <span class="trailer-count" id="trailerCount">1 / 9</span>
+        <span>Use arrow keys to navigate</span>
+    </div>
+</div>
+
+<!-- Keyboard Shortcuts Hint -->
+<div class="keyboard-hint">
+    <div><span class="key">←</span> <span class="key">→</span> Navigate</div>
+    <div><span class="key">ESC</span> Return Home</div>
+</div>
+
+<script>
+let current = 0;
+const player = document.getElementById("ytPlayer");
+const title = document.getElementById("trailerTitle");
+const loading = document.getElementById("loading");
+const trailerCount = document.getElementById("trailerCount");
+
+const trailers = [
+  { title: "Jujutsu Kaisen Season 2", url: "https://www.youtube.com/embed/9OhV3IWUsxE?autoplay=1&controls=0&rel=0&modestbranding=1&showinfo=0" },
+  { title: "Kaiju No. 8 Season 2", url: "https://www.youtube.com/embed/SXiSfXiiOxM?autoplay=1&controls=0&rel=0&modestbranding=1&showinfo=0" },
+  { title: "Squid Game S2", url: "https://www.youtube.com/embed/Ed1sGgHUo88?autoplay=1&controls=0&rel=0&modestbranding=1&showinfo=0" },
+  { title: "Your Name", url: "https://www.youtube.com/embed/xU47nhruN-Q?autoplay=1&controls=0&rel=0&modestbranding=1&showinfo=0" },
+  { title: "One Piece", url: "https://www.youtube.com/embed/fA7k-RgS1Vo?autoplay=1&controls=0&rel=0&modestbranding=1&showinfo=0" },
+  { title: "Demon Slayer: Infinity Castle", url: "https://www.youtube.com/embed/x7uLutVRBfI?autoplay=1&controls=0&rel=0&modestbranding=1&showinfo=0" },
+  { title: "Train to Busan", url: "https://www.youtube.com/embed/1ovgxN2VWNc?autoplay=1&controls=0&rel=0&modestbranding=1&showinfo=0" },
+  { title: "Oppenheimer", url: "https://www.youtube.com/embed/uYPbbksJxIg?autoplay=1&controls=0&rel=0&modestbranding=1&showinfo=0" },
+  { title: "Dune", url: "https://www.youtube.com/embed/n9xhJrPXop4?autoplay=1&controls=0&rel=0&modestbranding=1&showinfo=0" },
+  { title: "Interstellar", url: "https://www.youtube.com/embed/zSWdZVtXT7E?autoplay=1&controls=0&rel=0&modestbranding=1&showinfo=0" },
+  { title: "Devil May Cry", url: "https://www.youtube.com/embed/OlEqHXRrcpc?autoplay=1&controls=0&rel=0&modestbranding=1&showinfo=0" },
+  { title: "Arcane S2", url: "https://www.youtube.com/embed/ysqiEC6bLUI?autoplay=1&controls=0&rel=0&modestbranding=1&showinfo=0" },
+  { title: "The Batman", url: "https://www.youtube.com/embed/mqqft2x_Aa4?autoplay=1&controls=0&rel=0&modestbranding=1&showinfo=0" },
+  { title: "Sakamoto Days 2", url: "https://www.youtube.com/embed/9TbmxbckSjE?autoplay=1&controls=0&rel=0&modestbranding=1&showinfo=0"},
+  {title: "Puss in boots the last wish", url: "https://www.youtube.com/embed/RqrXhwS33yc?autoplay=1&controls=0&rel=0&modestbranding=1&showinfo=0"},
+  
+
+  
+];
+
+function updateTrailerCount() {
+    trailerCount.textContent = `${current + 1} / ${trailers.length}`;
+}
+
+function loadTrailer(index) {
+    loading.style.display = 'flex';
+    title.classList.add("fade-out");
+
+    setTimeout(() => {
+        player.src = trailers[index].url;
+        title.innerText = trailers[index].title;
+        title.classList.remove("fade-out");
+        updateTrailerCount();
+        loading.style.display = 'none';
+    }, 600);
+    
+    // Trailers will play fully - no auto-advance
+}
+
+function nextTrailer() {
+    current = (current + 1) % trailers.length;
+    loadTrailer(current);
+}
+
+function prevTrailer() {
+    current = (current - 1 + trailers.length) % trailers.length;
+    loadTrailer(current);
+}
+
+// Keyboard navigation
+document.addEventListener("keydown", function(e) {
+    if(e.key === "Escape") {
+        window.location.href = "index.html";
+    } else if(e.key === "ArrowRight") {
+        nextTrailer();
+    } else if(e.key === "ArrowLeft") {
+        prevTrailer();
+    }
+});
+
+// Start first trailer
+loadTrailer(0);
+
+// Hide loading after page load
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        loading.style.display = 'none';
+    }, 1000);
+});
+</script>
+
+</body>
+</html>

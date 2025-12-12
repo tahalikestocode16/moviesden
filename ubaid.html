@@ -1,0 +1,3343 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login/Signup - Movies Den</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: soft;
+            src: url("LeagueSpartan-Bold.otf");
+        }
+
+        :root {
+            --pink: #ff2a6d;
+            --green: #28a745;
+            --bg: #020212;
+            --text: #ffffff;
+            --card: #0c0c1c;
+            --soft: #111122;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        * {
+            font-family: soft;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 850px;
+            min-height: 550px;
+            max-height: 90vh;
+            height: 90vh;
+            background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.12), rgba(17, 13, 24, 0.95));
+            backdrop-filter: blur(15px);
+            margin: 20px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 42, 109, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 42, 109, 0.4), transparent);
+            border-radius: 30px 30px 0 0;
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        .form-box h1 {
+            font-size: 32px;
+            margin: 0 0 15px 0;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        .form-box p {
+            font-size: 14px;
+            margin: 12px 0;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.4;
+        }
+
+        form {
+            width: 100%;
+        }
+
+        .form-box {
+            position: absolute;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-align: center;
+            padding: 40px;
+            z-index: 1;
+            transition: right 0.6s ease-in-out, visibility 0s 0.6s, opacity 0.6s ease-in-out;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+        
+        .form-box form {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .container.active .form-box {
+            right: 50%;
+        }
+
+        .form-box.register {
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .container.active .form-box.register {
+            visibility: visible;
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .container.active .form-box.login {
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+            transition: right 0.6s ease-in-out, visibility 0s 0.6s, opacity 0.6s ease-in-out;
+        }
+        
+        .container.active .form-box.register {
+            transition: right 0.6s ease-in-out, visibility 0s 0.6s, opacity 0.6s ease-in-out;
+        }
+        
+        .form-box.login:not(.container.active .form-box.login) {
+            transition: right 0.6s ease-in-out, visibility 0s 0.6s, opacity 0.6s ease-in-out;
+        }
+
+        .input-box {
+            position: relative;
+            margin: 18px 0;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 13px 50px 13px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 42, 109, 0.3);
+            outline: none;
+            font-size: 16px;
+            color: #fff;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .input-box input:focus {
+            border-color: rgba(255, 42, 109, 0.7);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px rgba(255, 42, 109, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .input-box input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 400;
+        }
+
+        .input-box i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: var(--pink);
+        }
+
+        .forgot-link {
+            margin: -15px 0 15px;
+        }
+
+        .forgot-link a {
+            font-size: 14.5px;
+            color: var(--pink);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .forgot-link a:hover {
+            text-decoration: underline;
+        }
+
+        .btn {
+            width: 100%;
+            height: 48px;
+            background: linear-gradient(135deg, var(--pink), #ff5a8d);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(255, 42, 109, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 42, 109, 0.4);
+            cursor: pointer;
+            font-size: 16px;
+            color: #fff;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn i {
+            font-size: 0.9rem;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(255, 42, 109, 0.6), 0 0 30px rgba(255, 42, 109, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 42, 109, 0.7);
+        }
+
+        .btn:active {
+            transform: translateY(-1px) scale(1);
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            padding: 10px;
+            border: 2px solid rgba(255, 42, 109, 0.4);
+            border-radius: 8px;
+            font-size: 24px;
+            color: var(--pink);
+            margin: 0 4px;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: rgba(255, 42, 109, 0.1);
+            border-color: var(--pink);
+            transform: translateY(-2px);
+        }
+
+        .toggle-box {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .toggle-box::before {
+            content: "";
+            position: absolute;
+            left: -250%;
+            width: 300%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--pink), #8a2be2);
+            border-radius: 150px;
+            z-index: 2;
+            transition: 1.8s ease-in-out;
+        }
+
+        .container.active .toggle-box::before {
+            left: 50%;
+        }
+
+        .toggle-panel {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+            transition: 0.6s ease-in-out;
+        }
+
+        .toggle-panel.toggle-left {
+            left: 0;
+            transition-delay: 1.2s;
+        }
+
+        .container.active .toggle-panel.toggle-left {
+            left: -50%;
+            transition-delay: 0.6s;
+        }
+
+        .toggle-panel.toggle-right {
+            right: -50%;
+            transition-delay: 0.6s;
+        }
+
+        .container.active .toggle-panel.toggle-right {
+            right: 0;
+            transition-delay: 1.2s;
+        }
+
+        .toggle-panel p {
+            margin-bottom: 20px;
+        }
+
+        .toggle-panel .btn {
+            width: 160px;
+            height: 46px;
+            background: transparent;
+            border: 2px solid #fff;
+            box-shadow: none;
+        }
+
+        .toggle-panel .btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Account Section (shown after login) */
+        .account-section {
+            display: none;
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
+            padding: 0;
+            overflow: hidden;
+            box-sizing: border-box;
+            flex: 1;
+            min-height: 0;
+            flex-direction: row;
+            position: relative;
+            z-index: 10;
+        }
+
+        .account-section.active {
+            display: flex;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Hide forms when account section is active */
+        .container.account-mode .form-box,
+        .container.account-mode .toggle-box {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            z-index: -1 !important;
+        }
+        
+        .container.account-mode .account-section.active {
+            z-index: 10 !important;
+        }
+
+        /* Left Sidebar Menu */
+        .account-sidebar {
+            width: 300px;
+            min-width: 300px;
+            background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.15), rgba(12, 12, 28, 0.98));
+            border-right: 1px solid rgba(255, 42, 109, 0.3);
+            padding: 30px 20px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .account-sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .account-sidebar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .account-sidebar::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--pink), #8a2be2);
+            border-radius: 10px;
+        }
+
+        /* Right Content Area */
+        .account-content {
+            flex: 1;
+            padding: 30px 40px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            background: rgba(2, 2, 18, 0.5);
+        }
+
+        .account-content::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .account-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .account-content::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--pink), #8a2be2);
+            border-radius: 10px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .account-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 42, 109, 0.2);
+        }
+
+        .account-header h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #fff, var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            letter-spacing: 0.03em;
+            position: relative;
+        }
+
+        .account-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--pink), transparent);
+            border-radius: 2px;
+        }
+
+        .profile-picture-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+            z-index: 1;
+        }
+
+        .profile-picture-wrapper:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-picture {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--pink);
+            box-shadow: 0 8px 25px rgba(255, 42, 109, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: block;
+            background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.1), rgba(17, 13, 24, 0.9));
+        }
+
+        .profile-picture:hover {
+            border-color: rgba(255, 42, 109, 0.7);
+            box-shadow: 0 15px 40px rgba(255, 42, 109, 0.5), 0 0 30px rgba(255, 42, 109, 0.3);
+            transform: scale(1.05);
+        }
+
+        .upload-overlay {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--pink), #ff5a8d);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 3px solid var(--bg);
+            box-shadow: 0 4px 15px rgba(255, 42, 109, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            color: white;
+            font-size: 18px;
+        }
+
+        .upload-overlay:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 42, 109, 0.6), 0 0 15px rgba(255, 42, 109, 0.4);
+        }
+
+        .upload-overlay input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Account Menu (Sidebar Navigation) */
+        .account-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .account-menu-item {
+            padding: 15px 20px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: left;
+            width: 100%;
+            position: relative;
+            border-left: 3px solid transparent;
+        }
+
+        .account-menu-item i {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .account-menu-item:hover {
+            color: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 42, 109, 0.15);
+            transform: translateX(5px);
+            border-left-color: rgba(255, 42, 109, 0.5);
+        }
+
+        .account-menu-item.active {
+            color: var(--pink);
+            background: rgba(255, 42, 109, 0.2);
+            border-left-color: var(--pink);
+            box-shadow: 0 2px 10px rgba(255, 42, 109, 0.3);
+        }
+
+        .account-menu-item.active:hover {
+            background: rgba(255, 42, 109, 0.25);
+        }
+
+        .account-menu-item .badge {
+            margin-left: auto;
+            background: var(--pink);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        /* Account Details in Sidebar */
+        .account-details-sidebar {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 42, 109, 0.2);
+        }
+
+        .account-detail-item {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .account-detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .account-detail-label {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .account-detail-value {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+
+        /* Account Tabs */
+        .account-tabs {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid rgba(255, 42, 109, 0.2);
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .account-tab {
+            padding: 12px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.95rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            flex: 1;
+            height: 50px;
+        }
+
+        .account-tab i {
+            font-size: 1.5rem;
+        }
+
+        .account-tab .tab-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--pink);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            min-width: 18px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .account-tab:hover {
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 42, 109, 0.15);
+            transform: translateY(-2px);
+            border-bottom-color: rgba(255, 42, 109, 0.5);
+        }
+
+        .account-tab.active {
+            color: var(--pink);
+            border-bottom-color: var(--pink);
+            background: rgba(255, 42, 109, 0.2);
+            box-shadow: 0 2px 10px rgba(255, 42, 109, 0.3);
+        }
+
+        .account-tab.active:hover {
+            background: rgba(255, 42, 109, 0.25);
+        }
+
+        .account-tab-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .account-tab-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Account Stats */
+        .account-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.12), rgba(17, 13, 24, 0.95));
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 42, 109, 0.3);
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 42, 109, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .stat-card:hover::before {
+            left: 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(255, 42, 109, 0.7);
+            box-shadow: 0 10px 30px rgba(255, 42, 109, 0.4), 0 0 30px rgba(255, 42, 109, 0.3);
+            background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.2), rgba(17, 13, 24, 0.95));
+        }
+
+        .stat-card:active {
+            transform: translateY(-4px) scale(1.01);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--pink);
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .stat-card:hover .stat-value {
+            transform: scale(1.1);
+            text-shadow: 0 0 20px rgba(255, 42, 109, 0.5);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .stat-label i {
+            color: var(--pink);
+            font-size: 0.9rem;
+        }
+
+        .account-info {
+            background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.12), rgba(17, 13, 24, 0.95));
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 42, 109, 0.3);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .account-info:hover {
+            border-color: rgba(255, 42, 109, 0.7);
+            background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.16), rgba(17, 13, 24, 0.95));
+            box-shadow: 0 8px 24px rgba(255, 42, 109, 0.3);
+        }
+
+        .account-info-item {
+            margin-bottom: 15px;
+        }
+
+        .account-info-item label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .account-info-item label i {
+            color: var(--pink);
+            font-size: 0.9rem;
+        }
+
+        .account-info-item input {
+            width: 100%;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 42, 109, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .account-info-item input:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 42, 109, 0.5);
+        }
+
+        .account-info-item input:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 42, 109, 0.7);
+            outline: none;
+            box-shadow: 0 0 15px rgba(255, 42, 109, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .account-info-item.readonly {
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .account-info-item.readonly:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Cart Section */
+        .cart-section {
+            margin-top: 20px;
+        }
+
+        .cart-section h3 {
+            font-size: 1.3rem;
+            color: var(--pink);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: 400px;
+            overflow-y: scroll;
+            scrollbar-width: thin;
+            scrollbar-color: var(--pink) rgba(255, 255, 255, 0.05);
+            padding-right: 5px;
+        }
+
+        .cart-item {
+            background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.12), rgba(17, 13, 24, 0.95));
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid rgba(255, 42, 109, 0.3);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: slideIn 0.5s ease backwards;
+            animation-delay: calc(var(--index, 0) * 0.1s);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .cart-item:hover {
+            border-color: rgba(255, 42, 109, 0.7);
+            background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.16), rgba(17, 13, 24, 0.95));
+            transform: translateX(10px) scale(1.02);
+            box-shadow: 0 8px 24px rgba(255, 42, 109, 0.3);
+        }
+
+        .cart-item-image {
+            transition: transform 0.3s ease;
+        }
+
+        .cart-item:hover .cart-item-image {
+            transform: scale(1.1) rotate(2deg);
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .cart-item-content {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .cart-item-subtitle {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .cart-item-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--pink);
+            margin-top: 8px;
+            background: linear-gradient(135deg, var(--pink), #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cart-item-remove {
+            background: rgba(255, 68, 68, 0.2);
+            border: 1px solid rgba(255, 68, 68, 0.4);
+            color: #ff4444;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
+        .cart-item-remove:hover {
+            background: rgba(255, 68, 68, 0.3);
+            border-color: #ff4444;
+            transform: translateX(-2px);
+        }
+
+        .cart-item-remove i {
+            font-size: 1rem;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .empty-cart-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .wishlist-section {
+            margin-top: 20px;
+        }
+
+        /* Bookings Section */
+        .bookings-section {
+            margin-top: 20px;
+        }
+
+        .bookings-section h3 {
+            font-size: 1.3rem;
+            color: var(--pink);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .bookings-items {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: 400px;
+            overflow-y: scroll;
+            scrollbar-width: thin;
+            scrollbar-color: var(--pink) rgba(255, 255, 255, 0.05);
+            padding-right: 5px;
+        }
+
+        .booking-item {
+            background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.12), rgba(17, 13, 24, 0.95));
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid rgba(255, 42, 109, 0.3);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: slideIn 0.5s ease backwards;
+            animation-delay: calc(var(--index, 0) * 0.1s);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .booking-item:hover {
+            border-color: rgba(255, 42, 109, 0.7);
+            background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.16), rgba(17, 13, 24, 0.95));
+            transform: translateX(10px) scale(1.02);
+            box-shadow: 0 8px 24px rgba(255, 42, 109, 0.3);
+        }
+
+        .booking-item-image {
+            width: 80px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .booking-item:hover .booking-item-image {
+            transform: scale(1.1) rotate(2deg);
+        }
+
+        .booking-item-content {
+            flex: 1;
+        }
+
+        .booking-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .booking-item-title {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .booking-id {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .booking-status {
+            background: var(--green);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .booking-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .booking-detail {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .booking-detail i {
+            color: var(--pink);
+            font-size: 0.9rem;
+        }
+
+        .empty-bookings {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Responsive styles for bookings */
+        @media (max-width: 768px) {
+            .booking-item {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 12px;
+            }
+
+            .booking-item-image {
+                width: 100%;
+                height: 150px;
+                margin-bottom: 10px;
+            }
+
+            .booking-details {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .booking-item-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .booking-item-title {
+                font-size: 1rem;
+            }
+
+            .bookings-section h3 {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .booking-item {
+                padding: 10px;
+                gap: 10px;
+            }
+
+            .booking-item-image {
+                height: 120px;
+            }
+
+            .booking-detail {
+                font-size: 0.85rem;
+            }
+
+            .booking-item-title {
+                font-size: 0.95rem;
+            }
+        }
+        .wishlist-section h3 {
+            font-size: 1.3rem;
+            color: var(--pink);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .wishlist-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            max-height: 400px;
+            overflow-y: scroll;
+            scrollbar-width: thin;
+            scrollbar-color: var(--pink) rgba(255, 255, 255, 0.05);
+            padding-right: 5px;
+        }
+
+        .wishlist-item {
+            background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.12), rgba(17, 13, 24, 0.95));
+            border-radius: 10px;
+            padding: 10px;
+            border: 1px solid rgba(255, 42, 109, 0.3);
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .wishlist-item::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 42, 109, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+        }
+
+        .wishlist-item:hover::before {
+            width: 200px;
+            height: 200px;
+        }
+
+        .wishlist-item:hover {
+            transform: translateY(-10px) scale(1.05);
+            border-color: rgba(255, 42, 109, 0.7);
+            box-shadow: 0 10px 30px rgba(255, 42, 109, 0.4), 0 0 30px rgba(255, 42, 109, 0.3);
+            background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.16), rgba(17, 13, 24, 0.95));
+        }
+
+        .wishlist-item img {
+            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .wishlist-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .wishlist-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .wishlist-item h4 {
+            font-size: 0.9rem;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .wishlist-item p {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .wishlist-item-remove {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255, 68, 68, 0.2);
+            border: 1px solid rgba(255, 68, 68, 0.4);
+            color: #ff4444;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            opacity: 0;
+            transform: scale(0.8);
+            z-index: 10;
+        }
+
+        .wishlist-item:hover .wishlist-item-remove {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .wishlist-item-remove:hover {
+            background: rgba(255, 68, 68, 0.4);
+            border-color: #ff4444;
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        .wishlist-item-remove:active {
+            transform: scale(0.95);
+        }
+
+        .empty-wishlist {
+            text-align: center;
+            padding: 40px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .signout-btn {
+            background: transparent;
+            color: #ff4444;
+            border: 2px solid #ff4444;
+            margin-top: 20px;
+            width: 100%;
+            height: 46px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signout-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 68, 68, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .signout-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .signout-btn:hover {
+            background: rgba(255, 68, 68, 0.15);
+            border-color: #ff6666;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(255, 68, 68, 0.4);
+            color: #ff6666;
+        }
+
+        .signout-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        /* Custom Scrollbar - Always Visible */
+        .account-section {
+            scrollbar-width: thin;
+            scrollbar-color: var(--pink) rgba(255, 255, 255, 0.05);
+        }
+
+        .account-section::-webkit-scrollbar,
+        .cart-items::-webkit-scrollbar,
+        .wishlist-items::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .account-section::-webkit-scrollbar-track,
+        .cart-items::-webkit-scrollbar-track,
+        .wishlist-items::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 2px solid rgba(255, 42, 109, 0.1);
+        }
+
+        .account-section::-webkit-scrollbar-thumb,
+        .cart-items::-webkit-scrollbar-thumb,
+        .wishlist-items::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--pink), #8a2be2);
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .account-section::-webkit-scrollbar-thumb:hover,
+        .cart-items::-webkit-scrollbar-thumb:hover,
+        .wishlist-items::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #8a2be2, var(--pink));
+            box-shadow: 0 0 10px rgba(255, 42, 109, 0.5);
+        }
+
+        .account-section::-webkit-scrollbar-thumb:active,
+        .cart-items::-webkit-scrollbar-thumb:active,
+        .wishlist-items::-webkit-scrollbar-thumb:active {
+            background: var(--pink);
+        }
+
+        /* Force scrollbar to always be visible */
+        .account-section {
+            overflow-y: scroll !important;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* Ensure container allows scrolling */
+        .container {
+            overflow: hidden;
+        }
+        
+        .container .account-section {
+            position: relative;
+            height: 100%;
+            max-height: 100%;
+        }
+
+        /* Section Headers */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .section-header:hover {
+            transform: translateX(5px);
+        }
+
+        .section-header h3 {
+            font-size: 1.3rem;
+            color: var(--pink);
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .section-header:hover h3 {
+            text-shadow: 0 0 15px rgba(255, 42, 109, 0.5);
+        }
+
+        .section-header i {
+            font-size: 1.5rem;
+            color: var(--pink);
+            transition: all 0.3s ease;
+        }
+
+        .section-header:hover i {
+            transform: scale(1.2) rotate(5deg);
+            text-shadow: 0 0 15px rgba(255, 42, 109, 0.5);
+        }
+
+        #toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            min-width: 250px;
+            padding: 15px 20px;
+            background: var(--pink);
+            color: #fff;
+            font-size: 16px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateX(100%);
+            transition: 0.5s ease-in-out;
+            z-index: 9999;
+        }
+
+        #toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        @media screen and (max-width: 650px) {
+            .container {
+                height: calc(100vh - 40px);
+                width: calc(100% - 40px);
+            }
+
+            .form-box {
+                bottom: 0;
+                width: 100%;
+                height: 70%;
+            }
+
+            .container.active .form-box {
+                right: 0;
+                bottom: 30%;
+            }
+
+            .toggle-box::before {
+                left: 0;
+                top: -270%;
+                width: 100%;
+                height: 300%;
+                border-radius: 20vw;
+            }
+
+            .container.active .toggle-box::before {
+                left: 0;
+                top: 70%;
+            }
+
+            .container.active .toggle-panel.toggle-left {
+                left: 0;
+                top: -30%;
+            }
+
+            .toggle-panel {
+                width: 100%;
+                height: 30%;
+            }
+
+            .toggle-panel.toggle-left {
+                top: 0;
+            }
+
+            .toggle-panel.toggle-right {
+                right: 0;
+                bottom: -30%;
+            }
+
+            .container.active .toggle-panel.toggle-right {
+                bottom: 0;
+            }
+        }
+
+        @media screen and (max-width: 400px) {
+            .form-box {
+                padding: 20px;
+            }
+
+            .toggle-panel h1 {
+                font-size: 30px;
+            }
+        }
+
+        /* Account Section Responsive Design */
+        @media screen and (max-width: 768px) {
+            .account-section {
+                flex-direction: column;
+                padding-bottom: 80px; /* Space for bottom navbar */
+                height: auto;
+                max-height: none;
+            }
+            
+            .account-sidebar {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                width: 100%;
+                min-width: 100%;
+                max-height: none;
+                height: 70px;
+                padding: 0;
+                border-right: none;
+                border-top: 1px solid rgba(255, 42, 109, 0.3);
+                border-bottom: none;
+                background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.2), rgba(12, 12, 28, 0.98));
+                box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.5);
+                z-index: 1000;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                overflow-x: auto;
+                overflow-y: hidden;
+            }
+            
+            .account-sidebar::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .account-header {
+                display: none; /* Hide header in sidebar on mobile */
+            }
+            
+            .account-menu {
+                display: flex;
+                flex-direction: row;
+                gap: 5px;
+                margin-top: 0;
+                width: 100%;
+                justify-content: space-around;
+                padding: 0 10px;
+                align-items: center;
+            }
+            
+            .account-menu-item {
+                padding: 10px;
+                width: auto;
+                min-width: 50px;
+                height: 50px;
+                flex: 1;
+                max-width: 80px;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+                border-radius: 10px 10px 0 0;
+                flex-direction: column;
+                gap: 4px;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .account-menu-item span:not(.badge) {
+                display: none; /* Hide text labels on mobile */
+            }
+            
+            .account-menu-item i {
+                font-size: 1.3rem;
+                margin: 0;
+            }
+            
+            .account-menu-item .badge {
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                margin-left: 0;
+                padding: 2px 5px;
+                font-size: 0.6rem;
+            }
+            
+            .account-menu-item:hover {
+                transform: translateY(-3px);
+                border-left-color: transparent;
+                border-bottom-color: rgba(255, 42, 109, 0.5);
+            }
+            
+            .account-menu-item.active {
+                border-left-color: transparent;
+                border-bottom-color: var(--pink);
+            }
+            
+            .signout-btn {
+                display: none; /* Hide signout button in mobile navbar */
+            }
+            
+            .account-content {
+                padding: 20px 15px;
+                width: 100%;
+                margin-bottom: 70px; /* Space for bottom navbar */
+            }
+            
+            .account-content .account-header {
+                display: block; /* Show header in content area */
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+            }
+            
+            .account-content .account-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .profile-picture {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .account-tabs {
+                gap: 5px;
+                margin-bottom: 20px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+            
+            .account-tabs::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .account-tab {
+                padding: 10px;
+                min-width: 50px;
+                height: 45px;
+                font-size: 0.85rem;
+            }
+            
+            .account-tab i {
+                font-size: 1.3rem;
+            }
+            
+            .account-tab .tab-badge {
+                font-size: 0.6rem;
+                padding: 1px 5px;
+            }
+            
+            .account-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+            
+            .stat-card {
+                padding: 15px;
+            }
+            
+            .stat-value {
+                font-size: 1.5rem;
+            }
+            
+            .stat-label {
+                font-size: 0.75rem;
+            }
+            
+            .cart-item {
+                padding: 12px;
+                gap: 10px;
+            }
+            
+            .cart-item-image {
+                width: 60px;
+                height: 80px;
+            }
+            
+            .cart-item-title {
+                font-size: 0.9rem;
+            }
+            
+            .cart-item-subtitle {
+                font-size: 0.75rem;
+            }
+            
+            .cart-item-price {
+                font-size: 1rem;
+            }
+            
+            .cart-item-remove {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+            
+            .wishlist-items {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .wishlist-item {
+                padding: 10px;
+            }
+            
+            .wishlist-item-image {
+                width: 100%;
+                height: 200px;
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .account-content {
+                padding: 15px 10px;
+            }
+            
+            .account-content .account-header h1 {
+                font-size: 1.3rem;
+            }
+            
+            .profile-picture {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .account-tabs {
+                gap: 3px;
+            }
+            
+            .account-tab {
+                padding: 8px;
+                min-width: 45px;
+                height: 40px;
+            }
+            
+            .account-tab i {
+                font-size: 1.2rem;
+            }
+            
+            .account-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .wishlist-items {
+                grid-template-columns: 1fr;
+            }
+            
+            .account-menu-item {
+                min-width: 45px;
+                max-width: 70px;
+                padding: 8px;
+                height: 50px;
+            }
+            
+            .account-menu-item i {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Close Button */
+        .close-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 42, 109, 0.2);
+            border: 1px solid rgba(255, 42, 109, 0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10000;
+            transition: all 0.3s;
+            color: white;
+            font-size: 24px;
+            text-decoration: none;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 42, 109, 0.4);
+            border-color: var(--pink);
+            transform: scale(1.1);
+        }
+
+        .close-btn i {
+            font-size: 24px;
+        }
+
+        .home-link {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: #ff2a6d;
+            border: 2px solid #ff2a6d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10000;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: white;
+            font-size: 24px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(255, 42, 109, 0.4);
+        }
+
+        .home-link:hover {
+            background: #ff4a7d;
+            border-color: #ff4a7d;
+            transform: scale(1.15) rotate(360deg);
+            box-shadow: 0 6px 25px rgba(255, 42, 109, 0.6);
+        }
+
+        .home-link:active {
+            background: #ff1a5d;
+            transform: scale(1.05) rotate(360deg);
+        }
+    </style>
+  </head>
+  <body>
+    <a href="index.html" class="home-link" title="Go to Home">
+        <i class="bx bx-home"></i>
+    </a>
+    <a href="index.html" class="close-btn" title="Close">
+        <i class="bx bx-x"></i>
+    </a>
+    <div class="container" id="mainContainer">
+      <!-- Login Form -->
+      <div class="form-box login">
+        <form action="#" id="loginForm">
+          <h1>Login</h1>
+          <div class="input-box">
+            <input type="text" id="loginUsername" placeholder="Username" required />
+            <i class="bx bxs-user"></i>
+          </div>
+          <div class="input-box">
+            <input type="password" id="loginPassword" placeholder="Password" required />
+            <i class="bx bxs-lock-alt"></i>
+          </div>
+          <div class="forgot-link">
+            <a href="#"><i class="fas fa-question-circle"></i> Forgot Password?</a>
+          </div>
+          <button type="submit" class="btn"><i class="fas fa-sign-in-alt"></i> Login</button>
+          <p>or login with social platforms</p>
+          <div class="social-icons">
+            <a href="#"><i class="bx bxl-google"></i></a>
+            <a href="#"><i class="bx bxl-facebook"></i></a>
+            <a href="#"><i class="bx bxl-github"></i></a>
+            <a href="#"><i class="bx bxl-linkedin"></i></a>
+          </div>
+        </form>
+      </div>
+
+      <!-- Register Form -->
+      <div class="form-box register">
+        <form action="#" id="registerForm">
+          <h1>Registration</h1>
+          <div class="input-box">
+            <input type="text" id="registerUsername" placeholder="Username" required />
+            <i class="bx bxs-user"></i>
+          </div>
+          <div class="input-box">
+            <input type="email" id="registerEmail" placeholder="Email" required />
+            <i class="bx bxs-envelope"></i>
+          </div>
+          <div class="input-box">
+            <input type="password" id="registerPassword" placeholder="Password" required />
+            <i class="bx bxs-lock-alt"></i>
+          </div>
+          <button type="submit" class="btn"><i class="fas fa-user-plus"></i> Register</button>
+          <p>or register with social platforms</p>
+          <div class="social-icons">
+            <a href="#"><i class="bx bxl-google"></i></a>
+            <a href="#"><i class="bx bxl-facebook"></i></a>
+            <a href="#"><i class="bx bxl-github"></i></a>
+            <a href="#"><i class="bx bxl-linkedin"></i></a>
+          </div>
+        </form>
+      </div>
+
+      <!-- Account Section (shown after login) -->
+      <div class="account-section" id="accountSection">
+        <!-- Left Sidebar Menu -->
+        <div class="account-sidebar">
+
+          <!-- Account Menu Navigation -->
+          <div class="account-menu">
+            <button class="account-menu-item active" onclick="switchTab('overview', event)">
+              <i class="bx bx-home"></i>
+              <span>Overview</span>
+            </button>
+            <button class="account-menu-item" onclick="switchTab('cart', event)">
+              <i class="bx bx-cart"></i>
+              <span>My Cart</span>
+              <span class="badge" id="menuCartCount">0</span>
+            </button>
+            <button class="account-menu-item" onclick="switchTab('wishlist', event)">
+              <i class="bx bx-heart"></i>
+              <span>Wishlist</span>
+              <span class="badge" id="menuWishlistCount">0</span>
+            </button>
+            <button class="account-menu-item" onclick="switchTab('profile', event)">
+              <i class="bx bx-user"></i>
+              <span>Profile Settings</span>
+            </button>
+            <button class="account-menu-item" onclick="switchTab('settings', event)">
+              <i class="bx bx-cog"></i>
+              <span>Account Settings</span>
+            </button>
+            <!-- Added My Bookings menu item -->
+            <button class="account-menu-item" onclick="switchTab('bookings', event)">
+              <i class="bx bx-calendar-check"></i>
+              <span>My Bookings</span>
+              <span class="badge" id="menuBookingsCount">0</span>
+            </button>
+          </div>        </div>
+
+        <!-- Right Content Area -->
+        <div class="account-content">
+          <!-- Account Header (moved to content area) -->
+          <div class="account-header" style="text-align: center; margin-bottom: 30px; padding-bottom: 25px; border-bottom: 1px solid rgba(255, 42, 109, 0.2);">
+            <div class="profile-picture-wrapper">
+              <img id="profilePicture" src="images/tvicon.png" alt="Profile" class="profile-picture">
+              <div class="upload-overlay">
+                <input type="file" id="profileUpload" accept="image/*" onchange="handleProfileUpload(event)">
+                <i class="fas fa-camera" style="color: white; font-size: 18px;"></i>
+              </div>
+            </div>
+            <h1 id="accountName" style="font-size: 2rem; margin: 15px 0 10px 0;">User Name</h1>
+            <p id="accountEmail" style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.7);">user@example.com</p>
+          </div>
+
+          <!-- Account Tabs -->
+          <div class="account-tabs">
+            <button class="account-tab active" onclick="switchTab('overview', event)" title="Overview">
+              <i class="bx bx-home"></i>
+            </button>
+            <button class="account-tab" onclick="switchTab('cart', event)" title="Cart">
+              <i class="bx bx-cart"></i>
+              <span class="tab-badge" id="cartTabCount">0</span>
+            </button>
+            <button class="account-tab" onclick="switchTab('wishlist', event)" title="Wishlist">
+              <i class="bx bx-heart"></i>
+              <span class="tab-badge" id="wishlistTabCount">0</span>
+            </button>
+            <button class="account-tab" onclick="switchTab('profile', event)" title="Profile">
+              <i class="bx bx-user"></i>
+            </button>
+            <button class="account-tab" onclick="switchTab('settings', event)" title="Settings">
+              <i class="bx bx-cog"></i>
+            </button>
+            <!-- Added Bookings tab -->
+            <button class="account-tab" onclick="switchTab('bookings', event)" title="Bookings">
+              <i class="bx bx-calendar-check"></i>
+              <span class="tab-badge" id="bookingsTabCount">0</span>
+            </button>
+          </div>          <!-- Overview Tab -->
+          <div id="overviewTab" class="account-tab-content active">
+            <div class="account-stats">
+              <div class="stat-card">
+                <div class="stat-value" id="statCartItems">0</div>
+                <div class="stat-label"><i class="fas fa-shopping-cart"></i> Cart Items</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" id="statWishlistItems">0</div>
+                <div class="stat-label"><i class="fas fa-heart"></i> Wishlist Items</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" id="statTotalOrders">0</div>
+                <div class="stat-label"><i class="fas fa-receipt"></i> Total Orders</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" id="statMemberDays">0</div>
+                <div class="stat-label"><i class="fas fa-calendar-day"></i> Member Days</div>
+              </div>
+            </div>
+
+            <div class="account-info">
+              <div class="section-header">
+                <i class="bx bx-user"></i>
+                <h3>Account Information</h3>
+              </div>
+              <div class="account-info-item">
+                <label><i class="fas fa-user"></i> Username</label>
+                <div class="account-info-item readonly" id="displayUsername">-</div>
+              </div>
+              <div class="account-info-item">
+                <label><i class="fas fa-id-card"></i> Display Name</label>
+                <input type="text" id="displayName" placeholder="Enter your name">
+              </div>
+              <div class="account-info-item">
+                <label><i class="fas fa-envelope"></i> Email</label>
+                <input type="email" id="userEmail" placeholder="Enter your email">
+              </div>
+              <div class="account-info-item">
+                <label><i class="fas fa-calendar-alt"></i> Member Since</label>
+                <div class="account-info-item readonly" id="displayJoinDate">-</div>
+              </div>
+              <button type="button" class="btn" onclick="updateProfile()" style="margin-top: 15px;"><i class="fas fa-save"></i> Update Profile</button>
+            </div>
+          </div>
+
+          <!-- Cart Tab -->
+          <div id="cartTab" class="account-tab-content">
+            <div class="cart-section">
+              <div class="section-header">
+                <i class="bx bx-cart"></i>
+                <h3>My Shopping Cart</h3>
+              </div>
+              <div class="cart-items" id="cartItems">
+                <div class="empty-cart">
+                  <div class="empty-cart-icon"><i class="fas fa-shopping-cart" style="font-size: 4rem; color: rgba(255, 42, 109, 0.5);"></i></div>
+                  <p>Your cart is empty</p>
+                  <p style="font-size: 0.85rem; margin-top: 10px;">Start adding movies to your cart!</p>
+                </div>
+              </div>
+              <button type="button" class="btn" onclick="checkoutCart()" style="margin-top: 20px; width: 100%;"><i class="fas fa-shopping-cart"></i> Checkout Cart</button>
+            </div>
+          </div>          <!-- Wishlist Tab -->
+          <div id="wishlistTab" class="account-tab-content">
+            <div class="wishlist-section">
+              <div class="section-header">
+                <i class="bx bx-heart"></i>
+                <h3>My Wishlist</h3>
+              </div>
+              <div class="wishlist-items" id="wishlistItems">
+                <div class="empty-wishlist">
+                  <div style="font-size: 3rem; margin-bottom: 15px; color: rgba(255, 42, 109, 0.5);"><i class="fas fa-heart"></i></div>
+                  <p>Your wishlist is empty</p>
+                  <p style="font-size: 0.85rem; margin-top: 10px;">Add movies to your wishlist to save them for later!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Profile Tab -->
+          <div id="profileTab" class="account-tab-content">
+            <div class="account-info">
+              <div class="section-header">
+                <i class="bx bx-user"></i>
+                <h3>Profile Settings</h3>
+              </div>
+              <div class="account-info-item">
+                <label><i class="fas fa-user"></i> Username</label>
+                <div class="account-info-item readonly" id="displayUsername">-</div>
+              </div>
+              <div class="account-info-item">
+                <label><i class="fas fa-id-card"></i> Display Name</label>
+                <input type="text" id="displayName" placeholder="Enter your name">
+              </div>
+              <div class="account-info-item">
+                <label><i class="fas fa-envelope"></i> Email</label>
+                <input type="email" id="userEmail" placeholder="Enter your email">
+              </div>
+              <div class="account-info-item">
+                <label><i class="fas fa-calendar-alt"></i> Member Since</label>
+                <div class="account-info-item readonly" id="displayJoinDate">-</div>
+              </div>
+              <button type="button" class="btn" onclick="updateProfile()" style="margin-top: 15px;"><i class="fas fa-save"></i> Update Profile</button>
+            </div>
+          </div>
+
+          <!-- Settings Tab -->
+          <div id="settingsTab" class="account-tab-content">
+            <div class="account-info">
+              <div class="section-header">
+                <i class="bx bx-cog"></i>
+                <h3>Account Settings</h3>
+              </div>
+            <div class="account-info-item">
+              <label><i class="fas fa-key"></i> Change Password</label>
+              <input type="password" id="currentPassword" placeholder="Current Password">
+              <input type="password" id="newPassword" placeholder="New Password" style="margin-top: 10px;">
+              <input type="password" id="confirmPassword" placeholder="Confirm New Password" style="margin-top: 10px;">
+              <button type="button" class="btn" onclick="changePassword()" style="margin-top: 15px; width: auto; padding: 0 30px;"><i class="fas fa-lock"></i> Change Password</button>
+            </div>
+            <div class="account-info-item" style="margin-top: 30px;">
+              <label><i class="fas fa-cog"></i> Account Actions</label>
+              <button type="button" class="btn signout-btn" onclick="handleSignOut()" style="margin-top: 10px;"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Added Bookings Tab -->
+        <div id="bookingsTab" class="account-tab-content">
+          <div class="bookings-section">
+            <div class="section-header">
+              <i class="bx bx-calendar-check"></i>
+              <h3>My Bookings</h3>
+            </div>
+            <div class="bookings-items" id="bookingsItems">
+              <div class="empty-bookings">
+                <div style="font-size: 3rem; margin-bottom: 15px; color: rgba(255, 42, 109, 0.5);"><i class="fas fa-ticket-alt"></i></div>
+                <p>No bookings yet</p>
+                <p style="font-size: 0.85rem; margin-top: 10px;">Your booked tickets will appear here after checkout!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>      <!-- Toggle Panels -->
+      <div class="toggle-box">
+        <div class="toggle-panel toggle-left">
+          <h1>Hello, Welcome!</h1>
+          <p>Don't have an account?</p>
+          <button class="btn register-btn">Register</button>
+        </div>
+
+        <div class="toggle-panel toggle-right">
+          <h1>Welcome Back!</h1>
+          <p>Already have an account?</p>
+          <button class="btn login-btn">Login</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast"></div>
+
+    <script>
+        const container = document.querySelector('.container');
+        const registerBtn = document.querySelector('.register-btn');
+        const loginBtn = document.querySelector('.login-btn');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const accountSection = document.getElementById('accountSection');
+        const mainContainer = document.getElementById('mainContainer');
+
+        // Check if user is logged in
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        if (isLoggedIn) {
+            showAccountSection();
+        } else {
+            // Ensure account section is hidden and forms are visible
+            container.classList.remove('account-mode');
+            if (accountSection) {
+                accountSection.classList.remove('active');
+                accountSection.style.display = 'none';
+            }
+            // Ensure forms are visible
+            const loginForm = document.querySelector('.form-box.login');
+            const registerForm = document.querySelector('.form-box.register');
+            const toggleBox = document.querySelector('.toggle-box');
+            // Reset inline styles to let CSS handle visibility
+            if (loginForm) {
+                loginForm.style.display = '';
+                loginForm.style.visibility = '';
+                loginForm.style.opacity = '';
+                loginForm.style.pointerEvents = '';
+            }
+            if (registerForm) {
+                registerForm.style.visibility = '';
+                registerForm.style.opacity = '';
+                registerForm.style.pointerEvents = '';
+            }
+            if (toggleBox) {
+                toggleBox.style.display = 'block';
+            }
+        }
+
+        // Toggle between login/register panels
+        registerBtn.addEventListener('click', () => {
+            container.classList.add('active');
+            // Let CSS handle the visibility transition - don't manually override styles
+        });
+
+        loginBtn.addEventListener('click', () => {
+            container.classList.remove('active');
+            // Let CSS handle the visibility transition - don't manually override styles
+        });
+
+        // Handle login form submit
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+
+            if(username === "" || password === "") {
+                showToast("Please fill all fields");
+                return;
+            }
+
+            // Check if user exists (try username first, then email)
+            let storedUser = localStorage.getItem('user_' + username);
+            let userKey = username;
+            
+            // If not found by username, try email
+            if (!storedUser) {
+                const emailKey = localStorage.getItem('user_email_' + username);
+                if (emailKey) {
+                    storedUser = localStorage.getItem('user_' + emailKey);
+                    userKey = emailKey;
+                }
+            }
+
+            if (storedUser) {
+                const user = JSON.parse(storedUser);
+                if (user.password === password) {
+                    // Set join date if not exists (for existing users)
+                    if (!user.joinDate) {
+                        user.joinDate = new Date().toISOString();
+                        localStorage.setItem('user_' + userKey, JSON.stringify(user));
+                    }
+                    
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('currentUser', userKey);
+                    localStorage.setItem('userData', JSON.stringify({
+                        name: user.name || user.username,
+                        email: user.email,
+                        profilePicture: user.profilePicture || 'images/tvicon.png'
+                    }));
+                    showToast("Login successful!");
+                    setTimeout(() => {
+                        showAccountSection();
+                    }, 500);
+                } else {
+                    showToast("Invalid password!");
+                }
+            } else {
+                showToast("User not found! Please register first.");
+            }
+        });
+
+        // Handle register form submit
+        registerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('registerUsername').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const password = document.getElementById('registerPassword').value.trim();
+
+            if(username === "" || email === "" || password === "") {
+                showToast("Please fill all fields");
+                return;
+            }
+
+            // Simple email regex validation
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if(!emailPattern.test(email)) {
+                showToast("Please enter a valid email");
+                return;
+            }
+
+            // Check if username or email already exists
+            const existingUser = localStorage.getItem('user_' + username);
+            const existingEmail = localStorage.getItem('user_email_' + email);
+            if (existingUser) {
+                showToast("Username already exists!");
+                return;
+            }
+            if (existingEmail) {
+                showToast("Email already registered!");
+                return;
+            }
+
+            // Store user data by username with join date
+            const joinDate = new Date().toISOString();
+            localStorage.setItem('user_' + username, JSON.stringify({
+                username: username,
+                email: email,
+                password: password,
+                name: username,
+                profilePicture: 'images/tvicon.png',
+                joinDate: joinDate
+            }));
+
+            // Also store by email for login lookup
+            localStorage.setItem('user_email_' + email, username);
+
+            // Store userData for account section
+            localStorage.setItem('userData', JSON.stringify({
+                name: username,
+                email: email,
+                profilePicture: 'images/tvicon.png'
+            }));
+
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('currentUser', username);
+            localStorage.setItem('userData', JSON.stringify({
+                name: username,
+                email: email,
+                profilePicture: 'images/tvicon.png'
+            }));
+            showToast("Registration successful! Welcome!");
+            setTimeout(() => {
+                showAccountSection();
+            }, 800);
+        });
+
+        function showAccountSection() {
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) return;
+
+            const userData = JSON.parse(localStorage.getItem('user_' + currentUser) || '{}');
+            
+            // Set join date if not exists (for existing users)
+            if (!userData.joinDate) {
+                userData.joinDate = new Date().toISOString();
+                localStorage.setItem('user_' + currentUser, JSON.stringify(userData));
+            }
+            
+            // Remove active class from container to reset form animations
+            container.classList.remove('active');
+            // Add account-mode class to hide forms
+            container.classList.add('account-mode');
+            
+            // Hide login/register forms completely
+            const loginForm = document.querySelector('.form-box.login');
+            const registerForm = document.querySelector('.form-box.register');
+            const toggleBox = document.querySelector('.toggle-box');
+            
+            if (loginForm) {
+                loginForm.style.display = 'none';
+                loginForm.style.visibility = 'hidden';
+                loginForm.style.opacity = '0';
+                loginForm.style.pointerEvents = 'none';
+                loginForm.style.zIndex = '-1';
+            }
+            
+            if (registerForm) {
+                registerForm.style.display = 'none';
+                registerForm.style.visibility = 'hidden';
+                registerForm.style.opacity = '0';
+                registerForm.style.pointerEvents = 'none';
+                registerForm.style.zIndex = '-1';
+            }
+            
+            if (toggleBox) {
+                toggleBox.style.display = 'none';
+                toggleBox.style.visibility = 'hidden';
+                toggleBox.style.opacity = '0';
+                toggleBox.style.pointerEvents = 'none';
+                toggleBox.style.zIndex = '-1';
+            }
+            
+            // Show account section
+            accountSection.classList.add('active');
+            accountSection.style.display = 'flex';
+            accountSection.style.visibility = 'visible';
+            accountSection.style.opacity = '1';
+            accountSection.style.zIndex = '10';
+            
+            // Update account info (both sidebar and content area)
+            const accountNameElements = document.querySelectorAll('#accountName');
+            accountNameElements.forEach(el => el.textContent = userData.name || currentUser);
+            
+            const accountEmailElements = document.querySelectorAll('#accountEmail');
+            accountEmailElements.forEach(el => el.textContent = userData.email || '');
+            
+            document.getElementById('displayName').value = userData.name || currentUser;
+            document.getElementById('userEmail').value = userData.email || '';
+            document.getElementById('profilePicture').src = userData.profilePicture || 'images/tvicon.png';
+            document.getElementById('displayUsername').textContent = currentUser;
+            
+            // Update sidebar details
+            document.getElementById('sidebarUsername').textContent = currentUser;
+            document.getElementById('sidebarEmail').textContent = userData.email || '-';
+            
+            // Update join date
+            const joinDate = new Date(userData.joinDate);
+            const formattedDate = joinDate.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            document.getElementById('joinDateValue').textContent = formattedDate;
+            document.getElementById('displayJoinDate').textContent = formattedDate;
+            document.getElementById('sidebarJoinDate').textContent = formattedDate;
+            
+            // Load all sections
+            loadCart();
+            loadWishlist();
+            loadBookings();
+            updateStats();
+            
+            // Auto-refresh stats and sync with localStorage every 5 seconds
+            if (window.statsInterval) {
+                clearInterval(window.statsInterval);
+            }
+            window.statsInterval = setInterval(() => {
+                updateStats();
+                // Always refresh cart and wishlist to sync with localStorage
+                loadCart();
+                loadWishlist();
+            }, 5000);
+            
+            // Listen for storage changes (for cross-tab updates)
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'cartItems' || e.key?.startsWith('cart_') || e.key?.startsWith('wishlist_') || e.key?.startsWith('favorites')) {
+                    updateStats();
+                    loadCart();
+                    loadWishlist();
+                    loadBookings();
+                }
+            });
+            
+            // Also listen for custom storage events (same-tab updates)
+            window.addEventListener('cartUpdated', () => {
+                loadCart();
+                loadBookings();
+                updateStats();
+            });
+            
+            window.addEventListener('wishlistUpdated', () => {
+                loadWishlist();
+                updateStats();
+            });
+        }
+
+        function switchTab(tabName, event) {
+            // Hide all tabs
+            document.querySelectorAll('.account-tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.account-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.account-menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Show selected tab
+            const tabElement = document.getElementById(tabName + 'Tab');
+            if (tabElement) {
+                tabElement.classList.add('active');
+            }
+            
+            // Update both tab and menu item active state
+            if (event && event.target) {
+                const tabButton = event.target.closest('.account-tab');
+                if (tabButton) tabButton.classList.add('active');
+                
+                const menuItem = event.target.closest('.account-menu-item');
+                if (menuItem) menuItem.classList.add('active');
+            }
+            
+            // Refresh data when switching to cart, wishlist, or bookings
+            if (tabName === 'cart') {
+                loadCart();
+                updateStats();
+            } else if (tabName === 'wishlist') {
+                loadWishlist();
+                updateStats();
+            } else if (tabName === 'bookings') {
+                loadBookings();
+                updateStats();
+            }
+        }
+        // Function to simulate checkout process
+        function checkoutCart() {
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) return;
+
+            // Get current cart items
+            let cartItems = [];
+            const possibleKeys = [
+                'cartItems',
+                'cart_' + currentUser,
+                'shoppingCart',
+                'userCart',
+                'movieCart'
+            ];
+
+            for (const key of possibleKeys) {
+                const stored = localStorage.getItem(key);
+                if (stored) {
+                    try {
+                        const parsed = JSON.parse(stored);
+                        if (Array.isArray(parsed) && parsed.length > 0) {
+                            cartItems = parsed;
+                            break;
+                        }
+                    } catch(e) {
+                        console.error('Error parsing cart:', e);
+                    }
+                }
+            }
+
+            if (cartItems.length === 0) {
+                showToast("Your cart is empty!");
+                return;
+            }
+
+            // Get existing bookings
+            let bookings = JSON.parse(localStorage.getItem('bookings_' + currentUser) || '[]');
+
+            // Create booking entries for each cart item
+            const now = new Date();
+            cartItems.forEach((item, index) => {
+                // Use the selected show date and time
+                const showDate = new Date(now);
+                if (item.time) {
+                    const [hours, minutes] = item.time.split(':');
+                    showDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+                }
+                
+                const booking = {
+                    title: item.title,
+                    img: item.img || item.image,
+                    bookingId: 'BK' + Date.now() + Math.floor(Math.random() * 1000) + index,
+                    bookingDate: now.toISOString(), // When the booking was made
+                    showDate: showDate.toISOString(), // When the movie will be shown
+                    totalAmount: item.price || 9.99,
+                    ticketCount: item.quantity || 1,
+                    seatNumber: item.seat || null,
+                    show: item.show || null
+                };
+                bookings.push(booking);
+            });
+
+            // Save bookings
+            localStorage.setItem('bookings_' + currentUser, JSON.stringify(bookings));
+
+            // Clear cart
+            localStorage.setItem('cartItems', JSON.stringify([]));
+            if (currentUser) {
+                localStorage.setItem('cart_' + currentUser, JSON.stringify([]));
+            }
+
+            // Update UI
+            loadCart();
+            loadBookings();
+            updateStats();
+            
+            // Show booking success popup
+            showBookingSuccessPopup();
+        }
+        
+        function showBookingSuccessPopup() {
+            // Create popup modal
+            const popup = document.createElement('div');
+            popup.id = 'bookingSuccessPopup';
+            popup.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                backdrop-filter: blur(10px);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+                animation: fadeIn 0.3s ease;
+            `;
+            
+            popup.innerHTML = `
+                <div style="
+                    background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.15), rgba(17, 13, 24, 0.95));
+                    border-radius: 20px;
+                    padding: 40px;
+                    max-width: 500px;
+                    width: 90%;
+                    text-align: center;
+                    border: 2px solid rgba(255, 42, 109, 0.5);
+                    box-shadow: 0 20px 60px rgba(255, 42, 109, 0.3);
+                    animation: slideUp 0.4s ease;
+                ">
+                    <div style="font-size: 60px; margin-bottom: 20px;">✅</div>
+                    <h2 style="
+                        color: #ff2a6d;
+                        font-size: 28px;
+                        margin-bottom: 15px;
+                        background: linear-gradient(135deg, #ff2a6d, #8a2be2);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        background-clip: text;
+                    ">Booking Successful!</h2>
+                    <p style="
+                        color: rgba(255, 255, 255, 0.9);
+                        font-size: 16px;
+                        line-height: 1.6;
+                        margin-bottom: 30px;
+                    ">Your tickets have been booked and items have been added to your bookings. Check your account to view all your bookings!</p>
+                    <button onclick="
+                        const popup = this.closest('#bookingSuccessPopup');
+                        if (popup) popup.remove();
+                        switchTab('bookings', event);
+                    " style="
+                        background: linear-gradient(135deg, #ff2a6d, #ff5a8d);
+                        border: none;
+                        padding: 15px 40px;
+                        border-radius: 12px;
+                        color: white;
+                        font-size: 16px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        font-family: soft;
+                    " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 25px rgba(255, 42, 109, 0.6)'"
+                       onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        View My Bookings
+                    </button>
+                </div>
+            `;
+            
+            // Add animations
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                @keyframes slideUp {
+                    from { transform: translateY(30px); opacity: 0; }
+                    to { transform: translateY(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(popup);
+            
+            // Close on background click
+            popup.addEventListener('click', (e) => {
+                if (e.target === popup) {
+                    popup.remove();
+                }
+            });
+            
+            // Auto close after 5 seconds
+            setTimeout(() => {
+                if (popup.parentNode) {
+                    popup.remove();
+                }
+            }, 5000);
+        }
+
+        function loadCart() {            const cartItemsEl = document.getElementById('cartItems');
+            if (!cartItemsEl) {
+                console.log('Cart items container not found');
+                return;
+            }
+            
+            const currentUser = localStorage.getItem('currentUser');
+            
+            // Try to get cart from localStorage (check multiple possible keys)
+            let cartItems = [];
+            
+            // Check all possible localStorage keys for cart
+            // Prioritize user-specific cart when logged in
+            const possibleKeys = currentUser ? [
+                'cart_' + currentUser,
+                'cartItems',
+                'shoppingCart',
+                'userCart',
+                'movieCart'
+            ] : [
+                'cartItems',
+                'shoppingCart',
+                'userCart',
+                'movieCart'
+            ];
+            
+            for (const key of possibleKeys) {
+                const stored = localStorage.getItem(key);
+                if (stored) {
+                    try {
+                        const parsed = JSON.parse(stored);
+                        if (Array.isArray(parsed) && parsed.length > 0) {
+                            cartItems = parsed;
+                            break; // Use first non-empty cart found
+                        }
+                    } catch(e) {
+                        console.error('Error parsing cart from ' + key + ':', e);
+                    }
+                }
+            }
+            
+            // Also check if there's a global cartItems variable (from index.html)
+            // This is a fallback - we'll try to sync it
+            if ((!cartItems || cartItems.length === 0) && typeof window.cartItems !== 'undefined') {
+                if (Array.isArray(window.cartItems) && window.cartItems.length > 0) {
+                    cartItems = window.cartItems;
+                    // Save to localStorage for persistence
+                    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                    if (currentUser) {
+                        localStorage.setItem('cart_' + currentUser, JSON.stringify(cartItems));
+                    }
+                }
+            }
+            
+            // Ensure cartItems is an array
+            if (!Array.isArray(cartItems)) {
+                cartItems = [];
+            }
+            
+            // Debug: Log cart items to see what we have
+            console.log('Cart items loaded:', cartItems.length, 'items');
+            if (cartItems.length > 0) {
+                console.log('First cart item:', cartItems[0]);
+            }
+            
+            // Update cart count in menu and tabs
+            const menuCartCount = document.getElementById('menuCartCount');
+            if (menuCartCount) menuCartCount.textContent = cartItems.length;
+            const cartTabCount = document.getElementById('cartTabCount');
+            if (cartTabCount) cartTabCount.textContent = cartItems.length;
+            const sidebarCartCount = document.getElementById('sidebarCartCount');
+            if (sidebarCartCount) sidebarCartCount.textContent = cartItems.length;
+            
+            if (cartItems.length === 0) {
+                cartItemsEl.innerHTML = `
+                    <div class="empty-cart">
+                        <div class="empty-cart-icon"><i class="fas fa-shopping-cart" style="font-size: 4rem; color: rgba(255, 42, 109, 0.5);"></i></div>
+                        <p>Your cart is empty</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px;">Start adding movies to your cart!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            cartItemsEl.innerHTML = cartItems.map((item, index) => {
+                // Get all item data with proper fallbacks
+                const title = item.title || item.name || 'Untitled Movie';
+                const price = parseFloat(item.price) || 9.99;
+                
+                // Get image - use cardImage first, then img, then image, then src, then poster
+                let imgSrc = item.cardImage || item.img || item.image || item.src || item.poster || '';
+                
+                // If imgSrc exists and is valid, use it
+                if (imgSrc) {
+                    // If it's already a full path with images/, use as is
+                    if (imgSrc.includes("images/")) {
+                        // Already has images/ prefix
+                    } else if (imgSrc.includes('/')) {
+                        // Has path but no images/ - extract filename
+                        const filename = imgSrc.split('/').pop();
+                        if (filename && !filename.toLowerCase().includes('tvicon') && 
+                            (filename.toLowerCase().includes('.jpg') || 
+                             filename.toLowerCase().includes('.png') || 
+                             filename.toLowerCase().includes('.jpeg') ||
+                             filename.toLowerCase().includes('.webp'))) {
+                            imgSrc = 'images/' + filename;
+                        } else {
+                            imgSrc = ''; // Reset if invalid
+                        }
+                    } else {
+                        // Just filename, add images/ prefix
+                        if (!imgSrc.toLowerCase().includes('tvicon') && 
+                            (imgSrc.toLowerCase().includes('.jpg') || 
+                             imgSrc.toLowerCase().includes('.png') || 
+                             imgSrc.toLowerCase().includes('.jpeg') ||
+                             imgSrc.toLowerCase().includes('.webp'))) {
+                            imgSrc = 'images/' + imgSrc;
+                        } else {
+                            imgSrc = ''; // Reset if invalid
+                        }
+                    }
+                }
+                
+                // If still no valid image, try to get from title using getMovieImagePath
+                if (!imgSrc || imgSrc.toLowerCase().includes('tvicon')) {
+                    imgSrc = getMovieImagePath(title);
+                    // If still no image, use default
+                    if (!imgSrc || imgSrc.toLowerCase().includes('tvicon')) {
+                        imgSrc = 'images/dune.jpg';
+                    }
+                }
+                
+                return `
+                <div class="cart-item" style="--index: ${index};">
+                    <img src="${imgSrc}" alt="${escapeHtml(title)}" class="cart-item-image" onerror="this.onerror=null; if(!this.src.includes('images/dune.jpg') && !this.src.includes('images/batman.png')) { this.src='images/dune.jpg'; } else if(this.src.includes('images/dune.jpg')) { this.src='images/batman.png'; } else { this.style.display='none'; }">
+                    <div class="cart-item-content">
+                        <div class="cart-item-title">${escapeHtml(title)}</div>
+                        <div class="cart-item-subtitle">${item.time ? item.time : ''} ${item.show ? '- ' + item.show : ''} ${item.seat ? '- Seat ' + item.seat : ''}</div>
+                        <div class="cart-item-price">$${price.toFixed(2)}</div>
+                    </div>
+                    <button class="cart-item-remove" onclick="removeFromCart(${index})">
+                        <i class="fas fa-trash"></i> Remove
+                    </button>
+                </div>
+            `;
+            }).join('');
+        }
+
+        function removeFromCart(index) {
+            const currentUser = localStorage.getItem('currentUser');
+            let cartItems = [];
+            
+            // Get cart from localStorage (check all possible keys)
+            const possibleKeys = [
+                'cartItems',
+                'cart_' + currentUser,
+                'shoppingCart',
+                'userCart',
+                'movieCart'
+            ];
+            
+            for (const key of possibleKeys) {
+                const stored = localStorage.getItem(key);
+                if (stored) {
+                    try {
+                        const parsed = JSON.parse(stored);
+                        if (Array.isArray(parsed) && parsed.length > 0) {
+                            cartItems = parsed;
+                            break;
+                        }
+                    } catch(e) {
+                        console.error('Error parsing cart:', e);
+                    }
+                }
+            }
+            
+            if (!Array.isArray(cartItems)) {
+                cartItems = [];
+            }
+            
+            if (index >= 0 && index < cartItems.length) {
+                cartItems.splice(index, 1);
+                // Save to all possible locations for compatibility
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                if (currentUser) {
+                    localStorage.setItem('cart_' + currentUser, JSON.stringify(cartItems));
+                }
+                // Also update global variable if it exists
+                if (typeof window.cartItems !== 'undefined') {
+                    window.cartItems = cartItems;
+                }
+                loadCart();
+                loadBookings();
+                updateStats();
+                showToast("Item removed from cart");
+            }
+        }
+
+        function updateStats() {
+            const currentUser = localStorage.getItem('currentUser');
+            
+            // Cart items count
+            let cartItems = [];
+            const sharedCart = localStorage.getItem('cartItems');
+            if (sharedCart) {
+                try {
+                    cartItems = JSON.parse(sharedCart);
+                } catch(e) {
+                    console.error('Error parsing cart:', e);
+                }
+            }
+            if (!cartItems || cartItems.length === 0) {
+                const userCart = localStorage.getItem('cart_' + currentUser);
+                if (userCart) {
+                    try {
+                        cartItems = JSON.parse(userCart);
+                    } catch(e) {
+                        console.error('Error parsing user cart:', e);
+                    }
+                }
+            }
+            if (!Array.isArray(cartItems)) {
+                cartItems = [];
+            }
+            document.getElementById('statCartItems').textContent = cartItems.length;
+            const sidebarCartCount = document.getElementById('sidebarCartCount');
+            if (sidebarCartCount) sidebarCartCount.textContent = cartItems.length;
+            const menuCartCount = document.getElementById('menuCartCount');
+            if (menuCartCount) menuCartCount.textContent = cartItems.length;
+            const cartTabCount = document.getElementById('cartTabCount');
+            if (cartTabCount) cartTabCount.textContent = cartItems.length;
+            
+            // Wishlist count
+            const wishlist = JSON.parse(localStorage.getItem('wishlist_' + currentUser) || '[]');
+            document.getElementById('statWishlistItems').textContent = wishlist.length;
+            const menuWishlistCount = document.getElementById('menuWishlistCount');
+            if (menuWishlistCount) menuWishlistCount.textContent = wishlist.length;
+            const sidebarWishlistCount = document.getElementById('sidebarWishlistCount');
+            if (sidebarWishlistCount) sidebarWishlistCount.textContent = wishlist.length;
+            const wishlistTabCount = document.getElementById('wishlistTabCount');
+            if (wishlistTabCount) wishlistTabCount.textContent = wishlist.length;
+            
+            // Total orders (from localStorage if exists)
+            const orders = JSON.parse(localStorage.getItem('orders_' + currentUser) || '[]');
+            document.getElementById('statTotalOrders').textContent = orders.length;
+            const sidebarOrdersCount = document.getElementById('sidebarOrdersCount');
+            if (sidebarOrdersCount) sidebarOrdersCount.textContent = orders.length;
+            
+            // Member days
+            const userData = JSON.parse(localStorage.getItem('user_' + currentUser) || '{}');
+            if (userData.joinDate) {
+                const joinDate = new Date(userData.joinDate);
+                const today = new Date();
+                const diffTime = Math.abs(today - joinDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                document.getElementById('statMemberDays').textContent = diffDays;
+                const sidebarMemberDays = document.getElementById('sidebarMemberDays');
+                if (sidebarMemberDays) sidebarMemberDays.textContent = diffDays;
+            } else {
+                document.getElementById('statMemberDays').textContent = '0';
+                const sidebarMemberDays = document.getElementById('sidebarMemberDays');
+                if (sidebarMemberDays) sidebarMemberDays.textContent = '0';
+            }
+        }
+
+        function handleProfileUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const imageUrl = event.target.result;
+                    document.getElementById('profilePicture').src = imageUrl;
+                    
+                    // Save to localStorage
+                    const currentUser = localStorage.getItem('currentUser');
+                    if (currentUser) {
+                        const userData = JSON.parse(localStorage.getItem('user_' + currentUser) || '{}');
+                        userData.profilePicture = imageUrl;
+                        localStorage.setItem('user_' + currentUser, JSON.stringify(userData));
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function updateProfile() {
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) return;
+
+            const name = document.getElementById('displayName').value;
+            const email = document.getElementById('userEmail').value;
+
+            const userData = JSON.parse(localStorage.getItem('user_' + currentUser) || '{}');
+            userData.name = name;
+            userData.email = email;
+            localStorage.setItem('user_' + currentUser, JSON.stringify(userData));
+
+            document.getElementById('accountName').textContent = name;
+            document.getElementById('accountEmail').textContent = email;
+            showToast("Profile updated successfully!");
+        }
+
+        function loadWishlist() {
+            const wishlistItems = document.getElementById('wishlistItems');
+            if (!wishlistItems) return;
+            
+            const currentUser = localStorage.getItem('currentUser');
+            
+            // Check multiple possible localStorage keys for wishlist
+            let wishlist = [];
+            const possibleKeys = [
+                'wishlist_' + currentUser,
+                'wishlistItems',
+                'wishlist',
+                'userWishlist',
+                'favorites',
+                'favorites_' + currentUser
+            ];
+            
+            for (const key of possibleKeys) {
+                const stored = localStorage.getItem(key);
+                if (stored) {
+                    try {
+                        const parsed = JSON.parse(stored);
+                        if (Array.isArray(parsed) && parsed.length > 0) {
+                            wishlist = parsed;
+                            break; // Use first non-empty wishlist found
+                        }
+                    } catch(e) {
+                        console.error('Error parsing wishlist from ' + key + ':', e);
+                    }
+                }
+            }
+            
+            // If no wishlist found with current user, try default
+            if (!wishlist || wishlist.length === 0) {
+                const defaultWishlist = localStorage.getItem('wishlist_' + currentUser);
+                if (defaultWishlist) {
+                    try {
+                        wishlist = JSON.parse(defaultWishlist);
+                    } catch(e) {
+                        console.error('Error parsing default wishlist:', e);
+                        wishlist = [];
+                    }
+                }
+            }
+            
+            // Ensure wishlist is an array
+            if (!Array.isArray(wishlist)) {
+                wishlist = [];
+            }
+            
+            // Update wishlist count in menu and tabs
+            const menuWishlistCount = document.getElementById('menuWishlistCount');
+            if (menuWishlistCount) menuWishlistCount.textContent = wishlist.length;
+            const wishlistTabCount = document.getElementById('wishlistTabCount');
+            if (wishlistTabCount) wishlistTabCount.textContent = wishlist.length;
+            const sidebarWishlistCount = document.getElementById('sidebarWishlistCount');
+            if (sidebarWishlistCount) sidebarWishlistCount.textContent = wishlist.length;
+            
+            if (wishlist.length === 0) {
+                wishlistItems.innerHTML = `
+                    <div class="empty-wishlist">
+                        <div style="font-size: 3rem; margin-bottom: 15px; color: rgba(255, 42, 109, 0.5);"><i class="fas fa-heart"></i></div>
+                        <p>Your wishlist is empty</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px;">Add movies to your wishlist to save them for later!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            wishlistItems.innerHTML = wishlist.map((item, index) => {
+                const imgSrc = item.image || item.img || item.src || 'images/dune.jpg';
+                return `
+                <div class="wishlist-item" style="--index: ${index}; animation-delay: ${index * 0.1}s;">
+                    <img src="${imgSrc}" alt="${item.title || 'Movie'}" onerror="this.onerror=null; this.src=(this.src.includes('tvicon') ? 'images/dune.jpg' : (this.src.includes('images/dune.jpg') ? 'images/batman.png' : 'images/dune.jpg'));">
+                    <h4>${item.title || 'Untitled Movie'}</h4>
+                    <p>${item.year || ''}</p>
+                    <button class="wishlist-item-remove" onclick="removeFromWishlist(${index})">
+                        <i class="fas fa-heart-broken"></i>
+                    </button>
+                </div>
+            `;
+            }).join('');
+        }
+
+        function removeFromWishlist(index) {
+            const currentUser = localStorage.getItem('currentUser');
+            
+            // Get wishlist from localStorage
+            let wishlist = [];
+            const possibleKeys = [
+                'wishlist_' + currentUser,
+                'wishlistItems'
+            ];
+            
+            for (const key of possibleKeys) {
+                const stored = localStorage.getItem(key);
+                if (stored) {
+                    try {
+                        const parsed = JSON.parse(stored);
+                        if (Array.isArray(parsed) && parsed.length > 0) {
+                            wishlist = parsed;
+                            break;
+                        }
+                    } catch(e) {
+                        console.error('Error parsing wishlist:', e);
+                    }
+                }
+            }
+            
+            if (!Array.isArray(wishlist)) {
+                wishlist = [];
+            }
+            
+            if (index >= 0 && index < wishlist.length) {
+                const removedItem = wishlist[index];
+                wishlist.splice(index, 1);
+                
+                // Save to all localStorage keys for compatibility
+                localStorage.setItem('wishlist_' + currentUser, JSON.stringify(wishlist));
+                localStorage.setItem('wishlistItems', JSON.stringify(wishlist));
+                
+                loadWishlist();
+                updateStats();
+                showToast(removedItem.title + " removed from wishlist");
+            }
+        }
+
+        function loadBookings() {
+            const bookingsItems = document.getElementById('bookingsItems');
+            if (!bookingsItems) return;
+            
+            const currentUser = localStorage.getItem('currentUser');
+            console.log('Loading bookings for user:', currentUser);
+            
+            // Get bookings from localStorage
+            let bookings = [];
+            const stored = localStorage.getItem('bookings_' + currentUser);
+            console.log('Stored bookings:', stored);
+            if (stored) {
+                try {
+                    bookings = JSON.parse(stored);
+                    console.log('Parsed bookings:', bookings);
+                } catch(e) {
+                    console.error('Error parsing bookings:', e);
+                    bookings = [];
+                }
+            }
+            
+            // Ensure bookings is an array
+            if (!Array.isArray(bookings)) {
+                bookings = [];
+            }
+            
+            // Update bookings count in menu and tabs
+            const menuBookingsCount = document.getElementById('menuBookingsCount');
+            if (menuBookingsCount) menuBookingsCount.textContent = bookings.length;
+            const bookingsTabCount = document.getElementById('bookingsTabCount');
+            if (bookingsTabCount) bookingsTabCount.textContent = bookings.length;
+            
+            if (bookings.length === 0) {
+                bookingsItems.innerHTML = `
+                    <div class="empty-bookings">
+                        <div style="font-size: 3rem; margin-bottom: 15px; color: rgba(255, 42, 109, 0.5);"><i class="fas fa-ticket-alt"></i></div>
+                        <p>No bookings yet</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px;">Your booked tickets will appear here!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Sort bookings by date (newest first)
+            bookings.sort((a, b) => new Date(b.bookingDate) - new Date(a.bookingDate));
+
+            bookingsItems.innerHTML = bookings.map((booking, index) => {
+                // Get image from booking data (saved from cart)
+                let imgSrc = booking.image || booking.img || booking.cardImage || '';
+                
+                // If no image in booking, try to get from title mapping
+                if (!imgSrc) {
+                    imgSrc = getMovieImagePath(booking.title);
+                }
+                
+                // Ensure image has proper path format
+                if (imgSrc && !imgSrc.startsWith('images/') && !imgSrc.startsWith('http')) {
+                    // If it's just a filename, add images/ prefix
+                    if (!imgSrc.includes('/')) {
+                        imgSrc = 'images/' + imgSrc;
+                    }
+                }
+                
+                // Final fallback
+                if (!imgSrc) {
+                    imgSrc = 'images/dune.jpg';
+                }
+                
+                console.log('Booking image for', booking.title, ':', imgSrc);
+                
+                // Format booking date (when booking was made)
+                const bookingDate = new Date(booking.bookingDate);
+                const bookingFormattedDate = bookingDate.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+                const bookingFormattedTime = bookingDate.toLocaleTimeString('en-US', { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                });
+                
+                // Format show date (when movie will be shown)
+                const showDate = booking.showDate ? new Date(booking.showDate) : null;
+                let showFormattedDate = 'TBD';
+                let showFormattedTime = 'TBD';
+                if (showDate) {
+                    showFormattedDate = showDate.toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'short', 
+                        day: 'numeric',
+                        weekday: 'short'
+                    });
+                    showFormattedTime = showDate.toLocaleTimeString('en-US', { 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                    });
+                }
+                
+                return `
+                <div class="booking-item" style="--index: ${index};">
+                    <img src="${imgSrc}" alt="${escapeHtml(booking.title)}" class="booking-item-image" onerror="this.onerror=null; this.src='images/dune.jpg';">
+                    <div class="booking-item-content">
+                        <div class="booking-item-header">
+                            <div>
+                                <div class="booking-item-title">${escapeHtml(booking.title)}</div>
+                                <div class="booking-id">Booking ID: ${booking.bookingId}</div>
+                            </div>
+                            <span class="booking-status">Confirmed</span>
+                        </div>
+                        <div class="booking-details">
+                            <div class="booking-detail">
+                                <i class="fas fa-calendar-check"></i>
+                                <span><strong>Show Date:</strong> ${showFormattedDate}</span>
+                            </div>
+                            <div class="booking-detail">
+                                <i class="fas fa-clock"></i>
+                                <span><strong>Show Time:</strong> ${showFormattedTime}</span>
+                            </div>
+                            <div class="booking-detail">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span><strong>Booked On:</strong> ${bookingFormattedDate}</span>
+                            </div>
+                            <div class="booking-detail">
+                                <i class="fas fa-dollar-sign"></i>
+                                <span><strong>Amount:</strong> $${(booking.totalAmount || 9.99).toFixed(2)}</span>
+                            </div>
+                            <div class="booking-detail">
+                                <i class="fas fa-ticket-alt"></i>
+                                <span><strong>Tickets:</strong> ${booking.ticketCount || 1}</span>
+                            </div>
+                            ${booking.seatNumber ? `
+                            <div class="booking-detail">
+                                <i class="fas fa-chair"></i>
+                                <span><strong>Seat:</strong> ${booking.seatNumber}</span>
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+            }).join('');
+        }
+
+        function changePassword() {
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) return;
+
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                showToast("Please fill all password fields");
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                showToast("New passwords do not match");
+                return;
+            }
+
+            if (newPassword.length < 6) {
+                showToast("Password must be at least 6 characters");
+                return;
+            }
+
+            const userData = JSON.parse(localStorage.getItem('user_' + currentUser) || '{}');
+            if (userData.password !== currentPassword) {
+                showToast("Current password is incorrect");
+                return;
+            }
+
+            userData.password = newPassword;
+            localStorage.setItem('user_' + currentUser, JSON.stringify(userData));
+            
+            // Clear password fields
+            document.getElementById('currentPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            
+            showToast("Password changed successfully!");
+        }
+
+        function handleSignOut() {
+            localStorage.removeItem('isLoggedIn');
+            showToast("Signed out successfully!");
+            setTimeout(() => {
+                window.location.href = 'signout.html';
+            }, 1000);
+        }
+
+        function getMovieImagePath(title) {
+            const imageMap = {
+                // Hero movies
+                'Batman Beyond': 'images/batman.png',
+                'Bleach: Blood War': 'images/ichigo.jpg',
+                'Dandadan: Season 2': 'images/silk.jpg',
+                'Dandadan: Season 2 ': 'images/silk.jpg',
+                'Jujutsu Kaisen': 'images/kai.jpg',
+                'Spiderverse': 'images/spidey.jpg',
+                'One Piece': 'images/piece.jpg',
+                'Demon Slayer': 'images/tanjiro.jpg',
+                'Interstellar': 'images/hole.jpg',
+                'Cyberbat': 'images/rob.jpg',
+                'Suzume no tojimari': 'images/5815029.jpg',
+                'Suzume no tojimari ': 'images/5815029.jpg',
+                // Carousel movies
+                'Squidgame': 'images/Squid Game.jpg',
+                'Cyberpunk: Edgerunner': 'images/cyberpunk.jpg',
+                'Suzume': 'images/Suzume (2022) - Makoto Shinkai.jpg',
+                'Inception': 'images/Inception - for @filmthusiast.jpg',
+                'Dandadan: Evil Eye': 'images/dandadan.jpg',
+                'Apothecary Diaries': 'images/_The Apothecary Diaries_.jpg',
+                'Loki Series': 'images/loki.jpg',
+                'Mermaid': 'images/The Little Mermaid ( 11.jpg',
+                '3 Idiots': 'images/3 Idiots (2009)_.jpg',
+                'Dhamaal': 'images/TOTAL DHAMAAL.jpg',
+                'Moana': 'images/New Movie Posters for Moana.jpg',
+                'Luffy': 'images/Luffy.jpg',
+                'Jujutsu kaisen': 'images/jujutsu.jpg',
+                'Solo leveling': 'images/Solo Leveling Poster.jpg',
+                'Solo leveling ': 'images/Solo Leveling Poster.jpg',
+                'Naruto': 'images/naruto.jpg',
+                'Bleach': 'images/Bleach Resonance Of Souls.jpg',
+                // Trending section
+                'Dandadan S1': 'images/ken.jpg',
+                'Spiderverse Beyond': 'images/spiderverse.png',
+                // IMAX movies
+                'Dune': 'images/dune.jpg',
+                'Oppenheimer': 'images/oppenheimer.png',
+                'The Dark Knight': 'images/batman.jpg',
+                'Squid Game': 'images/squid.jpg',
+                'Money Heist': 'images/moneyheist.jpg'
+            };
+            return imageMap[title] || '';
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+  </body>
+</html>
+

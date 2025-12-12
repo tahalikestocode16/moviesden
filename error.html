@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No Internet Connection - MoviesDen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: soft;
+            src: url("LeagueSpartan-Bold.otf");
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: soft, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a0a1f 50%, #0f0a1a 100%);
+            color: white;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .error-container {
+            text-align: center;
+            z-index: 10;
+            padding: 20px;
+        }
+
+        .error-icon {
+            font-size: 100px;
+            color: #ff2a6d;
+            margin-bottom: 30px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, #ff2a6d, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .retry-btn {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #ff2a6d, #8a2be2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 42, 109, 0.6);
+        }
+
+        .connection-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background: rgba(255, 42, 109, 0.2);
+            border: 1px solid #ff2a6d;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            z-index: 100;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            p { font-size: 1.1rem; }
+            .error-icon { font-size: 80px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="connection-status">
+        <i class="fas fa-wifi-slash"></i> No Internet Connection
+    </div>
+
+    <div class="error-container">
+        <div class="error-icon">
+            <i class="fas fa-film"></i>
+        </div>
+        <h1>Connection Lost!</h1>
+        <p>Please check your internet connection and try again.</p>
+        <button class="retry-btn" onclick="location.reload()">
+            <i class="fas fa-redo"></i> Try Again
+        </button>
+    </div>
+
+    <script>
+        // Check for internet connection
+        function checkConnection() {
+            if (navigator.onLine) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Check every 3 seconds
+        setInterval(checkConnection, 3000);
+
+        // Show retry button when online
+        window.addEventListener('online', () => {
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
