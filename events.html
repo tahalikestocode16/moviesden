@@ -41,6 +41,9 @@ nav {
     background: rgba(10, 10, 18, 0.95);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 42, 109, 0.2);
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
 }
 
 nav .logo {
@@ -661,7 +664,17 @@ nav .hamburger {
 /* Responsive */
 @media (max-width: 768px) {
     nav {
-        padding: 12px 20px;
+        padding: 12px 15px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    nav .nav-center {
+        display: none;
+    }
+    
+    nav .logo {
+        font-size: 20px;
     }
     
     nav .hamburger {
