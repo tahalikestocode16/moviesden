@@ -137,6 +137,10 @@
       min-width: 0;
       margin: 0 auto;
     }
+    
+    nav .navlinks li {
+      list-style: none;
+    }
 
     /* Sliding background element */
     nav .navlinks .sliding-bg {
@@ -200,6 +204,71 @@
       color: white;
       font-weight: 500;
       box-shadow: none;
+    }
+    
+    /* More Dropdown */
+    .more-dropdown {
+      position: relative;
+    }
+    
+    .more-link {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .more-link i {
+      font-size: 12px;
+      transition: transform 0.3s ease;
+    }
+    
+    .more-dropdown:hover .more-link i {
+      transform: rotate(180deg);
+    }
+    
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: rgba(8, 8, 12, 0.98);
+      backdrop-filter: blur(15px);
+      border-radius: 12px;
+      padding: 10px 0;
+      min-width: 180px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 42, 109, 0.2);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+      margin-top: 10px;
+    }
+    
+    .more-dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .dropdown-menu a {
+      display: block;
+      padding: 12px 20px;
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .dropdown-menu a:last-child {
+      border-bottom: none;
+    }
+    
+    .dropdown-menu a:hover {
+      background: rgba(255, 42, 109, 0.1);
+      color: var(--pink);
+      padding-left: 25px;
     }
 
     nav .icons {
@@ -411,6 +480,52 @@
         transform: scale(1);
         margin-right: 0;
         z-index: 99999;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .wishlist-btn {
+        top: 36% !important;
+        left: 10px !important;
+        width: 44px;
+        height: 44px;
+        font-size: 17px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .wishlist-btn {
+        top: 32% !important;
+        left: 9px !important;
+        width: 42px;
+        height: 42px;
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .wishlist-btn {
+        top: 28% !important;
+        left: 8px !important;
+        width: 40px;
+        height: 40px;
+        font-size: 15px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .wishlist-btn {
+        top: 26% !important;
+        left: 7px !important;
+        width: 38px;
+        height: 38px;
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 900px) and (max-height: 520px) {
+      .wishlist-btn {
+        top: 22% !important;
       }
     }
 
@@ -2252,32 +2367,51 @@
     }
 
     /* Responsive */
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       nav {
-        padding: 10px 12px;
+        padding: 10px 15px;
         margin: 0 10px;
         width: calc(100vw - 20px);
         gap: 10px;
+        justify-content: space-between;
+        flex-wrap: nowrap;
       }
 
       nav .logo {
-        font-size: 24px;
+        font-size: 22px;
+        flex-shrink: 1;
+        min-width: 0;
+        max-width: calc(100% - 180px);
+        overflow: hidden;
       }
 
       nav .logo img {
-        width: 32px;
-        height: 32px;
-        margin-right: 8px;
+        width: 28px;
+        height: 28px;
+        margin-right: 6px;
+      }
+      
+      nav .logo .name {
+        font-size: 22px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       nav .icons {
-        gap: 8px;
-        font-size: 20px;
+        gap: 10px;
+        font-size: 18px;
+        flex: 0 0 auto;
+        margin-left: auto;
+        flex-shrink: 0;
+        order: 2;
+        justify-content: flex-end;
       }
 
       nav .navlinks {
         position: absolute;
-        top: 100%;
+        top: calc(100% + 5px);
+        left: 0;
         right: 0;
         background: rgba(8, 8, 12, 0.98);
         backdrop-filter: blur(15px);
@@ -2286,14 +2420,30 @@
         display: none;
         flex-direction: column;
         gap: 0;
-        margin-top: 10px;
+        margin-top: 0;
         box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8);
-        z-index: 99999;
+        z-index: 999999;
         border: 1px solid rgba(255, 42, 109, 0.2);
+        animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       nav .navlinks.show {
         display: flex;
+      }
+      
+      nav .navlinks li {
+        width: 100%;
       }
 
       nav .navlinks a {
@@ -2304,15 +2454,33 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       }
 
-      nav .navlinks a:last-child {
+      nav .navlinks li:last-child a {
         border-bottom: none;
+      }
+      
+      .more-dropdown .dropdown-menu {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        margin-top: 8px;
+        box-shadow: none;
+        border: none;
+        background: rgba(255, 42, 109, 0.05);
+        padding: 8px 0;
+      }
+      
+      .more-dropdown .dropdown-menu a {
+        padding: 10px 16px;
+        font-size: 14px;
       }
 
       #bar {
         display: inline-flex !important;
         align-items: center;
         justify-content: center;
-        z-index: 99998;
+        z-index: 100;
+        position: relative;
         padding: 8px;
         background: rgba(255, 42, 109, 0.2);
         border-radius: 6px;
@@ -2320,6 +2488,15 @@
         font-size: 22px;
         width: 40px;
         height: 40px;
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+        transition: opacity 0.3s ease;
+      }
+      
+      #bar:hover {
+        background: rgba(255, 42, 109, 0.3);
+        border-color: rgba(255, 42, 109, 0.6);
       }
 
       .movie-title {
@@ -2363,12 +2540,15 @@
       }
 
       .wishlist-btn {
-        left: 15px !important;
+        position: fixed !important;
+        left: 12px !important;
         right: auto !important;
-        top: 15px !important;
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
+        top: 40% !important;
+        transform: translateY(-50%) !important;
+        width: 46px;
+        height: 46px;
+        font-size: 18px;
+        z-index: 9999;
       }
 
       .movie-content {
@@ -3038,25 +3218,34 @@
 </head>
 <body>
   <nav>
-    <div class="logo">
+    <a href="index.html" class="logo">
       <img class="icon" src="images/tvicon.png" />
-      <h3 class="name" >MoviesDen</h3>
-    </div>
+      <span class="name">MoviesDen</span>
+    </a>
 
-    <div class="navlinks">
-      <a href="index.html">Home</a>
-      <a href="movies.html">Movies</a>
-      <a href="imax.html">IMAX</a>
-      <a href="watch.html">Trailers</a>
-    </div>
+    <ul class="navlinks">
+      <div class="sliding-bg"></div>
+      <li><a href="index.html" class="home-btn">Home</a></li>
+      <li><a href="movies.html">Movies</a></li>
+      <li><a href="imax.html">IMAX</a></li>
+      <li><a href="watch.html">Trailers</a></li>
+      <li class="more-dropdown">
+        <a href="#" class="more-link">
+          More <i class="fas fa-chevron-down"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="upcoming.html">Upcoming</a>
+          <a href="events.html">Events</a>
+          <a href="gallery.html">Gallery</a>
+          <a href="about.html">About</a>
+          <a href="contact (1) (1).html">Contact</a>
+        </div>
+      </li>
+    </ul>
 
     <div class="icons" id="iconsContainer">
       <a id="cartIcon" class="cart-link" href="javascript:void(0)" onclick="(function(){const m=document.getElementById('cartModal'); if(m){m.classList.add('show'); if(typeof renderCartModal==='function') renderCartModal();}})();"><i class="fas fa-shopping-cart"></i> <span id="cartCount">0</span></a>
       <a id="bar" href="#">☰</a>
-      <div class="search-input-wrapper">
-        <input type="text" id="searchInput" class="searchInput" placeholder="Search movies..." />
-      </div>
-      <a id="search" href="#">🔍︎</a>
       <a id="accountLink" href="ubaid.html" class="account-link">
         <i class="fas fa-user" id="accountIcon"></i>
         <img id="profilePicture" src="" alt="Profile" class="profile-picture-nav" style="display: none;">
@@ -4029,44 +4218,115 @@
       return 'images/' + p;
     }
 
-    // Initialize cart from localStorage on page load
-    function initializeCart() {
+    function getCartItemTitle(itemData) {
+      if (!itemData || typeof itemData !== 'object') return 'Untitled Movie';
+      return itemData.title || itemData.name || itemData.movieTitle || itemData.movie || 'Untitled Movie';
+    }
+
+    function getCartItemImageSrc(itemData) {
+      if (!itemData || typeof itemData !== 'object') return 'images/dune.jpg';
+
+      // Use cardImage first, then img, then image, then src, then poster
+      let imgSrc = itemData.cardImage || itemData.img || itemData.image || itemData.src || itemData.poster || '';
+
+      // Normalize + validate image path
+      if (imgSrc) {
+        if (imgSrc.toLowerCase().includes('tvicon')) {
+          imgSrc = '';
+        } else if (imgSrc.includes('images/')) {
+          // Already has images/ prefix
+        } else if (imgSrc.includes('/') || imgSrc.includes('\\')) {
+          const filename = imgSrc.split('/').pop().split('\\').pop();
+          if (filename &&
+              !filename.toLowerCase().includes('tvicon') &&
+              (filename.toLowerCase().includes('.jpg') ||
+               filename.toLowerCase().includes('.png') ||
+               filename.toLowerCase().includes('.jpeg') ||
+               filename.toLowerCase().includes('.webp'))) {
+            imgSrc = 'images/' + filename;
+          } else {
+            imgSrc = '';
+          }
+        } else {
+          // Just filename, add images/ prefix if it's a real image filename
+          if (!imgSrc.toLowerCase().includes('tvicon') &&
+              (imgSrc.toLowerCase().includes('.jpg') ||
+               imgSrc.toLowerCase().includes('.png') ||
+               imgSrc.toLowerCase().includes('.jpeg') ||
+               imgSrc.toLowerCase().includes('.webp'))) {
+            imgSrc = 'images/' + imgSrc;
+          } else {
+            imgSrc = '';
+          }
+        }
+      }
+
+      // If still no valid image, try to get from title mapping
+      if (!imgSrc || imgSrc.toLowerCase().includes('tvicon')) {
+        const title = getCartItemTitle(itemData);
+        if (typeof getMovieImagePath === 'function') {
+          imgSrc = getMovieImagePath(title);
+        }
+        if (!imgSrc || imgSrc.toLowerCase().includes('tvicon')) {
+          imgSrc = 'images/dune.jpg';
+        }
+      }
+
+      // Final normalize (handles ./images/... etc)
+      imgSrc = normalizeImagePath(imgSrc);
+      return imgSrc || 'images/dune.jpg';
+    }
+
+    function loadCartFromLocalStorage() {
       const currentUser = localStorage.getItem('currentUser');
-      
+
       // Try to get cart from localStorage
-      const possibleKeys = [
-        'cartItems',
+      const possibleKeys = currentUser ? [
         'cart_' + currentUser,
+        'cartItems',
+        'shoppingCart',
+        'userCart',
+        'movieCart'
+      ] : [
+        'cartItems',
         'shoppingCart',
         'userCart',
         'movieCart'
       ];
-      
+
+      let found = false;
+
       for (const key of possibleKeys) {
         const stored = localStorage.getItem(key);
-        if (stored) {
-          try {
-            const parsed = JSON.parse(stored);
-            if (Array.isArray(parsed) && parsed.length > 0) {
-              // Normalize any image paths before using
-              cartItems = parsed.map(it => {
-                try {
-                  if (it && typeof it === 'object') {
-                    return Object.assign({}, it, { img: normalizeImagePath(it.img || '') });
-                  }
-                } catch(e) {}
-                return it;
-              });
-              cartCount = cartItems.length;
-              break;
-            }
-          } catch(e) {
-            console.error('Error parsing cart from ' + key + ':', e);
+        if (!stored) continue;
+
+        try {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed)) {
+            // Normalize basic shape so rendering is stable across pages
+            cartItems = parsed.map((it) => {
+              if (!it || typeof it !== 'object') return it;
+              const title = getCartItemTitle(it);
+              return Object.assign({}, it, { title });
+            });
+            cartCount = cartItems.length;
+            found = true;
+            break;
           }
+        } catch (e) {
+          console.error('Error parsing cart from ' + key + ':', e);
         }
       }
-      
-      // Update display
+
+      if (!found) {
+        cartItems = [];
+        cartCount = 0;
+      }
+    }
+
+    // Initialize cart from localStorage on page load
+    function initializeCart() {
+      loadCartFromLocalStorage();
       updateCartDisplay();
       renderCartModal();
     }
@@ -4113,6 +4373,9 @@
       const listEl = document.getElementById("cartItemsList");
       if (!listEl) return;
 
+      // Always re-sync from localStorage so cart images/items match other pages
+      loadCartFromLocalStorage();
+
       listEl.innerHTML = "";
 
       if (cartItems.length === 0) {
@@ -4133,56 +4396,9 @@
         item.className = "cartItem";
 
         const img = document.createElement("img");
-        // Use cardImage first, then img, then image, then getMovieImagePath
-        let imgSrc = itemData.cardImage || itemData.img || itemData.image || itemData.src || "";
-        
-        // Normalize image path
-        if (imgSrc) {
-          // If it's already a full path with images/, use as is
-          if (imgSrc.includes("images/")) {
-            // Already has images/ prefix, check if valid
-            if (imgSrc.toLowerCase().includes("tvicon")) {
-              imgSrc = "";
-            }
-          } else if (imgSrc.includes("/")) {
-            // Has path but no images/ - extract filename
-            const filename = imgSrc.split("/").pop().split("\\").pop();
-            if (filename && !filename.toLowerCase().includes("tvicon") && 
-                (filename.toLowerCase().includes(".jpg") || 
-                 filename.toLowerCase().includes(".png") || 
-                 filename.toLowerCase().includes(".jpeg") ||
-                 filename.toLowerCase().includes(".webp"))) {
-              imgSrc = "images/" + filename;
-            } else {
-              imgSrc = ""; // Reset if invalid
-            }
-          } else {
-            // Just filename, add images/ prefix
-            if (!imgSrc.toLowerCase().includes("tvicon") && 
-                (imgSrc.toLowerCase().includes(".jpg") || 
-                 imgSrc.toLowerCase().includes(".png") || 
-                 imgSrc.toLowerCase().includes(".jpeg") ||
-                 imgSrc.toLowerCase().includes(".webp"))) {
-              imgSrc = "images/" + imgSrc;
-            } else {
-              imgSrc = ""; // Reset if invalid
-            }
-          }
-        }
-        
-        // If still no valid image, try to get from title using getMovieImagePath if available
-        if (!imgSrc || imgSrc.toLowerCase().includes("tvicon")) {
-          if (typeof getMovieImagePath === 'function') {
-            imgSrc = getMovieImagePath(itemData.title);
-          }
-          // If still no image, use default
-          if (!imgSrc || imgSrc.toLowerCase().includes("tvicon")) {
-            imgSrc = "images/dune.jpg";
-          }
-        }
-        
+        const imgSrc = getCartItemImageSrc(itemData);
         img.src = imgSrc;
-        img.alt = itemData.title;
+        img.alt = getCartItemTitle(itemData);
         img.className = "cartItemImage";
 
         const content = document.createElement("div");
@@ -4190,7 +4406,7 @@
 
         const titleEl = document.createElement("div");
         titleEl.className = "cartItemTitle";
-        titleEl.textContent = itemData.title;
+        titleEl.textContent = getCartItemTitle(itemData);
 
         const subtitleEl = document.createElement("div");
         subtitleEl.className = "cartItemSubtitle";

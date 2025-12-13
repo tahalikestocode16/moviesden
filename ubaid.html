@@ -643,7 +643,7 @@
 
         /* Account Tabs */
         .account-tabs {
-            display: none;
+            display: flex;
             flex-direction: row;
             gap: 10px;
             margin-bottom: 25px;
@@ -651,13 +651,6 @@
             flex-wrap: nowrap;
             justify-content: space-between;
             width: 100%;
-        }
-        
-        /* Show tabs on desktop, hide on mobile */
-        @media (min-width: 769px) {
-            .account-tabs {
-                display: flex;
-            }
         }
 
         .account-tab {
@@ -1569,35 +1562,31 @@
                 max-width: 100vw;
             }
             
-            /* Hide desktop sidebar on mobile */
             .account-sidebar {
-                display: none !important;
-            }
-            
-            /* Show mobile bottom navigation */
-            .account-menu {
-                position: fixed !important;
+                position: fixed;
                 bottom: 0;
                 left: 0;
                 right: 0;
                 width: 100%;
+                min-width: 100%;
+                max-height: none;
                 height: 70px;
-                padding: 0 10px;
-                margin-top: 0;
+                padding: 0;
+                border-right: none;
                 border-top: 1px solid rgba(255, 42, 109, 0.3);
+                border-bottom: none;
                 background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.2), rgba(12, 12, 28, 0.98));
                 box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.5);
                 z-index: 1000;
-                display: flex !important;
+                display: flex;
                 flex-direction: row;
                 align-items: center;
-                justify-content: space-around;
+                justify-content: center;
                 overflow-x: auto;
                 overflow-y: hidden;
-                gap: 5px;
             }
             
-            .account-menu::-webkit-scrollbar {
+            .account-sidebar::-webkit-scrollbar {
                 display: none;
             }
             
@@ -1605,32 +1594,40 @@
                 display: none;
             }
             
+            .account-menu {
+                display: flex;
+                flex-direction: row;
+                gap: 5px;
+                margin-top: 0;
+                width: 100%;
+                justify-content: space-around;
+                padding: 0 10px;
+                align-items: center;
+            }
+            
             .account-menu-item {
-                padding: 10px 8px !important;
+                padding: 10px;
                 width: auto;
                 min-width: 50px;
                 height: 50px;
                 flex: 1;
                 max-width: 80px;
-                border-left: none !important;
+                border-left: none;
                 border-bottom: 3px solid transparent;
                 border-radius: 10px 10px 0 0;
-                flex-direction: column !important;
+                flex-direction: column;
                 gap: 4px;
                 justify-content: center;
                 align-items: center;
-                display: flex !important;
-                position: relative;
             }
             
             .account-menu-item span:not(.badge) {
-                display: none !important;
+                display: none;
             }
             
             .account-menu-item i {
-                font-size: 1.3rem !important;
+                font-size: 1.3rem;
                 margin: 0;
-                width: auto !important;
             }
             
             .account-menu-item .badge {
@@ -1678,15 +1675,16 @@
                 height: 80px;
             }
             
-            .account-menu-item:hover {
-                transform: translateY(-2px);
-                border-bottom-color: rgba(255, 42, 109, 0.5);
+            .account-tabs {
+                gap: 5px;
+                margin-bottom: 20px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
             }
             
-            .account-menu-item.active {
-                border-left: none !important;
-                border-bottom-color: var(--pink) !important;
-                background: rgba(255, 42, 109, 0.2);
+            .account-tabs::-webkit-scrollbar {
+                display: none;
             }
             
             .account-tab {
@@ -1799,12 +1797,8 @@
                 height: 70px;
             }
             
-            .account-menu-item span:not(.badge) {
-                font-size: 0.6rem;
-            }
-            
-            .account-menu-item i {
-                font-size: 1.2rem;
+            .account-tabs {
+                gap: 3px;
             }
             
             .account-tab {
@@ -3084,11 +3078,56 @@
             }
 
             wishlistItems.innerHTML = wishlist.map((item, index) => {
-                const imgSrc = item.image || item.img || item.src || 'images/dune.jpg';
+                // Get image - use cardImage first, then img, then image, then src
+                let imgSrc = item.cardImage || item.img || item.image || item.src || '';
+                
+                // Normalize image path
+                if (imgSrc) {
+                    // If it's already a full path with images/, use as is
+                    if (imgSrc.includes("images/")) {
+                        // Already has images/ prefix, check if valid
+                        if (imgSrc.toLowerCase().includes("tvicon")) {
+                            imgSrc = '';
+                        }
+                    } else if (imgSrc.includes('/')) {
+                        // Has path but no images/ - extract filename
+                        const filename = imgSrc.split('/').pop().split('\\').pop();
+                        if (filename && !filename.toLowerCase().includes('tvicon') && 
+                            (filename.toLowerCase().includes('.jpg') || 
+                             filename.toLowerCase().includes('.png') || 
+                             filename.toLowerCase().includes('.jpeg') ||
+                             filename.toLowerCase().includes('.webp'))) {
+                            imgSrc = 'images/' + filename;
+                        } else {
+                            imgSrc = ''; // Reset if invalid
+                        }
+                    } else {
+                        // Just filename, add images/ prefix
+                        if (!imgSrc.toLowerCase().includes('tvicon') && 
+                            (imgSrc.toLowerCase().includes('.jpg') || 
+                             imgSrc.toLowerCase().includes('.png') || 
+                             imgSrc.toLowerCase().includes('.jpeg') ||
+                             imgSrc.toLowerCase().includes('.webp'))) {
+                            imgSrc = 'images/' + imgSrc;
+                        } else {
+                            imgSrc = ''; // Reset if invalid
+                        }
+                    }
+                }
+                
+                // If still no valid image, try to get from title using getMovieImagePath
+                if (!imgSrc || imgSrc.toLowerCase().includes('tvicon')) {
+                    imgSrc = getMovieImagePath(item.title);
+                    // If still no image, use default
+                    if (!imgSrc || imgSrc.toLowerCase().includes('tvicon')) {
+                        imgSrc = 'images/dune.jpg';
+                    }
+                }
+                
                 return `
                 <div class="wishlist-item" style="--index: ${index}; animation-delay: ${index * 0.1}s;">
-                    <img src="${imgSrc}" alt="${item.title || 'Movie'}" onerror="this.onerror=null; this.src=(this.src.includes('tvicon') ? 'images/dune.jpg' : (this.src.includes('images/dune.jpg') ? 'images/batman.png' : 'images/dune.jpg'));">
-                    <h4>${item.title || 'Untitled Movie'}</h4>
+                    <img src="${imgSrc}" alt="${escapeHtml(item.title || 'Movie')}" onerror="this.onerror=null; if(!this.src.includes('images/dune.jpg') && !this.src.includes('images/batman.png')) { this.src='images/dune.jpg'; } else if(this.src.includes('images/dune.jpg')) { this.src='images/batman.png'; } else { this.style.display='none'; }">
+                    <h4>${escapeHtml(item.title || 'Untitled Movie')}</h4>
                     <p>${item.year || ''}</p>
                     <button class="wishlist-item-remove" onclick="removeFromWishlist(${index})">
                         <i class="fas fa-heart-broken"></i>

@@ -207,6 +207,21 @@ nav .icons {
     cursor: pointer;
     align-items: center;
     z-index: 1501;
+    position: relative;
+}
+
+nav .icons button {
+    background: transparent;
+    border: none;
+    color: white;
+    font: inherit;
+    padding: 0;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+nav .icons button:hover {
+    scale: 1.2;
 }
 
 /* Hide hamburger on large screens */
@@ -308,15 +323,90 @@ nav .icons {
     box-shadow: 0 4px 16px rgba(255, 42, 109, 0.4);
 }
 
-#search {
+#searchToggle {
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     transform-origin: center;
 }
 
-.icons.search-expanded #search {
+.icons.search-expanded #searchToggle {
     opacity: 0;
     transform: scale(0) rotate(90deg);
     pointer-events: none;
+}
+
+/* Search Results Dropdown */
+.search-results-dropdown {
+    position: fixed;
+    background: radial-gradient(circle at top left, #25122d 0%, #0d0b14 55%, #07060a 100%);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 42, 109, 0.3);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 999999;
+}
+
+.search-results-dropdown.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+.search-results-list {
+    max-height: 420px;
+    overflow-y: auto;
+    padding: 8px;
+}
+
+.search-result-item {
+    background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.16), rgba(17, 13, 24, 0.95));
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 8px;
+    color: #f5f5f5;
+    border: 1px solid rgba(255, 42, 109, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.search-result-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 6px 20px rgba(255, 42, 109, 0.3);
+    border-color: rgba(255, 42, 109, 0.7);
+}
+
+.search-result-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid rgba(255, 42, 109, 0.3);
+    flex: 0 0 auto;
+}
+
+.search-result-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fff;
+    margin: 0;
+}
+
+.search-result-type {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.search-no-results {
+    text-align: center;
+    padding: 28px 16px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
 }
 
 /* Desktop - wider search */
@@ -4516,7 +4606,7 @@ section:last-child {
             <div class="search-input-wrapper">
                 <input type="text" id="searchInput" class="searchInput" placeholder="Search movies..." />
             </div>
-            <a id="search" href="#">🔍︎</a>
+            <button id="searchToggle" type="button" aria-label="Search" onclick="toggleSearch(event)">🔍︎</button>
             <a id="accountLink" href="ubaid.html" class="account-link">
                 <i class="fas fa-user" id="accountIcon"></i>
                 <img id="profilePicture" src="" alt="Profile" class="profile-picture-nav" style="display: none;">
@@ -5429,33 +5519,167 @@ if (burgerBtn && navLinksEl) {
 }
 
 // ===== NAVBAR EXPANDABLE SEARCH =====
-const searchBtn = document.getElementById("search");
+const searchBtn = document.getElementById("searchToggle");
 const iconsContainer = document.getElementById("iconsContainer");
 const searchInput = document.getElementById("searchInput");
 let searchIndex = [];
+
+function toggleSearch(e) {
+  if (e && typeof e.preventDefault === 'function') e.preventDefault();
+  if (!iconsContainer) return;
+  iconsContainer.classList.toggle('search-expanded');
+  buildSearchIndex();
+  if (iconsContainer.classList.contains('search-expanded')) {
+    setTimeout(() => {
+      if (searchInput) searchInput.focus();
+    }, 200);
+    positionSearchDropdown();
+  } else {
+    if (searchInput) searchInput.value = '';
+    hideSearchDropdown();
+  }
+}
+
+function ensureSearchDropdownEl() {
+  let el = document.getElementById('searchResultsDropdown');
+  if (el) return el;
+  el = document.createElement('div');
+  el.id = 'searchResultsDropdown';
+  el.className = 'search-results-dropdown';
+  el.innerHTML = '<div class="search-results-list" id="searchResultsList"></div>';
+  document.body.appendChild(el);
+  return el;
+}
+
+function positionSearchDropdown() {
+  const dropdown = ensureSearchDropdownEl();
+  if (!searchInput) return;
+  const rect = searchInput.getBoundingClientRect();
+  const padding = 10;
+  const width = Math.min(Math.max(240, Math.round(rect.width)), window.innerWidth - padding * 2);
+  let left = Math.round(rect.left);
+  if (left + width > window.innerWidth - padding) left = window.innerWidth - padding - width;
+  if (left < padding) left = padding;
+  dropdown.style.left = left + 'px';
+  dropdown.style.top = Math.round(rect.bottom + 10) + 'px';
+  dropdown.style.width = width + 'px';
+}
+
+function hideSearchDropdown() {
+  const dropdown = document.getElementById('searchResultsDropdown');
+  if (!dropdown) return;
+  dropdown.classList.remove('show');
+  const list = document.getElementById('searchResultsList');
+  if (list) list.innerHTML = '';
+}
+
+function showSearchDropdown(results) {
+  const dropdown = ensureSearchDropdownEl();
+  const list = document.getElementById('searchResultsList');
+  if (!list) return;
+  positionSearchDropdown();
+
+  if (!results.length) {
+    list.innerHTML = '<div class="search-no-results">No results found</div>';
+    dropdown.classList.add('show');
+    return;
+  }
+
+  list.innerHTML = '';
+  results.slice(0, 12).forEach((r) => {
+    const row = document.createElement('div');
+    row.className = 'search-result-item';
+    row.innerHTML = `
+      <img class="search-result-image" src="${r.img || 'images/dune.jpg'}" alt="${(r.name || '').replace(/"/g, '&quot;')}">
+      <div style="flex:1;">
+        <div class="search-result-title">${r.name}</div>
+        <div class="search-result-type">${r.type}</div>
+      </div>
+    `;
+    row.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (iconsContainer) iconsContainer.classList.remove('search-expanded');
+      if (searchInput) searchInput.value = '';
+      hideSearchDropdown();
+      if (r.type === 'Movie') {
+        setTimeout(() => scrollToMovieCardByTitle(r.name), 120);
+      } else {
+        setTimeout(() => highlightAndScrollTo(r.element), 120);
+      }
+    });
+    list.appendChild(row);
+  });
+  dropdown.classList.add('show');
+}
+
+function scrollToMovieCardByTitle(title) {
+  const targetTitle = (title || '').trim();
+  if (!targetTitle) return;
+
+  const genreFilterEl = document.getElementById('genreFilter');
+  if (genreFilterEl && genreFilterEl.value !== 'all') {
+    genreFilterEl.value = 'all';
+  }
+  if (typeof applyFilterAndRender === 'function') {
+    try { window._randomizeOrder = false; } catch (e) {}
+    try { applyFilterAndRender(); } catch (e) {}
+  }
+
+  setTimeout(() => {
+    const cards = document.querySelectorAll('.movie-card');
+    let matchCard = null;
+    cards.forEach(card => {
+      const h4 = card.querySelector('.movie-info h4') || card.querySelector('h4');
+      if (h4 && (h4.textContent || '').trim() === targetTitle) {
+        matchCard = card;
+      }
+    });
+    if (matchCard) {
+      highlightAndScrollTo(matchCard);
+    } else {
+      showToast('No movie found with that name', true);
+    }
+  }, 60);
+}
 
 function buildSearchIndex() {
   searchIndex = [];
 
   // Movie cards
   document.querySelectorAll(".movie-card").forEach(card => {
-    const titleEl = card.querySelector("h4");
+    const titleEl = card.querySelector(".movie-info h4") || card.querySelector("h4");
     if (!titleEl) return;
     const name = titleEl.textContent.trim();
     if (!name) return;
-    searchIndex.push({ name, element: card });
+    const imgEl = card.querySelector('img');
+    const img = imgEl ? (imgEl.getAttribute('src') || imgEl.src || '') : '';
+    searchIndex.push({ name, element: card, img, type: 'Movie' });
   });
 
   // Hero slides
   document.querySelectorAll(".hero-slide").forEach(slide => {
     const title = slide.getAttribute("data-title");
     if (!title) return;
-    searchIndex.push({ name: title, element: slide });
+    const bg = slide.style.backgroundImage || '';
+    const m = bg.match(/url\(["']?([^"')]+)["']?\)/);
+    const img = m && m[1] ? m[1] : '';
+    searchIndex.push({ name: title, element: slide, img, type: 'Hero' });
   });
 }
 
 function highlightAndScrollTo(el) {
   if (!el) return;
+  if (el.classList && el.classList.contains('hero-slide')) {
+    document.querySelectorAll('.hero-slide.active').forEach(s => s.classList.remove('active'));
+    el.classList.add('active');
+    if (typeof updateHeroContent === 'function') {
+      try { updateHeroContent(); } catch (e) {}
+    }
+    const hero = document.getElementById('hero') || document.querySelector('.hero');
+    if (hero) hero.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+
   el.scrollIntoView({ behavior: "smooth", block: "center" });
   el.style.boxShadow = "0 0 0 2px rgba(255, 42, 109, 0.75), 0 0 18px rgba(255, 42, 109, 0.75)";
   el.style.transform = "translateY(-3px)";
@@ -5467,45 +5691,41 @@ function highlightAndScrollTo(el) {
 
 // Expand search on navbar search icon click
 if (searchBtn && iconsContainer) {
-  searchBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    iconsContainer.classList.toggle("search-expanded");
-    buildSearchIndex();
-    
-    if (iconsContainer.classList.contains("search-expanded")) {
-      setTimeout(() => {
-        if (searchInput) searchInput.focus();
-      }, 200);
-    }
-  });
+  searchBtn.addEventListener("click", toggleSearch);
 }
 
-// Handle search input
+// Handle search input (live dropdown)
 if (searchInput) {
+  searchInput.addEventListener('input', () => {
+    if (!iconsContainer || !iconsContainer.classList.contains('search-expanded')) return;
+    buildSearchIndex();
+    const q = (searchInput.value || '').toLowerCase().trim();
+    if (!q) {
+      hideSearchDropdown();
+      return;
+    }
+    const results = searchIndex.filter(it => (it.name || '').toLowerCase().includes(q));
+    showSearchDropdown(results);
+  });
+
   searchInput.addEventListener("keyup", (e) => {
     if (e.key === "Enter") {
-      const query = searchInput.value.toLowerCase().trim();
+      const query = (searchInput.value || '').toLowerCase().trim();
       if (!query) return;
-      
-      const match = searchIndex.find(item => 
-        item.name.toLowerCase().includes(query)
-      );
-      
+      const match = searchIndex.find(item => (item.name || '').toLowerCase().includes(query));
       if (match) {
         iconsContainer.classList.remove("search-expanded");
         searchInput.value = "";
+        hideSearchDropdown();
         setTimeout(() => {
-          highlightAndScrollTo(match.element);
-        }, 300);
+          if (match.type === 'Movie') {
+            scrollToMovieCardByTitle(match.name);
+          } else {
+            highlightAndScrollTo(match.element);
+          }
+        }, 200);
       } else {
-        // Show toast if no match found
-        const toast = document.getElementById("toast");
-        const toastText = document.getElementById("toastText");
-        if (toast && toastText) {
-          toastText.textContent = "No movie found with that name";
-          toast.classList.add("show");
-          setTimeout(() => toast.classList.remove("show"), 2000);
-        }
+        showToast('No movie found with that name', true);
       }
     }
   });
@@ -5515,6 +5735,7 @@ if (searchInput) {
     if (e.key === "Escape") {
       iconsContainer.classList.remove("search-expanded");
       searchInput.value = "";
+      hideSearchDropdown();
     }
   });
 }
@@ -5522,10 +5743,20 @@ if (searchInput) {
 // Close search when clicking outside
 document.addEventListener("click", (e) => {
   if (iconsContainer && iconsContainer.classList.contains("search-expanded")) {
-    if (!iconsContainer.contains(e.target) && e.target.id !== "search") {
+    const dropdown = document.getElementById('searchResultsDropdown');
+    const clickedDropdown = dropdown ? dropdown.contains(e.target) : false;
+    if (!clickedDropdown && !iconsContainer.contains(e.target) && e.target.id !== "searchToggle") {
       iconsContainer.classList.remove("search-expanded");
       if (searchInput) searchInput.value = "";
+      hideSearchDropdown();
     }
+  }
+});
+
+window.addEventListener('resize', () => {
+  const dropdown = document.getElementById('searchResultsDropdown');
+  if (dropdown && dropdown.classList.contains('show')) {
+    positionSearchDropdown();
   }
 });
 
