@@ -24,6 +24,8 @@
             overflow-x: hidden;
             scrollbar-width: thin;
             scrollbar-color: #ff2a6d #1a1525;
+            width: 100%;
+            max-width: 100vw;
         }
 
         html::-webkit-scrollbar {
@@ -52,6 +54,8 @@
             overflow-x: hidden;
       position: relative;
             min-height: 100vh;
+            width: 100%;
+            max-width: 100vw;
     }
 
     body::before {
@@ -1231,6 +1235,21 @@
 
             .stats-section {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+                padding: 0 15px;
+            }
+            
+            .stat-card {
+                padding: 25px 15px;
+            }
+            
+            .stat-number {
+                font-size: 36px;
+                margin-bottom: 8px;
+            }
+            
+            .stat-label {
+                font-size: 14px;
             }
 
             .parallax-bg {
@@ -1258,6 +1277,27 @@
                 padding: 0 20px;
                 font-size: 28px;
       }
+    }
+    
+    @media (max-width: 480px) {
+        .stats-section {
+            grid-template-columns: 1fr;
+            gap: 12px;
+            padding: 0 10px;
+        }
+        
+        .stat-card {
+            padding: 20px 12px;
+        }
+        
+        .stat-number {
+            font-size: 32px;
+            margin-bottom: 6px;
+        }
+        
+        .stat-label {
+            font-size: 13px;
+        }
     }
   </style>
   </head>

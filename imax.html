@@ -4013,16 +4013,47 @@
       
       btn.classList.toggle('active');
       const icon = btn.querySelector('i');
+      const isActive = btn.classList.contains('active');
       
-      if (btn.classList.contains('active')) {
+      // Get movie image from the section
+      const movieSection = btn.closest('.movie-hero');
+      const movieImg = movieSection ? movieSection.querySelector('.movie-bg') : null;
+      const image = movieImg ? movieImg.src : '';
+      
+      // Get current user
+      const currentUser = localStorage.getItem('currentUser');
+      
+      // Load wishlist from localStorage
+      let wishlist = JSON.parse(localStorage.getItem('wishlist_' + currentUser) || '[]');
+      
+      if (isActive) {
         icon.classList.remove('far');
         icon.classList.add('fas');
+        
+        // Add to wishlist if not already there
+        if (!wishlist.find(item => item.title === movieTitle)) {
+          wishlist.push({
+            title: movieTitle,
+            image: image,
+            img: image,
+            year: new Date().getFullYear().toString()
+          });
+        }
+        
         showToast(movieTitle + ' added to wishlist');
       } else {
         icon.classList.remove('fas');
         icon.classList.add('far');
+        
+        // Remove from wishlist
+        wishlist = wishlist.filter(item => item.title !== movieTitle);
+        
         showToast(movieTitle + ' removed from wishlist');
       }
+      
+      // Save to both localStorage keys for compatibility
+      localStorage.setItem('wishlist_' + currentUser, JSON.stringify(wishlist));
+      localStorage.setItem('wishlistItems', JSON.stringify(wishlist));
     }
 
     // Toast Notification
@@ -4454,57 +4485,123 @@
     // Attach Buy Ticket button handlers (only once to prevent double-add)
     let cartHandlersAttached = false;
     function attachCartHandlers() {
-      if (cartHandlersAttached) return;
+      if (cartHandlersAttached) {
+        console.log("Cart handlers already attached, skipping...");
+        return;
+      }
       cartHandlersAttached = true;
       
-      document.querySelectorAll('.btn-buy').forEach(btn => {
-        // Remove any existing listeners by cloning the button
-        const newBtn = btn.cloneNode(true);
-        btn.parentNode.replaceChild(newBtn, btn);
+      console.log("Attaching cart handlers to buy buttons...");
+      const buyButtons = document.querySelectorAll('.btn-buy');
+      console.log("Found " + buyButtons.length + " buy buttons");
+      
+      if (buyButtons.length === 0) {
+        console.error("No buy buttons found! Check if DOM is ready.");
+        return;
+      }
+      
+      buyButtons.forEach(function(btn, index) {
+        console.log("Attaching handler to button " + (index + 1));
         
-        newBtn.addEventListener('click', function(e) {
+        btn.addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
-          e.stopImmediatePropagation();
+          
+          console.log("=== BUY BUTTON CLICKED ===");
+          console.log("Button index:", index);
           
           // Check if user is logged in
           if (!isLoggedIn()) {
+            console.log("User not logged in, showing login popup");
             showLoginPopup();
             return;
           }
           
-          const currentSection = this.closest('.movie-hero');
-          if (!currentSection) return;
+          console.log("User is logged in, proceeding...");
           
-          const movieTitle = currentSection.querySelector('.movie-title')?.textContent.trim();
+          const currentSection = this.closest('.movie-hero');
+          if (!currentSection) {
+            console.error("Could not find movie-hero section");
+            return;
+          }
+          
+          const titleEl = currentSection.querySelector('.movie-title');
+          const movieTitle = titleEl ? titleEl.textContent.trim() : '';
           const imgEl = currentSection.querySelector('.movie-bg');
-          // Use the original attribute value when possible and normalize to images/
           const rawSrc = imgEl ? (imgEl.getAttribute('src') || imgEl.src || '') : '';
           const imgSrc = normalizeImagePath(rawSrc);
 
+          console.log("Movie Title:", movieTitle);
+          console.log("Image Source:", imgSrc);
+          console.log("Current cartItems:", cartItems);
+
           if (movieTitle) {
-            cartItems.push({ title: movieTitle, img: imgSrc });
-            cartCount = cartItems.length;
-            updateCartDisplay();
-            renderCartModal();
-            showCartToast(`${movieTitle} added to cart`);
+            // Check if item already exists in cart
+            const existingIndex = cartItems.findIndex(function(item) {
+              return item.title === movieTitle;
+            });
             
-            // Save to localStorage
-            localStorage.setItem('cartItems', JSON.stringify(cartItems));
-            const currentUser = localStorage.getItem('currentUser');
-            if (currentUser) {
-              localStorage.setItem('cart_' + currentUser, JSON.stringify(cartItems));
+            console.log("Existing index:", existingIndex);
+            
+            if (existingIndex === -1) {
+              // Add new item with proper structure (matching upcoming.html format)
+              const newItem = { 
+                title: movieTitle, 
+                img: imgSrc,
+                image: imgSrc,
+                cardImage: imgSrc,
+                price: 9.99
+              };
+              
+              console.log("Adding new item:", newItem);
+              cartItems.push(newItem);
+              cartCount = cartItems.length;
+              
+              console.log("Updated cartItems:", cartItems);
+              console.log("Cart count:", cartCount);
+              
+              updateCartDisplay();
+              renderCartModal();
+              showCartToast(movieTitle + ' added to cart');
+              
+              // Save to localStorage
+              const currentUser = localStorage.getItem('currentUser');
+              console.log("Current user:", currentUser);
+              
+              try {
+                if (currentUser) {
+                  localStorage.setItem('cart_' + currentUser, JSON.stringify(cartItems));
+                  console.log("Saved to cart_" + currentUser);
+                }
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                console.log("Saved to cartItems");
+                console.log("localStorage cartItems:", localStorage.getItem('cartItems'));
+              } catch (error) {
+                console.error("Error saving to localStorage:", error);
+              }
+              
+              console.log("=== CART SAVE COMPLETE ===");
+            } else {
+              console.log("Item already in cart");
+              showCartToast(movieTitle + ' is already in cart');
             }
+          } else {
+            console.error("No movie title found");
           }
-          return false;
-        }, true);
+        });
       });
+      
+      console.log("Cart handlers attached successfully!");
     }
     
     // Initialize cart handlers and load cart from localStorage
     function initCart() {
+      console.log("Initializing cart...");
       initializeCart();
-      attachCartHandlers();
+      // Add small delay to ensure all buttons are rendered
+      setTimeout(function() {
+        attachCartHandlers();
+      }, 500);
     }
     
     if (document.readyState === "loading") {
@@ -4512,6 +4609,14 @@
     } else {
       initCart();
     }
+    
+    // Also try to attach handlers after window load as backup
+    window.addEventListener('load', function() {
+      if (!cartHandlersAttached) {
+        console.log("Retrying cart handler attachment after window load");
+        attachCartHandlers();
+      }
+    });
 
     // Cart modal handlers are initialized in a separate script block after the modal HTML
   </script>

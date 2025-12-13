@@ -1905,6 +1905,26 @@ section:last-child {
     width: 100%;
     padding: 8px 14px;
     font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.genre-movie-info .view-shows-btn {
+    width: 100%;
+    padding: 8px 14px;
+    font-size: 12px;
+    background: linear-gradient(135deg, #8a2be2, #9d4edd);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.genre-movie-info .view-shows-btn:hover {
+    background: linear-gradient(135deg, #9d4edd, #8a2be2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(138, 43, 226, 0.4);
 }
 
 /* -------------------- Cards --------------------- */
@@ -9212,9 +9232,10 @@ const viewShowsClose = document.querySelector('.close-view-shows');
 
 if (heroViewShowsBtn && viewShowsModal) {
   heroViewShowsBtn.addEventListener("click", () => {
-    // Get current hero movie title
+    // Get current hero movie title from the carousel
     const heroTitle = document.querySelector(".hero .title");
     const movieTitle = heroTitle ? heroTitle.textContent.trim() : "Batman Beyond";
+    console.log("View Shows clicked for:", movieTitle);
     openViewShowsModal(movieTitle);
   });
 }
@@ -9352,12 +9373,13 @@ if (document.readyState === "loading") {
                 const moviesHTML = `
                     <div class="genre-movies-grid">
                         ${movies.map(movie => `
-                            <div class="genre-movie-card">
+                            <div class="genre-movie-card" data-movie-title="${movie.title}">
                                 <img src="${movie.image}" alt="${movie.title}">
                                 <div class="genre-movie-info">
                                     <h4>${movie.title}</h4>
                                     <div class="genre-movie-rating">${convertStarsToHTML(movie.rating)}</div>
                                     <button class="add-cart-btn">Buy Ticket</button>
+                                    <button class="view-shows-btn">View Shows</button>
                                 </div>
                             </div>
                         `).join('')}
@@ -9369,6 +9391,21 @@ if (document.readyState === "loading") {
                 
                 // Re-setup cart buttons for new content
                 setupCart();
+                
+                // Setup View Shows buttons
+                document.querySelectorAll('.view-shows-btn').forEach(function(btn) {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const card = this.closest('.genre-movie-card');
+                        const movieTitle = card ? card.getAttribute('data-movie-title') : '';
+                        
+                        if (movieTitle) {
+                            openViewShowsModal(movieTitle);
+                        }
+                    });
+                });
             });
         });
     }

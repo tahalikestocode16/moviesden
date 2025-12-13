@@ -3048,11 +3048,22 @@
                 if (!imgSrc || imgSrc.toLowerCase().includes("tvicon")) {
                   imgSrc = "images/dune.jpg";
                 }
-                cartItems.push({ title: currentItem.title, img: imgSrc, price: currentItem.price || 9.99 });
+                
+                // Add with multiple image keys for compatibility
+                cartItems.push({ 
+                    title: currentItem.title, 
+                    img: imgSrc,
+                    image: imgSrc,
+                    cardImage: imgSrc,
+                    price: currentItem.price || 9.99 
+                });
                 cartCount = cartItems.length;
                 updateCartDisplay();
                 renderCartModal();
                 saveCartToStorage();
+                
+                console.log("Ticket added to cart:", currentItem.title);
+                console.log("Cart saved to localStorage:", cartItems);
             }
             closeModal('ticketModal');
             showToast(`Tickets purchased for ${currentItem.title}! E-tickets sent to your email.`);
@@ -3067,11 +3078,20 @@
                 if (!imgSrc || imgSrc.toLowerCase().includes("tvicon")) {
                   imgSrc = "images/dune.jpg";
                 }
-                cartItems.push({ title: currentItem.title, img: imgSrc, price: currentItem.price || 9.99 });
+                
+                cartItems.push({ 
+                    title: currentItem.title, 
+                    img: imgSrc,
+                    image: imgSrc,
+                    cardImage: imgSrc,
+                    price: currentItem.price || 9.99 
+                });
                 cartCount = cartItems.length;
                 updateCartDisplay();
                 renderCartModal();
                 saveCartToStorage();
+                
+                console.log("Pass added to cart:", currentItem.title);
             }
             closeModal('passModal');
             showToast(`Pass purchased for ${currentItem.title}! Pass details sent to your email.`);
@@ -3086,14 +3106,23 @@
                 if (!imgSrc || imgSrc.toLowerCase().includes("tvicon")) {
                   imgSrc = "images/dune.jpg";
                 }
-                cartItems.push({ title: currentItem.title, img: imgSrc, price: currentItem.price || 9.99 });
+                
+                cartItems.push({ 
+                    title: currentItem.title, 
+                    img: imgSrc,
+                    image: imgSrc,
+                    cardImage: imgSrc,
+                    price: currentItem.price || 9.99 
+                });
                 cartCount = cartItems.length;
                 updateCartDisplay();
                 renderCartModal();
                 saveCartToStorage();
+                
+                console.log("Seat reservation added to cart:", currentItem.title);
             }
             closeModal('seatModal');
-            showToast(`Seats reserved for ${currentItem.title}! Confirmation sent to your email.`);
+            showToast(`Seat reserved for ${currentItem.title}! Reservation details sent to your email.`);
         });
 
         document.getElementById('bookingForm').addEventListener('submit', (e) => {
@@ -3105,14 +3134,23 @@
                 if (!imgSrc || imgSrc.toLowerCase().includes("tvicon")) {
                   imgSrc = "images/dune.jpg";
                 }
-                cartItems.push({ title: currentItem.title, img: imgSrc, price: currentItem.price || 9.99 });
+                
+                cartItems.push({ 
+                    title: currentItem.title, 
+                    img: imgSrc,
+                    image: imgSrc,
+                    cardImage: imgSrc,
+                    price: currentItem.price || 9.99 
+                });
                 cartCount = cartItems.length;
                 updateCartDisplay();
                 renderCartModal();
                 saveCartToStorage();
+                
+                console.log("Booking added to cart:", currentItem.title);
             }
             closeModal('bookingModal');
-            showToast(`Booking confirmed for ${currentItem.title}! Details sent to your email.`);
+            showToast(`Booking confirmed for ${currentItem.title}! Confirmation sent to your email.`);
         });
 
         document.getElementById('movieForm').addEventListener('submit', (e) => {
@@ -3124,20 +3162,51 @@
                 if (!imgSrc || imgSrc.toLowerCase().includes("tvicon")) {
                   imgSrc = "images/dune.jpg";
                 }
-                cartItems.push({ title: currentItem.title, img: imgSrc, price: currentItem.price || 9.99 });
+                
+                cartItems.push({ 
+                    title: currentItem.title, 
+                    img: imgSrc,
+                    image: imgSrc,
+                    cardImage: imgSrc,
+                    price: currentItem.price || 9.99 
+                });
                 cartCount = cartItems.length;
                 updateCartDisplay();
                 renderCartModal();
                 saveCartToStorage();
+                
+                console.log("Movie added to cart:", currentItem.title);
             }
             closeModal('movieModal');
-            showToast(`Pre-order confirmed for ${currentItem.title}! Tickets will be sent via email.`);
+            showToast(`${currentItem.title} added to your watchlist! Enjoy the show.`);
         });
 
         document.getElementById('magazineForm').addEventListener('submit', (e) => {
             e.preventDefault();
+            // Add to cart
+            if (currentItem && currentItem.title) {
+                // Ensure image is valid (not tvicon)
+                let imgSrc = currentItem.img || '';
+                if (!imgSrc || imgSrc.toLowerCase().includes("tvicon")) {
+                  imgSrc = "images/dune.jpg";
+                }
+                
+                cartItems.push({ 
+                    title: currentItem.title, 
+                    img: imgSrc,
+                    image: imgSrc,
+                    cardImage: imgSrc,
+                    price: currentItem.price || 9.99 
+                });
+                cartCount = cartItems.length;
+                updateCartDisplay();
+                renderCartModal();
+                saveCartToStorage();
+                
+                console.log("Magazine subscription added to cart:", currentItem.title);
+            }
             closeModal('magazineModal');
-            showToast(`Subscription confirmed for ${currentItem.title}! Thank you for subscribing.`);
+            showToast(`Subscribed to ${currentItem.title}! First issue arriving soon.`);
         });
 
         document.getElementById('merchForm').addEventListener('submit', (e) => {
@@ -3149,11 +3218,20 @@
                 if (!imgSrc || imgSrc.toLowerCase().includes("tvicon")) {
                   imgSrc = "images/dune.jpg";
                 }
-                cartItems.push({ title: currentItem.title, img: imgSrc, price: currentItem.price || 9.99 });
+                
+                cartItems.push({ 
+                    title: currentItem.title, 
+                    img: imgSrc,
+                    image: imgSrc,
+                    cardImage: imgSrc,
+                    price: currentItem.price || 9.99 
+                });
                 cartCount = cartItems.length;
                 updateCartDisplay();
                 renderCartModal();
                 saveCartToStorage();
+                
+                console.log("Merchandise added to cart:", currentItem.title);
             }
             closeModal('merchModal');
             showToast(`${currentItem.title} added to cart! Continue shopping or checkout.`);
@@ -3530,110 +3608,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Checkout Modal Removed - Users directed to home page for checkout -->
-    <!-- <div id="checkoutModal" class="checkout-modal">
-        <div class="checkout-dialog">
-            <div class="checkout-header">
-                <h3>💳 Checkout</h3>
-                <div id="checkoutModalClose" class="checkout-close">×</div>
-            </div>
-            <div class="checkout-body">
-                <!-- Animated Credit Card -->
-                <div class="card-wrapper">
-                    <div class="card-item" id="creditCard">
-                        <!-- Front of Card -->
-                        <div class="card-side front">
-                            <div class="card-cover"></div>
-                            <div class="card-focus" id="cardFocus"></div>
-                            <div class="card-content">
-                                <div class="card-top">
-                                    <div class="card-chip"></div>
-                                    <div class="card-type">
-                                        <img id="cardTypeImg" src="" alt="" class="card-type-img" style="display: none;">
-                                    </div>
-                                </div>
-                                <div class="card-number" id="cardNumberDisplay">
-                                    <span class="card-number-item">####</span>
-                                    <span class="card-number-item">####</span>
-                                    <span class="card-number-item">####</span>
-                                    <span class="card-number-item">####</span>
-                                </div>
-                                <div class="card-info">
-                                    <div class="card-holder">
-                                        <div class="card-holder-label">Card Holder</div>
-                                        <div class="card-holder-name" id="cardHolderDisplay">Full Name</div>
-                                    </div>
-                                    <div class="card-date">
-                                        <div class="card-date-label">Expires</div>
-                                        <div class="card-date-value" id="cardDateDisplay">MM/YY</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Back of Card -->
-                        <div class="card-side back">
-                            <div class="card-cover"></div>
-                            <div class="card-band"></div>
-                            <div class="card-cvv">
-                                <div class="card-cvv-label">CVV</div>
-                                <div class="card-cvv-band" id="cardCvvDisplay">***</div>
-                                <div class="card-type">
-                                    <img id="cardTypeImgBack" src="" alt="" class="card-type-img" style="display: none;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <p style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.7); margin-bottom: 20px; margin-top: 20px;">Enter your details to complete the purchase. (Demo only — no real payment.)</p>
-
-                <div style="margin-bottom: 15px;">
-                    <div class="checkout-label">Card Number</div>
-                    <input id="checkoutCard" type="text" class="checkout-input" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="off" />
-                </div>
-
-                <div style="margin-bottom: 15px;">
-                    <div class="checkout-label">Card Holder</div>
-                    <input id="checkoutName" type="text" class="checkout-input" placeholder="John Doe" autocomplete="off" />
-                </div>
-
-                <div class="checkout-row" style="margin-bottom: 15px;">
-                    <div style="flex:1; margin-right: 10px;">
-                        <div class="checkout-label">Expiration Date</div>
-                        <div style="display: flex; gap: 10px;">
-                            <select id="checkoutMonth" class="checkout-input" style="flex: 1;">
-                                <option value="">Month</option>
-                            </select>
-                            <select id="checkoutYear" class="checkout-input" style="flex: 1;">
-                                <option value="">Year</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div style="flex:1;">
-                        <div class="checkout-label">CVV</div>
-                        <input id="checkoutCvv" type="text" class="checkout-input" placeholder="123" maxlength="4" autocomplete="off" />
-                    </div>
-                </div>
-
-                <div style="margin-bottom: 15px;">
-                    <div class="checkout-label">Email</div>
-                    <input id="checkoutEmail" type="email" class="checkout-input" placeholder="you@example.com" />
-                </div>
-
-                <div style="margin-bottom: 20px;">
-                    <div class="checkout-label">Billing Address</div>
-                    <input id="checkoutAddress" type="text" class="checkout-input" placeholder="Street, City, Country" />
-                </div>
-            </div>
-            <div class="checkout-footer">
-                <div class="checkout-actions">
-                    <button type="button" id="checkoutCancel" class="checkout-cancel">Cancel</button>
-                    <button type="button" id="checkoutPay" class="checkout-pay">Pay Now</button>
-                </div>
-            </div>
-        </div>
-    </div> -->
 
     <!-- Add-to-cart Toast -->
     <div id="cartToast" class="cart-toast">
