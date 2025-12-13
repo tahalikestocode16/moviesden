@@ -231,6 +231,10 @@ nav .icons button:hover {
     transition: all 0.3s ease;
     color: white;
     cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 0;
+    font: inherit;
 }
 
 #bar:hover {
@@ -281,85 +285,7 @@ nav .icons button:hover {
     scale: 1.2;
 }
 
-/* Search Input Wrapper */
-.search-input-wrapper {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%) scale(0.8);
-    width: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 10000;
-    transform-origin: right center;
-    pointer-events: none;
-}
 
-.icons.search-expanded .search-input-wrapper {
-    width: 350px;
-    opacity: 1;
-    transform: translateY(-50%) scale(1);
-    margin-right: 10px;
-    pointer-events: all;
-}
-
-.searchInput {
-    width: 100%;
-    padding: 10px 16px;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 42, 109, 0.4);
-    background: rgba(14, 12, 22, 0.98);
-    color: white;
-    outline: none;
-    font-size: 0.9rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-}
-
-.searchInput:focus {
-    border-color: #ff2a6d;
-    box-shadow: 0 4px 16px rgba(255, 42, 109, 0.4);
-}
-
-#searchToggle {
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-origin: center;
-}
-
-.icons.search-expanded #searchToggle {
-    opacity: 0;
-    transform: scale(0) rotate(90deg);
-    pointer-events: none;
-}
-
-/* Search Results Dropdown */
-.search-results-dropdown {
-    position: fixed;
-    background: radial-gradient(circle at top left, #25122d 0%, #0d0b14 55%, #07060a 100%);
-    border-radius: 16px;
-    border: 1px solid rgba(255, 42, 109, 0.3);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-    overflow: hidden;
-    opacity: 0;
-    transform: translateY(-10px);
-    pointer-events: none;
-    transition: all 0.3s ease;
-    z-index: 999999;
-}
-
-.search-results-dropdown.show {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: all;
-}
-
-.search-results-list {
-    max-height: 420px;
-    overflow-y: auto;
-    padding: 8px;
-}
 
 .search-result-item {
     background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.16), rgba(17, 13, 24, 0.95));
@@ -409,19 +335,6 @@ nav .icons button:hover {
     font-size: 0.95rem;
 }
 
-/* Desktop - wider search */
-@media (min-width: 1200px) {
-    .icons.search-expanded .search-input-wrapper {
-        width: 400px;
-    }
-}
-
-/* Tablet */
-@media (max-width: 900px) {
-    .icons.search-expanded .search-input-wrapper {
-        width: 280px;
-    }
-}
 
 /* Mobile - Full navbar width */
 @media (max-width: 768px) {
@@ -512,40 +425,8 @@ nav .icons button:hover {
         border-color: rgba(255, 42, 109, 0.6);
     }
     
-    .icons.search-expanded .search-input-wrapper {
-        position: fixed;
-        left: 5vw;
-        right: 5vw;
-        top: 15px;
-        width: auto;
-        transform: scale(1);
-        margin-right: 0;
-        z-index: 99999;
-    }
-    
-    .icons.search-expanded #search {
-        opacity: 0;
-        transform: scale(0);
-    }
-    
-    .searchInput {
-        padding: 10px 16px;
-        font-size: 0.9rem;
-    }
 }
 
-@media (max-width: 600px) {
-    .icons.search-expanded .search-input-wrapper {
-        left: 10px;
-        right: 10px;
-        top: 12px;
-    }
-    
-    .searchInput {
-        padding: 9px 14px;
-        font-size: 0.85rem;
-    }
-}
 
 @media (max-width: 460px) {
     nav {
@@ -619,17 +500,6 @@ nav .icons button:hover {
         flex: 1 1 auto;
         min-width: 0;
         max-width: calc(100% - 120px);
-    }
-    
-    .icons.search-expanded .search-input-wrapper {
-        left: 8px;
-        right: 8px;
-        top: 10px;
-    }
-    
-    .searchInput {
-        padding: 8px 12px;
-        font-size: 0.8rem;
     }
     
     nav .logo img {
@@ -1099,8 +969,8 @@ section:last-child {
     max-width: 1400px;
     margin:30px auto;
     display:flex;
-    justify-content:flex-end;
-    gap:12px;
+    justify-content:space-between;
+    gap:20px;
     align-items:center;
     flex-wrap:wrap;
     padding: 18px 24px;
@@ -1111,6 +981,81 @@ section:last-child {
     box-sizing: border-box;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     position: relative;
+}
+
+.search-container-filter {
+    position: relative;
+    flex: 0 0 auto;
+    min-width: 250px;
+    max-width: 350px;
+    order: 1;
+}
+
+.filter-bar > label {
+    order: 2;
+    margin-left: auto;
+}
+
+.filter-bar > select {
+    order: 3;
+}
+
+.filter-bar > #randomBtn {
+    order: 4;
+}
+
+.filter-bar > #wishlistBtn {
+    order: 5;
+}
+
+.search-container-filter .searchInput {
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 42, 109, 0.4);
+    background: rgba(31, 31, 48, 0.6);
+    backdrop-filter: blur(10px);
+    color: white;
+    outline: none;
+    font-size: 13px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.search-container-filter .searchInput:focus {
+    border-color: #ff2a6d;
+    box-shadow: 0 4px 16px rgba(255, 42, 109, 0.4);
+    background-color: rgba(31, 31, 48, 0.8);
+}
+
+.search-container-filter .searchInput::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.search-container-filter .search-results-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: radial-gradient(circle at top left, #25122d 0%, #0d0b14 55%, #07060a 100%);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 42, 109, 0.3);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    max-height: 400px;
+    overflow-y: auto;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    padding: 8px;
+}
+
+.search-container-filter .search-results-dropdown.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
 }
 
 .filter-bar::before {
@@ -3875,9 +3820,10 @@ section:last-child {
         flex-direction: column;
         align-items: stretch;
         gap: 10px;
-        width: 95%;
-        max-width: 100%;
-        margin: 20px auto 0;
+        padding: 15px;
+    }
+    
+    .filter-bar select {
         padding: 12px 15px;
     }
     
@@ -3886,6 +3832,11 @@ section:last-child {
     .filter-bar button {
         width: 100%;
         box-sizing: border-box;
+    }
+    
+    .search-container-filter {
+        max-width: 100%;
+        flex: 1 1 100%;
     }
     
     .movie-category-heading {
@@ -4680,11 +4631,7 @@ section:last-child {
 
         <div class="icons" id="iconsContainer">
             <a id="cartIcon" class="cart-link" href="#"><i class="fas fa-shopping-cart"></i> <span id="cartCount">0</span></a>
-            <a id="bar" href="#">☰</a>
-            <div class="search-input-wrapper">
-                <input type="text" id="searchInput" class="searchInput" placeholder="Search movies..." />
-            </div>
-            <button id="searchToggle" type="button" aria-label="Search" onclick="toggleSearch(event)">🔍︎</button>
+            <button id="bar" type="button" aria-label="Menu">☰</button>
             <a id="accountLink" href="ubaid.html" class="account-link">
                 <i class="fas fa-user" id="accountIcon"></i>
                 <img id="profilePicture" src="" alt="Profile" class="profile-picture-nav" style="display: none;">
@@ -4727,6 +4674,10 @@ section:last-child {
 </div>
 
 <div class="filter-bar">
+    <div class="search-container-filter">
+        <input type="text" id="searchInput" class="searchInput" placeholder="Search movies..." />
+        <div id="searchResultsDropdownFilter" class="search-results-dropdown"></div>
+    </div>
     <label for="genreFilter">Filter by genre:</label>
     <select id="genreFilter">
         <option value="all">All</option>
@@ -5576,149 +5527,36 @@ function showToast(message, isError = false, isSuccess = false){
 }
 
 // ===== Mobile Nav (Hamburger) =====
-const burgerBtn = document.getElementById("bar");
-const navLinksEl = document.querySelector(".navlinks");
+(function() {
+  const burgerBtn = document.getElementById("bar");
+  const navLinksEl = document.querySelector(".navlinks");
 
-if (burgerBtn && navLinksEl) {
-  burgerBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    navLinksEl.classList.toggle("show");
-  });
+  console.log("Hamburger init:", burgerBtn, navLinksEl);
 
-  // Close nav when a link is clicked (on mobile)
-  navLinksEl.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      navLinksEl.classList.remove("show");
-    });
-  });
-  
-  // Re-setup cart buttons for newly created movie cards
-  setupCart();
-}
-
-// ===== NAVBAR EXPANDABLE SEARCH =====
-const searchBtn = document.getElementById("searchToggle");
-const iconsContainer = document.getElementById("iconsContainer");
-const searchInput = document.getElementById("searchInput");
-let searchIndex = [];
-
-function toggleSearch(e) {
-  if (e && typeof e.preventDefault === 'function') e.preventDefault();
-  if (!iconsContainer) return;
-  iconsContainer.classList.toggle('search-expanded');
-  buildSearchIndex();
-  if (iconsContainer.classList.contains('search-expanded')) {
-    setTimeout(() => {
-      if (searchInput) searchInput.focus();
-    }, 200);
-    positionSearchDropdown();
-  } else {
-    if (searchInput) searchInput.value = '';
-    hideSearchDropdown();
-  }
-}
-
-function ensureSearchDropdownEl() {
-  let el = document.getElementById('searchResultsDropdown');
-  if (el) return el;
-  el = document.createElement('div');
-  el.id = 'searchResultsDropdown';
-  el.className = 'search-results-dropdown';
-  el.innerHTML = '<div class="search-results-list" id="searchResultsList"></div>';
-  document.body.appendChild(el);
-  return el;
-}
-
-function positionSearchDropdown() {
-  const dropdown = ensureSearchDropdownEl();
-  if (!searchInput) return;
-  const rect = searchInput.getBoundingClientRect();
-  const padding = 10;
-  const width = Math.min(Math.max(240, Math.round(rect.width)), window.innerWidth - padding * 2);
-  let left = Math.round(rect.left);
-  if (left + width > window.innerWidth - padding) left = window.innerWidth - padding - width;
-  if (left < padding) left = padding;
-  dropdown.style.left = left + 'px';
-  dropdown.style.top = Math.round(rect.bottom + 10) + 'px';
-  dropdown.style.width = width + 'px';
-}
-
-function hideSearchDropdown() {
-  const dropdown = document.getElementById('searchResultsDropdown');
-  if (!dropdown) return;
-  dropdown.classList.remove('show');
-  const list = document.getElementById('searchResultsList');
-  if (list) list.innerHTML = '';
-}
-
-function showSearchDropdown(results) {
-  const dropdown = ensureSearchDropdownEl();
-  const list = document.getElementById('searchResultsList');
-  if (!list) return;
-  positionSearchDropdown();
-
-  if (!results.length) {
-    list.innerHTML = '<div class="search-no-results">No results found</div>';
-    dropdown.classList.add('show');
-    return;
-  }
-
-  list.innerHTML = '';
-  results.slice(0, 12).forEach((r) => {
-    const row = document.createElement('div');
-    row.className = 'search-result-item';
-    row.innerHTML = `
-      <img class="search-result-image" src="${r.img || 'images/dune.jpg'}" alt="${(r.name || '').replace(/"/g, '&quot;')}">
-      <div style="flex:1;">
-        <div class="search-result-title">${r.name}</div>
-        <div class="search-result-type">${r.type}</div>
-      </div>
-    `;
-    row.addEventListener('click', (e) => {
+  if (burgerBtn && navLinksEl) {
+    burgerBtn.addEventListener("click", function(e) {
+      e.preventDefault();
       e.stopPropagation();
-      if (iconsContainer) iconsContainer.classList.remove('search-expanded');
-      if (searchInput) searchInput.value = '';
-      hideSearchDropdown();
-      if (r.type === 'Movie') {
-        setTimeout(() => scrollToMovieCardByTitle(r.name), 120);
-      } else {
-        setTimeout(() => highlightAndScrollTo(r.element), 120);
-      }
+      console.log("Hamburger clicked, current classes:", navLinksEl.className);
+      navLinksEl.classList.toggle("show");
+      console.log("After toggle:", navLinksEl.className);
     });
-    list.appendChild(row);
-  });
-  dropdown.classList.add('show');
-}
 
-function scrollToMovieCardByTitle(title) {
-  const targetTitle = (title || '').trim();
-  if (!targetTitle) return;
-
-  const genreFilterEl = document.getElementById('genreFilter');
-  if (genreFilterEl && genreFilterEl.value !== 'all') {
-    genreFilterEl.value = 'all';
-  }
-  if (typeof applyFilterAndRender === 'function') {
-    try { window._randomizeOrder = false; } catch (e) {}
-    try { applyFilterAndRender(); } catch (e) {}
-  }
-
-  setTimeout(() => {
-    const cards = document.querySelectorAll('.movie-card');
-    let matchCard = null;
-    cards.forEach(card => {
-      const h4 = card.querySelector('.movie-info h4') || card.querySelector('h4');
-      if (h4 && (h4.textContent || '').trim() === targetTitle) {
-        matchCard = card;
-      }
+    // Close nav when a link is clicked (on mobile)
+    navLinksEl.querySelectorAll("a").forEach(function(link) {
+      link.addEventListener("click", function() {
+        navLinksEl.classList.remove("show");
+      });
     });
-    if (matchCard) {
-      highlightAndScrollTo(matchCard);
-    } else {
-      showToast('No movie found with that name', true);
-    }
-  }, 60);
-}
+  } else {
+    console.error("Hamburger menu elements not found!");
+  }
+})();
+
+// ===== FILTER BAR SEARCH =====
+const searchInput = document.getElementById("searchInput");
+const searchDropdownFilter = document.getElementById("searchResultsDropdownFilter");
+let searchIndex = [];
 
 function buildSearchIndex() {
   searchIndex = [];
@@ -5745,6 +5583,45 @@ function buildSearchIndex() {
   });
 }
 
+function hideSearchDropdown() {
+  if (!searchDropdownFilter) return;
+  searchDropdownFilter.classList.remove('show');
+  searchDropdownFilter.innerHTML = '';
+}
+
+function showSearchDropdown(results) {
+  if (!searchDropdownFilter) return;
+
+  if (!results.length) {
+    searchDropdownFilter.innerHTML = '<div class="search-no-results">No results found</div>';
+    searchDropdownFilter.classList.add('show');
+    return;
+  }
+
+  searchDropdownFilter.innerHTML = '';
+  results.slice(0, 8).forEach((r) => {
+    const row = document.createElement('div');
+    row.className = 'search-result-item';
+    row.innerHTML = `
+      <img class="search-result-image" src="${r.img || 'images/dune.jpg'}" alt="${(r.name || '').replace(/"/g, '&quot;')}">
+      <div style="flex:1;">
+        <div class="search-result-title">${r.name}</div>
+        <div class="search-result-type">${r.type}</div>
+      </div>
+    `;
+    row.addEventListener('click', (e) => {
+      e.stopPropagation();
+      searchInput.value = '';
+      hideSearchDropdown();
+      setTimeout(() => {
+        highlightAndScrollTo(r.element);
+      }, 100);
+    });
+    searchDropdownFilter.appendChild(row);
+  });
+  searchDropdownFilter.classList.add('show');
+}
+
 function highlightAndScrollTo(el) {
   if (!el) return;
   if (el.classList && el.classList.contains('hero-slide')) {
@@ -5767,41 +5644,38 @@ function highlightAndScrollTo(el) {
   }, 1400);
 }
 
-// Expand search on navbar search icon click
-if (searchBtn && iconsContainer) {
-  searchBtn.addEventListener("click", toggleSearch);
-}
+// Build search index on page load
+buildSearchIndex();
 
-// Handle search input (live dropdown)
+// Handle search input - live dropdown
 if (searchInput) {
   searchInput.addEventListener('input', () => {
-    if (!iconsContainer || !iconsContainer.classList.contains('search-expanded')) return;
     buildSearchIndex();
-    const q = (searchInput.value || '').toLowerCase().trim();
+    const q = searchInput.value.toLowerCase().trim();
     if (!q) {
       hideSearchDropdown();
       return;
     }
-    const results = searchIndex.filter(it => (it.name || '').toLowerCase().includes(q));
+    const results = searchIndex.filter(it => it.name.toLowerCase().includes(q));
     showSearchDropdown(results);
   });
 
   searchInput.addEventListener("keyup", (e) => {
     if (e.key === "Enter") {
-      const query = (searchInput.value || '').toLowerCase().trim();
+      const query = searchInput.value.toLowerCase().trim();
       if (!query) return;
-      const match = searchIndex.find(item => (item.name || '').toLowerCase().includes(query));
+      
+      buildSearchIndex();
+      const match = searchIndex.find(item => 
+        item.name.toLowerCase().includes(query)
+      );
+      
       if (match) {
-        iconsContainer.classList.remove("search-expanded");
         searchInput.value = "";
         hideSearchDropdown();
         setTimeout(() => {
-          if (match.type === 'Movie') {
-            scrollToMovieCardByTitle(match.name);
-          } else {
-            highlightAndScrollTo(match.element);
-          }
-        }, 200);
+          highlightAndScrollTo(match.element);
+        }, 300);
       } else {
         showToast('No movie found with that name', true);
       }
@@ -5811,30 +5685,21 @@ if (searchInput) {
   // Close on escape
   searchInput.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
-      iconsContainer.classList.remove("search-expanded");
       searchInput.value = "";
       hideSearchDropdown();
     }
   });
 }
 
-// Close search when clicking outside
+// Close search dropdown when clicking outside
 document.addEventListener("click", (e) => {
-  if (iconsContainer && iconsContainer.classList.contains("search-expanded")) {
-    const dropdown = document.getElementById('searchResultsDropdown');
-    const clickedDropdown = dropdown ? dropdown.contains(e.target) : false;
-    if (!clickedDropdown && !iconsContainer.contains(e.target) && e.target.id !== "searchToggle") {
-      iconsContainer.classList.remove("search-expanded");
-      if (searchInput) searchInput.value = "";
+  const searchContainer = document.querySelector('.search-container-filter');
+  if (searchDropdownFilter && searchDropdownFilter.classList.contains("show")) {
+    const clickedDropdown = searchDropdownFilter.contains(e.target);
+    const clickedInput = searchContainer && searchContainer.contains(e.target);
+    if (!clickedDropdown && !clickedInput) {
       hideSearchDropdown();
     }
-  }
-});
-
-window.addEventListener('resize', () => {
-  const dropdown = document.getElementById('searchResultsDropdown');
-  if (dropdown && dropdown.classList.contains('show')) {
-    positionSearchDropdown();
   }
 });
 
